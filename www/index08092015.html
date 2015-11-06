@@ -1,0 +1,241 @@
+﻿	<html class="ui-mobile">
+		<head>
+<!--			<base href="http://demos.jquerymobile.com/1.4.2/navbar/">-->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+			<title>NubePOS</title>
+			<link rel="shortcut icon" href="favicon.ico">
+			<link rel="stylesheet" href="css/bootstrap.min.css">
+			<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+			<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+			<link rel="stylesheet" href="css/jqm-demos.css">
+			<script src="js/jquery.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script src="js/indexTemplate.js"></script>
+			<script src="js/jquery-ui.min.js"></script>
+			<script src="js/jquery.mobile-1.4.2.min.js"></script>
+			
+		
+			<script src="js/index.js"></script>
+			<script src="js/homeScripts.js"></script>
+			
+			<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+			
+			
+			
+			<!-- Pages includes libraries -->
+			<script src="js/raphael-min.js"></script>
+			<script src="js/morris.min.js"></script>
+		
+				<link href="css/fonts.css" rel="stylesheet" type="text/css">
+			<!-- needs images, font... therefore can not be part of ui.css -->
+			<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+			<link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
+			<style>
+			.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
+			.nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+			#chat:after { background:  url("../_assets/img/glyphish-icons/09-chat2.png") 50% 50% no-repeat; background-size: 24px 22px; }
+			#email:after { background:  url("../_assets/img/glyphish-icons/18-envelope.png") 50% 50% no-repeat; background-size: 24px 16px;  }
+			#login:after { background:  url("../_assets/img/glyphish-icons/30-key.png") 50% 50% no-repeat;  background-size: 12px 26px; }
+			#beer:after { background:  url("../_assets/img/glyphish-icons/88-beermug.png") 50% 50% no-repeat;  background-size: 22px 27px; }
+			#coffee:after { background:  url("../_assets/img/glyphish-icons/100-coffee.png") 50% 50% no-repeat;  background-size: 20px 24px; }
+			#skull:after { background:  url("../_assets/img/glyphish-icons/21-skull.png") 50% 50% no-repeat;  background-size: 22px 24px; }
+			</style>
+	</head>
+	<body class="ui-mobile-viewport ui-overlay-a" id="ui-page-top">
+		
+		
+			<div style="position:absolute;left:0px;top:0px;width:100%;height:100%;background:rgba(255,255,255,1);z-index:9000;display:block;" id="fade">
+				<table width="100%" height="100%" cellpadding="0" cellspacing="0" >
+					<tr>
+						<td valign="center" align="center" >
+							<div id="contentCenterFadeArea">
+								<img src="" id="logo" style="display:none;">
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+		
+		<div data-role="page" class="jqm-demos ui-page ui-page-theme-a ui-page-footer-fixed ui-page-active" data-quicklinks="true" data-url="" tabindex="0" style="padding-bottom: 62px; min-height: 541px;" style="display:none;">
+		
+		
+		<!--<a href="#" data-ajax="false" class="jqm-deeplink jqm-open-quicklink-panel ui-icon-carat-l ui-alt-icon">Quick Links</a>-->
+		<div style="width:100%;height:0px;background:rbga(0,0,0,0.5);text-align:center" id="contentMessages">
+			<table width="100%" height="100%" cellpadding="0">
+				<tr>
+					<td valign="center" align="center">
+						<div id="message">
+							Messagees
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		
+			<div data-role="panel" class="jqm-nav-panel jqm-quicklink-panel ui-panel ui-panel-position-right ui-panel-display-overlay ui-panel-closed ui-body-a ui-panel-animate" data-position="right" data-display="overlay" data-theme="a">
+				<div class="ui-panel-inner" style="margin-top:0px;">
+					<ul data-role="listview" data-inset="false" data-theme="a" data-divider-theme="a" data-icon="false" class="jqm-list ui-listview ui-group-theme-a">
+						<li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-a ui-first-child">Quick Links</li>
+						<li><a href="#Navbarbasics" class="ui-btn">Navbar basics</a></li>
+						<li><a href="#Multi-row" class="ui-btn">Multi-row</a></li>
+						<li><a href="#Navbarsinheaders" class="ui-btn">Navbars in headers</a></li>
+						<li><a href="#Navbarsinfooters" class="ui-btn">Navbars in footers</a></li><li><a href="#Persistent" class="ui-btn">Persistent</a></li><li><a href="#Icons" class="ui-btn">Icons</a></li><li><a href="#Iconposition" class="ui-btn">Icon position</a></li><li><a href="#3rdpartyiconsets" class="ui-btn">3rd party icon sets</a></li><li class="ui-last-child"><a href="#Themes" class="ui-btn">Themes</a></li></ul>
+					</div>
+			</div>
+
+						<div align="left" data-role="header" style="border-top:4px solid #00B1D9; " class="jqm-header ui-header ui-bar-inherit" role="banner">
+							<h3 class="ui-title" role="heading" aria-level="1" style="margin:0px;margin-left:50px;text-align:left;" ><a href="../" title="jQuery Mobile Demos home" class="ui-link"><img src="https://www.practisis.net/page/images/logo.png" alt="jQuery Mobile"></a></h3>
+							
+							<a href="#" id="menuClickeable" class="jqm-navmenu-link ui-nodisc-icon ui-alt-icon ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" data-role="button" role="button"> Menu</a>
+							
+						</div><!-- /header -->
+						<script type="text/javascript" src="cordova.js"></script>    
+							
+							<div role="main" id="main" class="ui-content jqm-content" style="padding:0px;">
+								<h1>Hello mindo</h1>
+								
+								
+							</div><!-- /content -->
+							<div data-role="panel" class="jqm-navmenu-panel ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-a ui-panel-animate" data-position="left" data-display="overlay" data-theme="a">
+								<div class="ui-panel-inner" style="margin-top:0px;">
+										<ul class="jqm-list ui-alt-icon ui-nodisc-icon ui-listview">
+										<li data-filtertext="demos homepage" onclick="envia('dashboard')" data-icon="home" class="ui-first-child">
+											<a href="javascript:void(0);" class="ui-btn ui-btn-icon-right ui-icon-home">Resumen</a>
+										</li>
+										<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" class="ui-collapsible ui-collapsible-themed-content ui-li-static ui-body-inherit ui-collapsible-collapsed">
+											<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+												<a href="javascript:void(0);" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+													Ventas <span class="ui-collapsible-heading-status"> click to expand contents</span>
+												</a>
+											</h3>
+											<div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true">
+												<ul class="ui-listview">
+													<li data-filtertext="popup widget popups dialog modal transition tooltip lightbox form overlay screen flip pop fade transition" class="ui-first-child" onclick="envia('puntodeventa')" ><a href="javascript:void(0)" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r" onclick="envia('facturacion')">Punto de Venta</a></li>
+													<li data-filtertext="popup alignment position" onclick="envia('historial')" ><a href="javascript:void(0)" data-ajax="false" onclick="envia('historial')" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Historial</a></li>
+												</ul>
+											</div>
+										</li>
+										<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" class="ui-collapsible ui-collapsible-themed-content ui-li-static ui-body-inherit ui-collapsible-collapsed">
+											<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+												<a href="javascript:void(0);" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+													Productos <span class="ui-collapsible-heading-status"> click to expand contents</span>
+												</a>
+											</h3>
+											<div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true">
+												<ul class="ui-listview">
+													<li data-filtertext="popup widget popups dialog modal transition tooltip lightbox form overlay screen flip pop fade transition" class="ui-first-child" onclick="envia('nuevoproducto')" ><a href="javascript:void(0)" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Nuevo Producto</a></li>
+													<li data-filtertext="popup alignment position" onclick="envia('listaproductos')" ><a href="javascript:void(0);" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Lista de Productos</a></li>
+												</ul>
+											</div>
+										</li>
+										
+										<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" class="ui-collapsible ui-collapsible-themed-content ui-li-static ui-body-inherit ui-collapsible-collapsed">
+											<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+												<a href="javascript:void(0);" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+													Clientes <span class="ui-collapsible-heading-status"> click to expand contents</span>
+												</a>
+											</h3>
+											<div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true">
+												<ul class="ui-listview">
+													<li onclick="envia('nuevocliente')" data-filtertext="popup widget popups dialog modal transition tooltip lightbox form overlay screen flip pop fade transition" class="ui-first-child" )" ><a href="javascript:void(0);"  data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Nuevo Cliente</a></li>
+													<li onclick="envia('listadeclientes')" data-filtertext="popup alignment position" onclick="envia('listaCliente')" ><a href="javascript:void(0):" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r" ">Lista de Clientes</a></li>
+												</ul>
+											</div>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="arrow-d" class="ui-first-child">
+											<a href="javascript:void(0);" onclick="envia('inventario')" class="ui-btn ui-btn-icon-right ui-icon-arrow-r">Inventario</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="arrow-d" class="ui-first-child">
+											<a onclick="envia('cloud')" class="ui-btn ui-btn-icon-right ui-icon-gear">Cloud</a>
+										</li>
+										<li data-filtertext="introduction overview getting started"><a href="../intro/" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-delete">Cerrar Sesión</a>
+										</li>
+										<!--
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Ventas</a>
+										</li>
+										
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Punto de Venta</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Historial</a>
+										</li>
+										
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Productos</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a onclick="envia('listaproductos')" class="ui-btn ui-btn-icon-right ui-icon-home">Lista de productos</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a onclick="envia('nuevoproducto')" href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Nuevo Producto</a>
+										</li>
+										
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Inventario</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Clientes</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Nuevo Cliente</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Lista de clientes</a>
+											
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a onclick="envia('cloud')" class="ui-btn ui-btn-icon-right ui-icon-home">Sincronizar</a>
+										</li>
+										<li data-filtertext="demos homepage" data-icon="home" class="ui-first-child">
+											<a href=".././" class="ui-btn ui-btn-icon-right ui-icon-home">Cerrar Session</a>
+										</li>
+										<li data-filtertext="introduction overview getting started"><a href="../intro/" data-ajax="false" class="ui-btn ui-btn-icon-right ui-icon-carat-r">Introduction</a>
+										</li>
+										-->
+									</ul>
+								</div>
+
+							</div>
+			</div><!-- /page -->
+
+
+<!--<script type="text/javascript" src="barcodescanner.js"></script>
+<script type="text/javascript" src="js/jsscan.js"></script>
+<script type="text/javascript" src="js/jsscanprod.js"></script>-->
+<script src="js/hammer.js" ></script>
+
+		<!-- Josue Includes -->
+		
+		<!--<link href="slide/bootstrap.css" rel="stylesheet">-->
+		<link href="slide/bootstrap-switch.css" rel="stylesheet">
+		<script src="slide/bootstrap-switch.js"></script>
+		<link href="slide/bootstrap-switch.css" rel="stylesheet">
+		<script src="slide/highlight.js"></script>
+		<!--<script src="slide/js/bootstrap-switch.js"></script>--->
+<style>
+	.col-sm-offset-1{
+			margin:0px;
+	}
+</style>
+<script>
+	startAnimation();
+	function startAnimation(){
+		
+		$("#logo").load(function() {
+			$("#logo").fadeIn("slow");
+			setTimeout(function(){
+				$("#fade").animate({  top: "-100%"  } , 1500 , "easeOutQuint" , function(){
+						$("#contentCenterFadeArea").html('');
+				});
+			},3000);
+			
+		}).attr('src', 'img/logo.png');
+	}
+</script>

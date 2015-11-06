@@ -1,0 +1,419 @@
+﻿
+<div id="mainDiv" class="row" style="">
+	
+	<div class="col-sm-12" align="left">
+		
+		<h3 id='titulonuevopr'>Nuevo Producto</h3>
+		<hr/>
+		<h4>Nombre</h4> 
+		<input style='display:none;' id='idproducto' name='idproducto'/>
+		<input class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su nombre " name='nombreproducto' id='nombreproducto' style="width:90%;">
+		<br/>
+		<h4>Código</h4> 
+		<div class="row" style="">
+			<div class="col-sm-12" >
+				<input style="width:90%;" class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su código" name='codigoproducto' id='codigoproducto'>
+			</div>
+			
+		</div>
+		<br/>
+			<div class="app">
+									<div id="deviceready" class="blink" style="display:none;">
+										<p class="event listening">Connecting to Device</p>
+										<p class="event received">Device is Ready</p>
+									</div>
+									 <div class='btn-lg btn-success' style='margin-top:10px;width:90%;' type='button' id='scan'>SCAN&nbsp;<span class='fa fa-barcode'></span></div>
+			</div>
+							
+							<script>
+								//app.initialize();
+							</script>
+		
+<br/>
+				<h4>Categoría </h4>
+				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese aquí su categoría" id="search-renderitem" name="search-renderitem" onkeydown='verbusquedacateg();'/>
+	
+				<h4> Precio  </h4>
+				<input style="width:90%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event)">
+		
+				<h4>Costo </h4>
+				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Costo" id="costo" name="costo" onkeypress="return soloNumerosprecio(event)" value="0"/>
+                <input type="hidden" id="costoreal" name="costoreal" value=""/>
+
+				
+				<h4>Cantidad </h4>
+				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Cantidad" id="cantidad" name="cantidad" onkeypress="return soloNumerosprecio(event)" value="0"/>
+                <input type="hidden" id="cantidadreal" name="cantidadreal" value=""/>
+				
+				
+				<br/>
+				 <ul class="nav nav-tabs" role="tablist">
+				  <li role="presentation" id="ingresost" style="display: block;"><a href="#ingreso" aria-controls="bloque1" role="tab" onclick="quebloque(1);" data-toggle="tab">Ingreso</a></li>
+				</ul>
+				<div id="ingresos" class="row" style="display: none;">
+					<div class="col-md-5" >
+						<h4>Costo Ingreso</h4>
+						<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Costo de Ingreso" id="costoingreso" name="costoingreso" onkeypress="return soloNumerosprecio(event)" value=""/>
+					</div>
+					<div class="col-md-5" >
+						<h4>Cantidad Ingreso</h4>
+						<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Cantidad de Ingreso" id="cantidadingreso" name="cantidadingreso" onkeypress="return soloNumerosprecio(event)" value=""/>
+					</div>
+					<div class="col-md-2" align="left">
+					</div>
+				</div>
+				<br/><br/>
+				
+        <div class="row" style="">
+			<div class="col-md-5" >
+				
+			</div>
+            <div class="col-md-5" >
+				
+			</div>
+			<div class="col-md-2" align="left">
+			</div>
+		</div>
+       
+		<div class="row" >
+			<div class="col-sm-3" align="left">
+				<h4> ¿Carga IVA? </h4> <input type="checkbox"  id='coniva' name="my-checkbox" style="height:30px;" checked>
+			</div>
+			<div class="col-sm-3" align="left" >
+				<h4>¿Es inventariable?  </h4><input type="checkbox" id="mprima" name="my-checkbox" checked>
+			</div>
+			<div class="col-sm-4"  align="left" >
+				<h4>¿Vendes este producto? </h4><input type="checkbox" id='pfinal' name="my-checkbox" checked>
+			</div>
+			<div class="col-sm-2"  align="left" >
+			</div>
+			 
+		<script>
+			$("[name='my-checkbox']").bootstrapSwitch(); $("[name='my-checkbox']").css("width", "129px");
+			 $("[name='my-checkbox']").css("height", "30px");
+			</script>
+		</div>
+		<br/>
+		<div class="row"  align="left">
+			<div class="col-sm-12" align="left">
+				<br/>
+				<button id='guardar' class="btn btn-primary btn-md" type='button' style="width:120px;" onclick='GuardaProducto();'>Guardar</button>
+				<br/>
+
+			</div>
+		</div>
+	</div>
+		
+					
+		<div id='jsoncomplete' style='display:none;'></div>
+</div>
+
+<script>
+function quebloque(quien){
+  if(quien == 1){
+    $('#ingresos').fadeIn('slow');
+  }
+}
+DataAutocomplete(); // Precarga la categoria
+var datoscateg='';
+
+	if(editarProductoID) {
+				leerProducto();
+				$('#ingresost').fadeIn('slow');
+			}
+			
+	function leerProducto(){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+		tx.executeSql('\
+			SELECT p.*,sum(c.cantidad) as cantidad FROM PRODUCTOS p\
+			LEFT JOIN CARDEX c \
+			ON c.id_formulado = p.timespan\
+			WHERE p.timespan=?',[editarProductoID],function(tx,results){
+		
+			for (var i=0; i < results.rows.length; i++){
+				var row=results.rows.item(i);
+				$("#nombreproducto").val(row.formulado);
+				$("#titulonuevopr").html("Editar <i>" + row.formulado + "</i>");
+				$("#codigoproducto").val(row.codigo);
+				$("#precioproducto").val(row.precio);
+			//	alert("#ui-id-"+row.categoriaid + $("#ui-id-"+row.categoriaid).text());
+				//$("#search-renderitem").val($("#ui-id-"+row.categoriaid).text());
+				$("#search-renderitem").val( saberNombreCategoria(row.categoriaid) );
+				$("#idcategoria").val(row.categoriaid);
+                $("#costo").val(row.ppq);
+                $("#cantidad").val(row.cantidad);
+                $("#costoreal").val(row.ppq);
+                $("#cantidadreal").val(row.cantidad);
+				if(row.cargaiva==0) $("#coniva").click();
+				if(row.productofinal==0) $("#pfinal").click();
+				if(row.materiaprima==0) $("#mprima").click();
+
+			}
+			editarProductoID=null;
+			
+		});
+		},errorCB,successCB);	
+	}
+	
+	function saberNombreCategoria(id){
+		json=$("#jsoncomplete").text();
+		obj=$.parseJSON(json);
+		for(k=0; k<= obj.length-1; k++){
+			currentCategory = obj[k].label;
+			currentIDCategory=obj[k].id;
+			if(currentIDCategory == id){
+				theCategoryMatch=currentCategory;
+			}
+			
+			
+		}
+		return theCategoryMatch;
+	}
+function DataAutocomplete(){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY id asc;',[],function(tx,results){
+		console.log(results);
+		var datac='';
+		for (var i=0; i < results.rows.length; i++){
+			var row=results.rows.item(i);
+			if(i>0) datac+=",";
+			datac+='{"label":"'+row.categoria+'", "id":"'+row.id+'"}';
+		}
+		$('#jsoncomplete').html("["+datac+"]");
+		
+		
+		console.log(datac);
+	});
+	},errorCB,successCB);
+}
+
+function verbusquedacateg(){
+	datoscateg =JSON.parse($('#jsoncomplete').html());
+	$("#idcategoria").val('0');
+	//console.log(datoscateg);
+	$("#search-renderitem").autocomplete(
+		{
+			source:datoscateg,
+			select: function( event, ui ) {
+				$("#search-renderitem").val(ui.item.label);
+				$("#idcategoria").val(ui.item.id);
+				return false;
+			}
+		});
+}
+
+function GuardaProducto(){
+
+    var timeSpanCat=getTimeSpan();
+    var timeSpanCardex=getTimeSpan();
+    var timeSpanFormulado=getTimeSpan();
+
+	if(!editarProductoID){
+
+		var nombrep=$('#nombreproducto').val();
+		var codigop=$('#codigoproducto').val();
+		var preciop=$('#precioproducto').val();
+		var categoria=$('#search-renderitem').val();
+		var idcategoria=$('#idcategoria').val();
+        var costo=$('#costo').val();
+        var canti=$('#cantidad').val();
+		var iva=0;
+		var prfinal=0;
+		var matprima=0;
+
+        var fechaaux = new Date();
+		var fecha = fechaaux.getTime();
+		//alert(timeSpanCat);
+		
+		if($('#coniva').prop('checked'))
+			iva=1;
+		if($('#mprima').prop('checked'))
+			matprima=1;
+		if($('#pfinal').prop('checked'))
+			prfinal=1;
+			
+		if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
+			
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+
+			if(idcategoria==0){
+				
+				db.transaction(function(tx){
+				
+				tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe,timespan) SELECT "'+categoria+'",1,0,'+timeSpanCat+' WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+categoria+'");',[],function(tx,results){
+					$('#idcategoria').val(results.insertId);
+					console.log("categ:"+results.insertId);
+					idcategoria=$('#idcategoria').val();
+						console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
+					db.transaction(function(tx){
+					tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+					console.log("prod:"+results.insertId);
+					//envia("nuevoproducto");
+
+                    tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
+					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
+					});
+
+					});
+					},errorCB,successCB);
+					});
+				},errorCB,successCB);
+			}else{
+				idcategoria=$('#idcategoria').val();
+				
+				
+				db.transaction(function(tx){
+				timeSpan=getTimeSpan();
+				tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+                console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
+                //console.log("prod:"+results.insertId);
+                    tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
+					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
+					});
+				envia("nuevoproducto");
+				});
+				},errorCB,successCB);
+			}
+			alerta("<i> Producto guardado con éxito </i>");
+		}else{
+			$('#jsalert').html("Por favor complete todos los datos.");
+			setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+			setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
+		}
+	}else{
+
+       //	editarProductoID=0;
+		ActualizarProducto();
+	}
+
+    editarProductoID=0;
+
+}
+
+function ActualizarProducto(){
+  var timeSpanCardex=getTimeSpan();
+	var idproducto=editarProductoID;//$('#idproducto').val();
+	editarProductoID=0;
+	var nombrep=$('#nombreproducto').val();
+	var codigop=$('#codigoproducto').val();
+	var preciop=$('#precioproducto').val();
+	var categoria=$('#search-renderitem').val();
+	var idcategoria=$('#idcategoria').val();
+	var iva=0;
+	var prfinal=0;
+	var matprima=0;
+    var costo=$('#costo').val();
+    var canti=$('#cantidad').val();
+    var costoreal = $("#costoreal").val();
+    var cantidadreal = $("#cantidadreal").val();
+    var costoin=$('#costoingreso').val();
+    var cantidadin=$('#cantidadingreso').val();
+    var ajuste = 0;
+    ajuste = canti-cantidadreal;
+    var fechaaux = new Date();
+    var fecha = fechaaux.getTime();
+
+	if($('#coniva').is(':checked'))
+		iva=1;
+	if($('#mprima').is(':checked'))
+		matprima=1;
+	if($('#pfinal').is(':checked'))
+		prfinal=1;
+		
+	if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		if(idcategoria==0){
+			db.transaction(function(tx){
+			tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe) SELECT "'+categoria+'",1,0 WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+categoria+'");',[],function(tx,results){
+				$('#idcategoria').val(results.insertId);
+				idcategoria=$('#idcategoria').val();
+				db.transaction(function(tx){
+				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid='+idcategoria+',cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE id_local='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and id_local!='+idproducto+');',[],function(tx,results){
+				console.log("prod:"+idproducto);
+
+                    if(costo != costoreal && costo != ''){
+                      tx.executeSql('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto,[],function(tx,resultsc){
+					    console.log('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto);
+					  });
+                    }
+                    if(canti != cantidadreal && canti != ''){
+                      tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+ajuste+',"Ajuste Fisico",'+costo+','+fecha+','+costo+',0,'+timeSpanCardex,[],function(tx,resultsca){
+                	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+ajuste+',"Ajuste Fisico",'+costo+','+fecha+','+costo+',0,'+timeSpanCardex);
+                	  });
+                    }
+                    if(cantidadin != '' && costoin != ''){
+                      tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex,[],function(tx,resultscar){
+                	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex);
+                	  });
+                    }
+
+				VerDatosProducto(idproducto);
+				$('#jsalert').html("Datos Actualizados con éxito.");
+				setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+				setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
+				});
+				},errorCB,successCB);
+				});
+			},errorCB,successCB);
+		}else{
+
+			idcategoria=$('#idcategoria').val();
+            console.log('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid='+idcategoria+',cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE timespan='+idproducto);
+			db.transaction(function(tx){
+				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid='+idcategoria+',cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE timespan='+idproducto,[],function(tx,results){
+
+				VerDatosProducto(idproducto);
+                alerta("Datos Actualizados con éxito.");
+
+                    if(costo != costoreal && costo != ''){
+                      tx.executeSql('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto,[],function(tx,resultsc){
+					    console.log('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto);
+					  });
+                    }
+                    if(canti != cantidadreal && canti != ''){
+                      tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+ajuste+',"Ajuste Fisico",'+costo+','+fecha+','+costo+',0,'+timeSpanCardex,[],function(tx,resultsca){
+                	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+ajuste+',"Ajuste Fisico",'+costo+','+fecha+','+costo+',0,'+timeSpanCardex);
+                	  });
+                    }
+                    if(cantidadin != '' && costoin != ''){
+                      tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex,[],function(tx,resultscar){
+                	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex);
+                	  });
+                    }
+
+				});
+				},errorCB,successCB);
+		}
+	}else{
+		$('#jsalert').html("Por favor complete todos los datos.");
+		setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+		setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
+	}
+}
+
+function soloNumerosprecio(e){
+	key = e.keyCode || e.which;
+    if(key==44){
+    document.getElementById('precioproducto').value=document.getElementById('precioproducto').value+'.';
+    }
+	tecla = String.fromCharCode(key).toLowerCase();
+	letras = "0123456789";
+	especiales = [8,9,37,39,46];
+
+	tecla_especial = false
+	for(var i in especiales){
+	    if(key == especiales[i]){
+		tecla_especial = true;
+		break;
+
+            }
+	}
+
+    if(letras.indexOf(tecla)==-1 && !tecla_especial){
+	    return false;
+	}
+	
+}
+</script>

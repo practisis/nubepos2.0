@@ -1,0 +1,292 @@
+<div class="page page-dashboard" data-ng-controller="DashboardCtrl">
+    <!-- stats -->
+	<div class='row'>
+		<div class='col-lg-12'>
+		<div class="panel mini-box">
+		<div class='col-lg-5'>
+			Desde:
+			<div class="input-group"> 
+			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/></div>
+		</div>
+		<div class='col-lg-5'>
+			Hasta:
+		<div class="input-group">
+			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon2"></span><input type='text' class='form-control' id='hasta'/>
+		</div>
+		</div>
+		<div class='col-lg-2' style='text-align:right;'>
+			<button class='btn btn-primary' type='button' style='margin-top:15px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
+		</div>
+		</div>
+		</div>
+	</div>
+    <div class="row">
+	    <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-danger">
+                    <i class="fa fa-shopping-cart"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='totalventas'></p>
+                    <p class="text-muted"><span data-i18n="Ventas $">Ventas $</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-success">
+                    <i class="fa fa-credit-card"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='ticketpromedio'></p>
+                    <p class="text-muted"><span data-i18n="Ticket Promedio $">Ticket Promedio $</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-info">
+                    <i class="fa fa-users"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='transacciones'>0</p>
+                    <p class="text-muted"><span data-i18n="Transacciones">Transacciones</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-warning">
+                    <i class="fa fa-dollar"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='utilidad'>0.00</p>
+                    <p class="text-muted"><span data-i18n="Utilidad $">Utilidad US$</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end stats -->
+
+    <div class="row">
+        <div class="col-md-9">
+            <section class="panel panel-default" style='text-align:left;'>
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ventas">Ventas</span></strong></div>
+				<div class="panel-body" data-ng-controller="morrisChartCtrl" st>
+                        <div id="chartventas"></div>
+                </div>
+            </section> 
+        </div>
+		<div class='col-md-3'>
+			<section class="panel panel-box info-box">
+						<div class="panel-left panel-item bg-warning">
+							<h1><i class="fa fa-dollar text-large box-icon">
+							</i></h1>
+						</div>
+						<div class="panel-right panel-item bg-reverse">
+							<p class="size-h2 no-margin" id='costototal'>0.00</p>
+							<p class="text-muted no-margin"><span data-i18n="Costo Total US$">Costo Total US$</span></p>
+						</div>
+			</section>
+			<section class="panel panel-box info-box">
+						<div class="panel-left panel-item bg-info">
+							<h1><i class="fa fa-users text-large stat-icon">
+							</i></h1>
+						</div>
+					<div class="panel-right panel-item bg-reverse">
+					<p class="size-h2 no-margin"><span id='porcentajecostos'>0%</span></p>
+					<p class="text-muted no-margin"><span data-i18n="Porcentaje de Costos %">Porcentaje de Costos</span></p>
+					</div>
+			</section>
+		</div>
+	</div>
+	<div class='row'>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Rank Productos">Ranking de Productos</span></strong></div>
+                <div class="panel-body"  data-ng-controller="flotChartCtrl">
+					<table class="table" id='tablarank'>
+					<thead>
+						<tr>
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>Ventas US$</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					</table>
+							
+			</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+ $('#desde,#hasta').datepicker({
+		showAnim: 'slideDown',
+		showOtherMonths: true,
+		dateFormat: 'yy-mm-dd',
+		dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+ });
+ //colocar fechas
+  var ahora=new Date();
+  var mimanana=ahora.getTime()+(1000*60*60*24);
+  var manana=new Date(mimanana);
+  var dia=manana.getDate().toString();
+  var mes=(parseInt(manana.getMonth())+1).toString();//console.log(mes);
+  if(dia.length==1)
+			dia='0'+dia;
+  if(mes.length==1)
+			mes='0'+mes;
+			
+  var mesa=(parseInt(ahora.getMonth())+1).toString();//console.log(mes);
+  var diaa=ahora.getDate().toString();
+  if(diaa.length==1)
+			diaa='0'+diaa;
+  if(mesa.length==1)
+			mesa='0'+mesa;
+  var fechahoy=ahora.getFullYear()+"-"+mesa+'-'+diaa;
+  var fechamanana=manana.getFullYear()+"-"+mes+'-'+dia;
+  $('#desde').val(fechahoy);
+  $('#hasta').val(fechamanana);
+  ObtenerDatosDashboard();
+  
+  //obtener datos para el dashboard
+  /*"SELECT COUNT(*) AS number_rows FROM facturacion join locales on facturacion.id_locales = locales.id WHERE ".$plazafact." and (fecha >=? AND fecha <=?) AND anulada = FALSE".$localFact." and facturacion.id not in (select f.id from facturacion f,pagos p where p.idfactura=f.idreal and p.idformapago in(7,12) and f.id_locales=p.id_locales)"*/
+});
+
+
+function ObtenerDatosDashboard(){
+	var fdesde=$('#desde').val();
+	fdesde=fdesde.replace("-","/");
+	fdesde=new Date(fdesde);
+	var fhasta=$('#hasta').val()+" 23:59:59";
+	fhasta=fhasta.replace("-","/");
+	fhasta=new Date(fhasta);
+	var db = window.openDatabase("Database","1.0","PractisisMobile", 200000);
+	db.transaction(
+		function (tx){
+			tx.executeSql('SELECT COUNT(*) AS number_rows FROM facturas WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				console.log(res.rows.item(0).number_rows);
+				$('#transacciones').html(res.rows.item(0).number_rows);
+			});				
+	},errorCB,successCB);
+	
+	//querysubtotal
+	db.transaction(
+		function (tx){
+			tx.executeSql('SELECT fetchJson as fact,fecha FROM facturas WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				var misubtotal=0;
+				var morrisvector=new Array();
+				var productosvector=new Array();
+				for(var n=0;n<res.rows.length;n++){
+					var mifact=JSON.parse(res.rows.item(n).fact);	
+					//productos para ranking
+					var misproductos=mifact.Pagar[0].producto;
+					//console.log(misproductos);
+					for(var s in misproductos){
+						var totprod=misproductos[s].precio_orig*misproductos[s].cant_prod;
+						misubtotal+=totprod;
+						//fecha para morris
+						//console.log("A"+misubtotal);
+						var mifecha=res.rows.item(n).fecha;
+						var formated=new Date(mifecha);
+						var mes=(parseInt(formated.getMonth())+1).toString();//console.log(mes);
+						var dia=formated.getDate().toString();
+						  if(dia.length==1)
+									dia='0'+dia;
+						  if(mes.length==1)
+									mes='0'+mes;
+						var indice=dia+"/"+mes;
+						if(morrisvector['"'+indice+'"']!=null){
+							var antes=parseFloat(morrisvector['"'+indice+'"']);
+							//console.log(antes);
+							var ahora=antes+totprod;
+							//console.log(ahora);
+							morrisvector['"'+indice+'"']=ahora.toFixed(2);
+						}else{
+							morrisvector['"'+indice+'"']=parseFloat(totprod).toFixed(2);
+							//console.log(morrisvector);
+						}
+					
+						
+						if(productosvector['"'+misproductos[s].id_producto+'"']==null){
+							productosvector['"'+misproductos[s].id_producto+'"']=new Array();
+							productosvector['"'+misproductos[s].id_producto+'"'].venta=parseFloat(misproductos[s].precio_orig)*parseFloat(misproductos[s].cant_prod);
+							productosvector['"'+misproductos[s].id_producto+'"'].cantidad=parseFloat(misproductos[s].cant_prod);
+							productosvector['"'+misproductos[s].id_producto+'"'].nombre=misproductos[s].nombre_producto;
+							//console.log(productosvector['"'+misproductos[s].id_producto+'"']);
+						}else{
+							var antes=parseFloat(productosvector['"'+misproductos[s].id_producto+'"'].venta);
+							var ahora=(parseFloat(misproductos[s].cant_prod)*parseFloat(misproductos[s].precio_orig))+antes;
+							//console.log(misproductos[s].cant_prod);
+							productosvector['"'+misproductos[s].id_producto+'"'].venta=ahora.toFixed(2);
+							var antesc=parseFloat(productosvector['"'+misproductos[s].id_producto+'"'].cantidad);
+							var ahorac=parseFloat(misproductos[s].cant_prod)+antesc;
+							productosvector['"'+misproductos[s].id_producto+'"'].cantidad=ahorac.toFixed(2);
+						}
+					}
+					
+					//console.log(productosvector);
+					var lineasrank='';
+					//if(productosvector.length>0){
+						for(var pro in productosvector){
+							//console.log(pro);
+							lineasrank+='<tr><td>'+productosvector[pro].nombre+'</td><td>'+parseFloat(productosvector[pro].cantidad).toFixed(2)+'</td><td>'+parseFloat(productosvector[pro].venta).toFixed(2)+'</td></tr>';
+						}
+						$('#tablarank tbody').html(lineasrank);
+					//}
+					
+				}
+				
+				//querycostos
+				var costototal=0;
+				tx.executeSql('SELECT sum((cantidad*-1)*ppqreal) as costo FROM cardex WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+				function(tx,res){
+					costototal=res.rows.item(0).costo;
+				});
+				
+				$('#costototal').html(costototal.toFixed(2));
+				if(costototal>0)
+				$('#utilidad').html((misubtotal-costototal).toFixed(2));
+				$('#porcentajecostos').html((costototal*100/misubtotal).toFixed(2));
+				
+				
+				//console.log(morrisvector);
+				var cadenamorris="";
+				var cont=0;
+				for(var k in morrisvector){
+					if(cont>0)
+						cadenamorris+=',';
+					cadenamorris+= '{"x":'+k+',"ventas":"'+morrisvector[k]+'"}';
+					cont++;
+				}
+				cadenamorris="["+cadenamorris+"]";
+				$('#totalventas').html(misubtotal.toFixed(2));
+				var trans=parseFloat($('#transacciones').html());
+				
+				if(trans>0)
+				$('#ticketpromedio').html((misubtotal/trans).toFixed(2));
+				else
+				$('#ticketpromedio').html((0).toFixed(2));
+				//console.log(JSON.parse(cadenamorris));
+				new Morris.Area({
+				  element: 'chartventas',
+				  data:JSON.parse(cadenamorris),
+				  xkey: 'x',
+				  ykeys: ['ventas'],
+				  labels: ['Ventas US$'],
+				  parseTime: true,
+				  lineColors: ['#E94B3B']
+				});
+			});				
+	},errorCB,successCB);
+	
+}
+
+</script>
+  
