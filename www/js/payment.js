@@ -695,12 +695,14 @@ function cancelPayment(){
 	$('.cardRow').remove();
 	$('.chequeRow').remove();
 	changePaymentCategory(0);
-	$('#pay').hide();
+	//$('#pay').hide();
+	
 	$('#printFactura').hide();
 	$('#functionality-1').show();
 	$('#paymentCategory-1').addClass('categoryChosen');
 	$('#invoicePaid').html('0.00');
 	$('#changeFromPurchase').html('0.00');
+	$('#paymentModule').modal('hide');
 	}
 
 
