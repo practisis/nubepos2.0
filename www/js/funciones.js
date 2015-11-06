@@ -614,7 +614,7 @@ function formarCategorias(){
 						selected = 'categoriaActiva';
 						categoriaSelected = row.timespan;
 					}
-					$('#contenidoCategorias').append('<div id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);">'+ (row.categoria).substring(0,15) +'</div>');
+					$('#contenidoCategorias').append('<div id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);">'+ (row.categoria).substring(0,20) +'</div>');
 				}
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
@@ -1172,8 +1172,10 @@ function Init3(){
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
 	//$('#row2').css("height",(h/2));
-	$('#detalle').css("height",h/3.3);
-	$('#contentdetalle').css("height",(h/3.3)-40);
+	//$('#detalle').css("height",h/3.3);
+	//$('#contentdetalle').css("height",(h/3.3)-40);
+	//$('#detalle').css("height",h/4.5);
+	$('#contentdetalle').css("height",(h/4)-40);
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');

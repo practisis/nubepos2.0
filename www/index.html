@@ -1,12 +1,12 @@
 ﻿	<!DOCTYPE html>
-	<html class="ui-mobile">
+	<html>
 		<head>
 <!--			<base href="http://demos.jquerymobile.com/1.4.2/navbar/">-->
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
-			<title>NubePOS</title>
+			<title>NubePOS V2.0</title>
 			<!--<link rel="stylesheet" href="css/templateCss.css" />-->
-			<link rel="stylesheet" href="stylesheets/jquery.sidr.light.css">
+			<!---<link rel="stylesheet" href="stylesheets/jquery.sidr.light.css">--->
 			<link rel="shortcut icon" href="favicon.ico">
 			<!---<link rel="stylesheet" href="css/bootstrap.min.css">-->
 			<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
@@ -50,35 +50,79 @@
 			</style>
 			
 	</head>
-	<body class="ui-mobile-viewport ui-overlay-a" id="ui-page-top">
-		
-		 	<header class="header">
+	<body>
+		<div class='container-fluid'>
+		<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="img/logo.png" width='80px'/></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li onclick="envia('dashboard')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-signal'></span>&nbsp;Resúmen<span class="sr-only">(current)</span></a></li>
+        <li><a href="javascript:void(0);" onclick="envia('puntodeventa')"><span style='display:inline;' class='glyphicon glyphicon-usd'></span>&nbsp;Punto de Venta</a></li>
+		<li onclick="envia('historial')" role="presentation"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>&nbsp;Historial de Ventas</a></li>
+				<li onclick="envia('nuevoproducto')" role="presentation"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-barcode'></span>&nbsp;Nuevo Producto</a></li>
+				<li onclick="envia('listaproductos')" ><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>&nbsp;Lista de productos</a></li>
+				<li onclick="envia('nuevocliente')" ><a href="javascript:void(0);"  href="javascript:void(0);" ><span style='display:inline;' class='glyphicon glyphicon-user'></span>&nbsp;Nuevo Cliente</a></li>
+				<li onclick="envia('listadeclientes')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>&nbsp;Lista de Clientes</a></li>
+				<li onclick="envia('inventario')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-book'></span>&nbsp;Inventario</a></li>
+				<li onclick="envia('cloud')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-cloud'></span>&nbsp;Cloud</a></li>
+				
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+	  </ul>
+      <ul class="nav navbar-nav navbar-right">
+		<li onclick="envia('0')" ><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-off'></span>&nbsp;Cerrar Sesión</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+			<div class='row'>
+			<div class='col-lg-12 col-md-12 col-sm-12' style='background-color:#f1f1f2;'>
+		 	<!--<header class="header">-->
 			<!--<div id="mobile-header">
 				<a id="responsive-menu-button" href="#sidr-main">Menu </a> 
 			</div>-->
 			
 				
-			<img src="img/logo.png"/>
-			<a id="simple-menu" href="#sidr"><button class='btn btn-lg btn-default'><span class='glyphicon glyphicon-menu-hamburger'></span></button></a>
+			
+			<!--<a id="simple-menu" href="#sidr"><button class='btn btn-lg btn-default'><span class='glyphicon glyphicon-menu-hamburger'></span></button></a>-->
 		
-			<div id="sidr" style="z-index:99999999999999;">
+			<!--<div id="sidr" style="z-index:99999999999999;">-->
 			  <!-- Your content -->
-			  <ul>
-			  	
-				<li onclick="envia('dashboard')" ><a href="javascript:void(0);" ><span style='display:inline;' class='glyphicon glyphicon-signal'></span>Resumen</a></li>
-				<li onclick="envia('puntodeventa')" ><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-usd'></span>Punto de Venta</a></li>
-				<li onclick="envia('historial')"><a href="#"><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>Historial de Ventas</a></li>
-				<li onclick="envia('nuevoproducto')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-barcode'></span>Nuevo Producto</a></li>
-				<li onclick="envia('listaproductos')" ><a><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>Lista de productos</a></li>
-				<li onclick="envia('nuevocliente')" ><a href="javascript:void(0);"  href="javascript:void(0);" ><span style='display:inline;' class='glyphicon glyphicon-user'></span>Nuevo Cliente</a></li>
-				<li onclick="envia('listadeclientes')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-th-list'></span>Lista de Clientes</a></li>
-				<li onclick="envia('inventario')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-book'></span>Inventario</a></li>
-				<li onclick="envia('cloud')"  class="active"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-cloud'></span>Cloud</a></li>
-				<li onclick="envia('0')" ><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-off'></span>Cerrar Sesión</a></li>
-				
-			  </ul>
+			<!--</div>-->
+			<!--</header>-->
 			</div>
-		</header>
+			</div>
+			<div class='row'>
+			<div class='col-lg-12 col-md-12 col-sm-12 ui-mobile'>
 			<div class="row">
 				<div class="col-lg-12">
 					<div id="main" Align="center" style="width:100%;">  
@@ -86,8 +130,12 @@
 					</div>	
 				</div>
 			</div>
-
-		<div id="jsonformaspago" style="display: none;">{"FormaPago":[{"id":"1","nombre":"Efectivo","imagen":"Efectivo"},{"id":"2","nombre":"Tarjetas","imagen":"Tarjetas"},{"id":"3","nombre":"Cheques","imagen":"Bancos"},{"id":"4","nombre":"CxC","imagen":"CxC"},{"id":"5","nombre":"Retencion","imagen":"Retenciones1"},{"id":"9","nombre":"Cortesia","imagen":"Cortesia"},{"id":"14","nombre":"Otros","imagen":"General"}]}</div>
+			</div>
+			</div>
+			<div id="jsonformaspago" style="display: none;">{"FormaPago":[{"id":"1","nombre":"Efectivo","imagen":"Efectivo"},{"id":"2","nombre":"Tarjetas","imagen":"Tarjetas"},{"id":"3","nombre":"Cheques","imagen":"Bancos"},{"id":"4","nombre":"CxC","imagen":"CxC"},{"id":"5","nombre":"Retencion","imagen":"Retenciones1"},{"id":"9","nombre":"Cortesia","imagen":"Cortesia"},{"id":"14","nombre":"Otros","imagen":"General"}]}</div>
+		</div>
+		</div>
+		</body>
 		<script>
 		$(document).ready(function() {
 		  $('#simple-menu').sidr();
@@ -149,5 +197,5 @@
 				}).attr('src', 'img/logo.png');
 			}
 		</script>
-	</body>
+	
 </html>
