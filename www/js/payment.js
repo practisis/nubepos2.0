@@ -667,7 +667,7 @@ function impresionMovil(){
 			$('#totalPagado').html('');
 			$('#tablaCompra').html('');
 			$('#printFactura').hide();
-			window.open(respuesta[1]);
+			window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta[1]);
 			}
 		});
 }
