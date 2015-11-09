@@ -51,8 +51,7 @@
 			
 	</head>
 	<body>
-		<div class='container-fluid'>
-		<nav class="navbar navbar-inverse">
+			<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -62,34 +61,35 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img src="img/logo.png" width='80px'/></a>
+      <a class="navbar-brand" href="#"><img src="img/logo1.png" width='100px'/></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li onclick="envia('dashboard')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-signal'></span>&nbsp;Resúmen<span class="sr-only">(current)</span></a></li>
-		<li class="dropdown">
+        <li onclick="envia('dashboard')"><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-line-chart'></span>&nbsp;Resúmen<span class="sr-only">(current)</span></a></li>
+		 <li onclick="envia('puntodeventa')"><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-shopping-cart'></span>&nbsp;Punto de Venta<span class="sr-only">(current)</span></a></li>
+		<!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style='display:inline;' class='glyphicon glyphicon-usd'></span>&nbsp;Ventas <span class="caret"></span></a>
           <ul class="dropdown-menu">
-        <li><a href="javascript:void(0);" onclick="envia('puntodeventa')">Punto de Venta</a></li>
-		<li onclick="envia('historial')" role="presentation"><a href="javascript:void(0);">Historial de Ventas</a></li>
-		</ul>
-        </li>
-		<li class="dropdown">
+        <li><a href="javascript:void(0);" onclick="envia('puntodeventa')">Punto de Venta</a></li>-->
+		<li onclick="envia('historial')" role="presentation"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-list'></span>&nbsp;Historial de Ventas</a></li>
+		<!--</ul>
+        </li>-->
+		<!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style='display:inline;' class='glyphicon glyphicon-barcode'></span>&nbsp;Productos <span class="caret"></span></a>
           <ul class="dropdown-menu">
-           <li onclick="envia('nuevoproducto')" role="presentation"><a href="javascript:void(0);">Nuevo Producto</a></li>
-		   <li onclick="envia('listaproductos')" ><a href="javascript:void(0);">Lista de productos</a></li>
-          </ul>
-        </li>
-		<li class="dropdown">
+           <li onclick="envia('nuevoproducto')" role="presentation"><a href="javascript:void(0);">Nuevo Producto</a></li>-->
+		   <li onclick="envia('listaproductos')" ><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-barcode'></span>&nbsp;Productos</a></li>
+          <!--</ul>
+        </li>-->
+		<!--<li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style='display:inline;' class='glyphicon glyphicon-user'></span>&nbsp;Clientes <span class="caret"></span></a>
           <ul class="dropdown-menu">
-			<li onclick="envia('nuevocliente')" ><a href="javascript:void(0);"  href="javascript:void(0);">Nuevo Cliente</a></li>
-			<li onclick="envia('listadeclientes')"><a href="javascript:void(0);">Lista de Clientes</a></li>
-		  </ul>
-        </li>
+			<li onclick="envia('nuevocliente')" ><a href="javascript:void(0);"  href="javascript:void(0);">Nuevo Cliente</a></li>-->
+			<li onclick="envia('listadeclientes')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-user'></span>&nbsp;Clientes</a></li>
+		  <!--</ul>
+        </li>-->
 		<li onclick="envia('inventario')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-book'></span>&nbsp;Inventario</a></li>
 		<li onclick="envia('cloud')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-cloud'></span>&nbsp;Cloud</a></li>
 				
@@ -108,6 +108,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+		<div class='container-fluid'>
 			<div class='row'>
 			<div class='col-lg-12 col-md-12 col-sm-12' style='background-color:#f1f1f2;'>
 		 	<!--<header class="header">-->
@@ -151,12 +152,13 @@
 		    <!-- Include the Sidr JS -->
 		    <script src="jquery.sidr.min.js"></script>
 			
-					<div style="overflow:hidden;position:absolute;left:0px;top:0px;width:100%;height:100%;background:rgba(255,255,255,0.98);z-index:9000;display:block;" id="fade">
+					<div style="overflow:hidden;position:absolute;left:0px;top:0px;width:100%;height:100%;background:rgba(40,40,41,1);z-index:9000;display:block;" id="fade">
 						<table width="100%" height="100%" cellpadding="0" cellspacing="0" >
 							<tr>
 								<td valign="center" align="center" >
 									<div id="contentCenterFadeArea">
 										<img src="" id="logo" style="display:none;">
+										<img src='images/loader.gif' width='30px'/>
 									</div>
 								</td>
 							</tr>
@@ -188,7 +190,6 @@
 		<script>
 			startAnimation();
 			function startAnimation(){
-				
 				$("#logo").load(function() {
 					$("#logo").fadeIn("slow");
 					setTimeout(function(){

@@ -112,14 +112,14 @@ function init(){
 		
 		if(direction == 'right'){
 			if(pager == maxPage){
-				$('#nav_der').css('visibility','hidden');
+				$('#nav_der').css('display','none');
 				return false;
 				}
 			$('#pager').val(parseInt(pager) + 1);
 			}
 		else{
 			if(pager == 1){
-				$('#nav_izq').css('visibility','hidden');
+				$('#nav_izq').css('display','none');
 				return false;
 				}
 			$('#pager').val(parseInt(pager) -1);
@@ -188,7 +188,7 @@ $(window).bind("orientationchange", function(event){
 function ActivarCategoria(cual,categoria){
 	$('#category').val(categoria);
 	$('#controller').val(1);
-	$('.directionProducts').css('visibility','hidden');
+	$('.directionProducts').css('display','none');
 	$('#listaProductos').html('');
 	$('#pager').val('1');
 	var fila=cual.parentNode.parentNode;
@@ -271,18 +271,18 @@ function ActivarCategoria(cual,categoria){
 		
 		$('#maxPage').val(counter);
 		if(counter > 1 && pager<counter && pager == 1){
-			$('#nav_der').css('visibility','visible');
-			$('#nav_izq').css('visibility','hidden');
+			$('#nav_der').css('display','');
+			$('#nav_izq').css('display','none');
 			}
 		else if(counter > 1 && pager<counter && pager > 1){
-			$('#nav_der').css('visibility','visible');
-			$('#nav_izq').css('visibility','visible');
+			$('#nav_der').css('display','');
+			$('#nav_izq').css('display','');
 			}
 		else if(counter==1 && counter > 1){
-			$('#nav_izq').css('visibility','visible');
-			$('#nav_der').css('visibility','visible');
+			$('#nav_izq').css('display','');
+			$('#nav_der').css('display','');
 		}else if(counter==pager){
-			$('#nav_der').css('visibility','hidden');
+			$('#nav_der').css('display','none');
 		}
 		$('.producto').on('click',function(){
 			PlaySound(2);
@@ -1168,7 +1168,7 @@ function Init3(){
 	var h=$(window).height();
 	var w=$(window).width();
 	console.log(h);
-	$('#central').height(h);
+	//$('#central').height(h);
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
 	//$('#row2').css("height",(h/2));
@@ -1222,7 +1222,7 @@ function Init3(){
 		//$('#listaCategorias').css('width',((w)-(2*anchodireccionales)-10)+'px');
 		}
 	$('.producto').each(function(){
-		if($(this).html().length>=10)
+		if($(this).html().length>=15)
 		{
 			//$('.producto').css('font-size',parseInt($('.producto').css('height'))*47/100);
 			$('.producto,.categoria,.categoriaActiva').css('line-height',parseInt($('.producto').css('font-size'))*7/100);
@@ -1291,22 +1291,104 @@ function Ready(){
 		
 		if(direction == 'right'){
 			if(pager < maxPage){
-				$('#nav_izq').css('visibility','visible');
+				$('#nav_izq').css('display','');
 			}else if(pager==maxPage){
-				$('#nav_der').css('visibility','hidden');
+				$('#nav_der').css('display','none');
 				return false;
 			}
 			$('#pager').val(parseInt(pager) + 1);
 			}
 		else{
 			if(pager == 1){
-				$('#nav_izq').css('visibility','hidden');
+				$('#nav_izq').css('display','none');
 				return false;
 			}else if(pager<maxPage)
-				$('#nav_der').css('visibility','visible');
+				$('#nav_der').css('display','');
 			$('#pager').val(parseInt(pager) -1);
 			}
 			
 		showProducts(category,direction);
 		});
 }
+
+
+	function BuscarSugerencias2(filtro,e){
+		
+		var buscar = $('#inputbusc').val();
+		//alert(buscar);
+		var res1=new Array();
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM PRODUCTOS WHERE formulado like '%"+buscar+"%'",[],function(tx,results){
+				console.log(results);
+				if(results.rows.length>0){
+					res1=results.rows;
+					var row = results.rows.item(0);
+					var id = row.id;
+					var formulado = row.formulado;
+				}
+			},errorCB,successCB);
+		});
+		
+		if(e.keyCode==13){
+			var misugerencias=document.getElementsByClassName('sugerencia');
+			for(j=0;j<misugerencias.length;j++){
+				if(misugerencias[j].getAttribute('enfocada')==1){
+					misugerencias[j].firstChild.click();
+				}	
+			}
+			
+		}else if(e.keyCode==38){
+			if(document.getElementById('tableresults')){
+				$('.sugerencia').each(function(){
+					AclararSugerencia($(this)[0],false);
+				});
+				
+				if((celdaenfocada-1)>-1)
+					celdaenfocada-=1;
+				else
+					celdaenfocada=0;
+				console.log(celdaenfocada);
+				AclararSugerencia(document.getElementById('tableresults').rows[celdaenfocada].cells[0],true);
+			}
+		}else if(e.keyCode==40){
+			$('.sugerencia').each(function(){
+					AclararSugerencia($(this)[0],false);
+				});
+			console.log(e.keyCode);
+			if((celdaenfocada+1)<document.getElementById('tableresults').rows.length)
+					celdaenfocada+=1;
+				console.log(celdaenfocada);
+				AclararSugerencia(document.getElementById('tableresults').rows[celdaenfocada].cells[0],true);
+		}else{
+			if(filtro!=''){
+				$('#resultBuscador').fadeIn('slow');
+				$('#tableresults').html('');
+				// var json = $('#jsonProductos').html();
+				// var mijson = eval(''+json+'');
+				for(var j in res1){
+					for(var k in res1[j]){
+						for(i = 0; i < res1[j][k].length; i++){
+								var item = res1[j][k][i];
+								var suger='';
+								if(item.formulado.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+									suger=item.formulado;
+								else if(item.codigo.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+									suger=item.codigo;
+								
+								if(suger!='')
+								{
+									if(document.getElementById('tableresults').rows.length<4){
+										$('#tableresults').append("<tr><td class='sugerencia' onmouseover='AclararSugerencia(this,true);' onmouseout='AclararSugerencia(this,false);' enfocada='0'><div id='busc_"+ item.id +"' data-precio='"+ item.precio +"' data-impuestos='"+ item.formulado_impuestos +"' data-impuestosindexes='"+ item.formulado_tax_id +"' data-formulado='"+ item.nombre.toUpperCase()+"' onclick='PlaySound(2); agregarCompra(this,2); return false;'>"+suger.toUpperCase()+"</div></td></tr>");
+									}
+									
+								}
+						}
+					}
+				}
+				if(document.getElementById('tableresults').rows[0]!=null){
+					AclararSugerencia(document.getElementById('tableresults').rows[0].cells[0],true);
+				}
+			}
+		}
+	}

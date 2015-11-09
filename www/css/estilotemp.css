@@ -205,6 +205,7 @@ box-shadow: inset 1px 2px 15px -9px rgba(90,91,91,0.9);*/
 	color:#5a5b5d;
 	cursor:pointer;
 	float:left;
+	width:100%;
 	/*-webkit-box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);
 	-moz-box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);
 	box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);*/
@@ -220,6 +221,7 @@ box-shadow: inset 1px 2px 15px -9px rgba(90,91,91,0.9);*/
 	/*background-color: #FFF;*/
 	/*color:#5a5b5d;*/
 	cursor:pointer;
+	width:100%;
 	/*-webkit-box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);
 	-moz-box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);
 	box-shadow: inset 3px 2px 26px -15px rgba(90,91,91,1);*/
