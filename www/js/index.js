@@ -1,5 +1,6 @@
 	onDeviceReady();
    function onDeviceReady(){
+	    envia('dashboard');
         //alert("listo");
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         db.transaction(iniciaDB, errorCB, successCB);
