@@ -652,24 +652,17 @@ function impresionMovil(){
 	var iva = $('#impuestos').html();
 	var descuen = $('#descFac').html();
 	var total = $('#totalPagado').html();
-	$.ajax({
-		type: 'POST',
-		data: 'numeroFactura='+ numeroFactura +'&nombreCliente='+ nombreCliente +'&rucCliente='+ rucCliente +'&pagoForm='+ pagoForm +'&valores='+ valores_form +'&subnoiva='+ subnoiva +'&subiva='+ subiva +'&iva='+ iva +'&descuen='+ descuen +'&total='+total,
-		url: 'views/nubepos/ajax/ajaxImpresionMovil.php',
-		success: function(response){
-			console.log(response);
-			var respuesta = response.split('|');
-			$('.productosComprados').remove();
-			$('#subsiniva').html('');
-			$('#subconiva').html('');
-			$('#impuestos').html('');
-			$('#descFac').html('');
-			$('#totalPagado').html('');
-			$('#tablaCompra').html('');
-			$('#printFactura').hide();
-			window.open(respuesta[1]);
-			}
-		});
+    var respuesta = codigoimpresion(numeroFactura,nombreCliente,rucCliente,pagoForm,subnoiva,subiva,iva,descuen,total,valores_form);
+    window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta,'_system','location=yes');
+
+    $('.productosComprados').remove();
+	$('#subsiniva').html('');
+	$('#subconiva').html('');
+	$('#impuestos').html('');
+	$('#descFac').html('');
+	$('#totalPagado').html('');
+	$('#tablaCompra').html('');
+	$('#printFactura').hide();
 }
 
 function imprSelec(muestra)
@@ -2443,3 +2436,92 @@ return true;
 		
 	}
 }*/
+
+function SinTildes(word){
+  word=word.replace("á","a");
+  word=word.replace("Á","A");
+  word=word.replace("é","e");
+  word=word.replace("É","E");
+  word=word.replace("í","i");
+  word=word.replace("Í","I");
+  word=word.replace("ó","o");
+  word=word.replace("Ó","O");
+  word=word.replace("ú","u");
+  word=word.replace("Ú","U");
+  word=word.replace("ñ","n");
+  word=word.replace("Ñ","N");
+  return word;
+}
+function codigoimpresion(numeroFactura,nombreCliente,rucCliente,pagoForm,subnoiva,subiva,iva,descuen,total,valor){
+  var serv = '0.00';
+
+  var nombrelocal = 'PRUEBAS';
+  var baseu='';
+  var extend=230;
+  var f = new Date();
+  var midate= f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate();
+  var hora=f.getHours();
+  var min=f.getMinutes();
+  var seg=f.getSeconds();
+  baseu+="TEXT+4+0+20+10+"+SinTildes(nombrelocal).replace(" ","+")+"%0d%0aTEXT+7+0+20+60+"+SinTildes(nombreCliente).replace(" ","+")+"-RUC."+rucCliente+"%0d%0aTEXT+7+0+20+110+"+midate+"+"+hora+"%3a"+min+"%3a"+seg+"%0d%0a";
+  var linep="ML+20%0d%0aTEXT+7+0+20+180%0d%0aProducto%0d%0a";
+  var linec="ML+20%0d%0aTEXT+7+0+350+180%0d%0aCant.%0d%0a";
+  var lines="ML+20%0d%0aTEXT+7+0+440+180%0d%0aPrecio+U.%0d%0a";
+  var distanciatotal=200;
+  var arrayvalores = valor.split('@');
+  arrayvalores.forEach( function printBr(element, index, array) {
+    var exp = element.split('|');
+    linep += SinTildes(exp[1]).substr(0,25).replace(" ","+")+"%0d%0a";
+    var micant='';
+    var strcan=(exp[1]).length;
+    for(var i=1;i<=(3-strcan);i++){
+    	micant += '+';
+    }
+    linec += "+"+micant+exp[0]+"%0d%0a";
+    var mipre='';
+    var cadenapre = parseFloat(exp[2]).toFixed(3);
+    var datacadena = cadenapre.split('.');
+    var strpre = (datacadena[0]).length;
+    for(var j=4;j<=(8-strpre);j++){
+    	mipre += '+';
+    }
+    lines += mipre+exp[2]+"%0d%0a";
+    distanciatotal += 40;
+    extend+=70;
+  });
+
+  linep += "ENDML%0d%0a";
+  linec += "ENDML%0d%0a";
+  lines += "ENDML%0d%0a";
+  var linei = "ML+20%0d%0aTEXT+7+0+350+"+distanciatotal+"%0d%0a+Iva%3a%0d%0aServ%3a%0d%0aENDML%0d%0a";
+  var miiva = '';
+  var cadenaiva = parseFloat(iva).toFixed(3);
+  var datacadena = cadenaiva.split('.');
+  var striva=(datacadena[0]).length;
+  for(var i=4;i<=(8-striva);i++){
+  	miiva += '+';
+  }
+  var miserv='';
+  var cadenaserv = parseFloat(serv).toFixed(3);
+  var datacadena = cadenaserv.split('.');
+  var strserv=(datacadena[0]).length;
+  for(var i=4;i<=(8-strserv);i++){
+  	miserv += '+';
+  }
+  linei += "ML+20%0d%0aTEXT+7+0+440+"+distanciatotal+"%0d%0a"+miiva+iva+"%0d%0a"+miserv+serv+"%0d%0aENDML%0d%0a";
+  distanciatotal += 80;
+
+  baseu += linep+linec+lines+linei;
+  var cadenatotal =  parseFloat(total).toFixed(2);
+  var datacadena = cadenatotal.split('.');
+  var left = 350-(50*(datacadena[0]).length);
+  baseu += "CONCAT+"+left+"+"+distanciatotal+"%0d%0a4+2+5+%24%0d%0a4+3+0+"+datacadena[0]+"%0d%0a4+2+5+."+datacadena[1]+"%0d%0aENDCONCAT%0d%0a";
+  distanciatotal += 90;
+  extend += 40;
+
+  baseu += "BT+7+0+5%0d%0aBARCODE+128+3+3+60+90+"+distanciatotal+"+"+f.getTime()+"%0d%0aBT";
+  extend += 60;
+
+  var ins="!+0+200+200+"+extend+"+1%0d%0a"+baseu+"%0d%0aPRINT%0d%0a";
+  return ins;
+}
