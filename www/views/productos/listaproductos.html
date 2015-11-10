@@ -1,4 +1,4 @@
-﻿<style>
+<style>
 .fa-edit{
 	color:#23ae89;
 }
@@ -35,9 +35,9 @@
 						</div>
 						<div class="col-md-8" align="left">
 							<div class="input-group" style="width:70%;">
-								<input  type="text" class="form-control" placeholder="Escriba un producto..." id="searchKeyword" onkeyUp="searchProduct($(this))">
+								<input  type="text" class="form-control" placeholder="Escriba un producto..." id="searchKeyword" onkeyUp="if(event.keyCode==13) {return false; }else{searchProduct($(this))}">
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" onclick="page=0; getSearch(); return false;">Buscar</button>
+									<button class="btn btn-default" type="button" onclick="searchProduct($('#searchKeyword')); ">Buscar</button>
 								</span>
 							</div><!-- /input-group -->
 						</div>
@@ -89,11 +89,155 @@
 			
 			
 		</div> <!-- END Col-LG-12. -->
+		
 	</div> <!-- END ROW.. -->
+	<div class="row">
+		
+<style>
+.pricing-table {
+    margin: 000px auto;
+    width: 100%;
+	text-align: center;
+	padding-top:55px;
+    /*width: 892px;*/ /* total computed width = 222 x 3 + 226 */
+	
+}
 
+.pricing-table .plan {
+    font: 12px 'Lucida Sans', 'trebuchet MS', Arial, Helvetica;
+    text-shadow: 0 1px rgba(255,255,255,.8);        
+    background: #fff;      
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 20px;
+	width:100%;
+    /*width: 180px;*/ /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */      
+    float: left;
+    position: relative;
+}
+
+.pricing-table #most-popular {
+    z-index: 2;
+    top: -13px;
+    border-width: 3px;
+    padding: 30px 20px;
+    border-radius: 5px;
+    box-shadow: 20px 0 10px -10px rgba(0, 0, 0, .15), -20px 0 10px -10px rgba(0, 0, 0, .15);    
+}
+
+.pricing-table .plan:nth-child(1) {
+    border-radius: 5px 0 0 5px;        
+}
+
+.pricing-table .plan:nth-child(4) {
+    border-radius: 0 5px 5px 0;        
+}
+
+/* --------------- */   
+
+.pricing-table h3 {
+    font-size: 20px;
+    font-weight: normal;
+    padding: 20px;
+    margin: -20px -20px 50px -20px;
+    background-color: #eee;
+    background-image: linear-gradient(#fff, #eee);
+}
+
+.pricing-table #most-popular h3 {
+    background-color: #ddd;
+    background-image: linear-gradient(#eee, #ddd);
+    margin-top: -30px;
+    padding-top: 30px;
+    border-radius: 5px 5px 0 0;         
+}
+
+.pricing-table .plan:nth-child(1) h3 {
+    border-radius: 5px 0 0 0;       
+}
+
+.pricing-table .plan:nth-child(4) h3 {
+    border-radius: 0 5px 0 0;       
+}   
+
+.pricing-table h3 span {
+    display: block;
+    font: bold 25px/100px Georgia, Serif;
+    color: #777;
+    background: url('img/cafe.jpg');
+	bacground-size:cover;
+	overflow:hidden;
+    border: 5px solid #fff;
+    height: 100px;
+    width: 100px;
+    margin: 10px auto -65px;
+    border-radius: 100px;
+    box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+}
+
+/* --------------- */
+
+.pricing-table ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pricing-table li {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* --------------- */
+    
+.pricing-table .signup {
+    position: relative;
+    padding: 8px 20px;
+    margin: 20px 0 0 0;  
+    color: #fff;
+    font: bold 14px Arial, Helvetica;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;       
+    background-color: #72ce3f;
+    background-image: linear-gradient(#72ce3f, #62bc30);
+    border-radius: 3px;     
+    text-shadow: 0 1px 0 rgba(0,0,0,.3);        
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+}
+
+.pricing-table .signup:hover {
+    background-color: #62bc30;
+    background-image: linear-gradient(#62bc30, #72ce3f); 
+}
+
+.pricing-table .signup:active, .pricing-table .signup:focus {
+    background: #62bc30;       
+    top: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset; 
+}
+
+/* --------------- */
+
+.clear:before, .clear:after {
+  content:"";
+  display:table
+}
+
+.clear:after {
+  clear:both
+}
+
+.clear {
+  zoom:1
+}
+</style>
+		</div>
+	</div>
 
 <script type="text/javascript">
 var page=0;
+var startForma=0;
 ListarCategorias();
 getSearch();
 
@@ -116,7 +260,7 @@ function ListarCategorias(){
 		for (var i=0; i < results.rows.length; i++){
 			var row=results.rows.item(i);
 			inhtml+='<option value="'+row.id+'">'+row.categoria+'</option>';
-			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" onclick="showCategory($(this))" idDB="'+row.id+'">'+row.categoria+' </a></li>';
+			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+' </a></li>';
 		}
 		
 		 LlenarComboCat(inhtml,inhtml2);
@@ -146,8 +290,12 @@ function LlenarComboCat(options,options2){
 	//$('#listacategorias2').append();
 	//alert("here");
 }
+
 function getSearch(){
+	startForma++;
+	if(startForma > 1) return false;
 	var filtro=$('#searchKeyword').val();
+	
 	var categoria=$('#listacategorias').val();
 	var desde=15*page;
 	var queryextra=' p.id is not NULL';
@@ -177,7 +325,7 @@ function getSearch(){
 	db.transaction(function(tx){
 	//WHERE '+queryextra+' and p.categoriaid=c.id
 	//tx.executeSql(' SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c  ORDER BY p.formulado desc ',[],function(tx,results){
-	tx.executeSql(' SELECT p.*, c.categoria as cat , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan ',[],function(tx,results){
+	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan ',[],function(tx,results){
 		//console.log(results);
 		var inhtml='';
 		if(results.rows.length==0) alerta("Sin productos");
@@ -196,8 +344,8 @@ function getSearch(){
 			var catname='';
 			/*inhtml+='<tr><td>'+row.formulado+'</td><td>'+row.codigo+'</td><td>'+row.nombrec+'</td><td style="text-align:right">'+parseFloat(row.precio).toFixed(2)+'</td><td style="text-align:center"><input disabled type="checkbox" '+checkiva+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id_local+');"></span></td></tr>';*/
 			
-			inhtml+='\
-					<div style="cursor:default;" class="panel panel-primary" iddb="'+row.id+'" categoria="'+row.nombrec+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct">\
+			/*inhtml+='\
+					<div style="cursor:default;" class="panel panel-primary" iddb="'+row.id+'" categoria="'+row.nombrec+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.timespancat+'">\
 						  <div class="panel-heading">\
 							<h4 class="panel-title" style="color:white;">'+row.formulado+'</h4>\
 						  </div>\
@@ -224,6 +372,19 @@ function getSearch(){
 							</div>\
 						 </div>\
 					</div>\
+				';*/
+				inhtml+='\
+				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+row.cat+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.timespancat+'" > <div class="pricing-table" class="clear" style=" ">\
+					<div class="plan">\
+						<h3 style="background-color:Red;">'+row.formulado+'<span><img src="img/cafe.jpg" height="120" style="margin-left:-25px;"/></span></h3>\
+						<a class="signup" href="javascript:void(0);" onclick="editProduct('+row.timespan+')" >Editar</a>         \
+						<ul>\
+							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
+							<li><b>Categoría</b> '+row.cat+'</li>\
+							<li><b>Carga IVA</b> '+checkiva2+'</li>\
+						</ul> \
+					</div>\
+				</div></div>\
 				';
 			
 			/*<td style="text-align:center"><input disabled type="checkbox" '+checkprfinal+'/></td><td style="text-align:center"><input disabled type="checkbox" '+checkmatprima+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id+');"></span></td></tr>';*/
@@ -238,6 +399,7 @@ function editProduct(id){
 	envia("nuevoproducto");
 }
 function CambiarPagina(arg){
+return false;
 	//console.log($('#totalpags').val());
 	if(arg==-1){
 		if((page-1)>=0){
@@ -263,26 +425,26 @@ function EditarProducto(idpr){
 	});
 }
 
-$(document).keyup(function(event){
-	if(event.keyCode === 13){
-		getSearch();
-		}
-});
+
 
 function searchProduct(t){
 	buscar=$.trim(t.val());
 	$('div[clase="listProduct"]').css("display" , "none");
-	if(buscar=='')$('div[clase="listProduct"]').css("display" , "block");
+	if(buscar==''){ $('div[clase="listProduct"]').css("display" , "block"); return;}
 	
 	$('div[clase="listProduct"][formulado*="'+buscar+'"]').fadeIn("fast");
+	if(!$('div[clase="listProduct"][formulado*="'+buscar+'"]').length) $('div[clase="listProduct"]').css("display" , "none");
+	console.log('div[clase="listProduct"][formulado*="'+buscar+'"]');
 	
 }
 
 function showCategory(t){
 	categoria=t.attr("categoria");
+	timespan=t.attr("timespan");
 	$('div[clase="listProduct"]').css("display" , "none");
 	if(categoria=='')$('div[clase="listProduct"]').css("display" , "block");
-	$('div[clase="listProduct"][categoria*="'+categoria+'"]').fadeIn("fast");
+	console.log('div[clase="listProduct"][timespan="'+timespan+'"]');
+	$('div[clase="listProduct"][timespanCat="'+timespan+'"]').fadeIn("fast");
 }
 
 </script>
