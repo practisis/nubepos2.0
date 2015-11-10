@@ -657,8 +657,7 @@ function impresionMovil(){
 	var descuen = $('#descFac').html();
 	var total = $('#totalPagado').html();
     var respuesta = codigoimpresion(numeroFactura,nombreCliente,rucCliente,pagoForm,subnoiva,subiva,iva,descuen,total,valores_form);
-    window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta,'_system','location=yes');
-
+   
     $('.productosComprados').remove();
 	$('#subsiniva').html('');
 	$('#subconiva').html('');
@@ -667,6 +666,8 @@ function impresionMovil(){
 	$('#totalPagado').html('');
 	$('#tablaCompra').html('');
 	$('#printFactura').hide();
+	 window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta,'_system','location=yes');
+	 envia('puntodeventa');
 }
 
 function imprSelec(muestra)
