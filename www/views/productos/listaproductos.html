@@ -29,7 +29,7 @@
 						<div class="col-md-4" align="left" >
 						
 							<div role="group" class="btn-group">
-								   <div id="includeDropCategory" style="width:90%;"></div>
+								   <div id="includeDropCategory" style=""></div>
 									
 								  </div>
 						</div>
@@ -236,6 +236,8 @@
 	</div>
 
 <script type="text/javascript">
+editarProductoID=0;
+currentTimeSpanCat=0;
 var page=0;
 var startForma=0;
 ListarCategorias();
@@ -256,11 +258,11 @@ function ListarCategorias(){
 	tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY id asc;',[],function(tx,results){
 		//console.log(results.rows.length);
 		var inhtml='';var inhtml2="";
-		inhtml2+=' <li><a href="javascript:void(0)" categoria="" onclick="showCategory($(this))" idDB="0">Todas</a></li>';
+		inhtml2+=' <li><a href="javascript:void(0)"  categoria="" onclick="showCategory($(this))" idDB="0">Todas</a></li>';
 		for (var i=0; i < results.rows.length; i++){
 			var row=results.rows.item(i);
 			inhtml+='<option value="'+row.id+'">'+row.categoria+'</option>';
-			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+' </a></li>';
+			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" class="categoriasPrecargadas" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+' </a></li>';
 		}
 		
 		 LlenarComboCat(inhtml,inhtml2);
@@ -325,6 +327,15 @@ function getSearch(){
 	db.transaction(function(tx){
 	//WHERE '+queryextra+' and p.categoriaid=c.id
 	//tx.executeSql(' SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c  ORDER BY p.formulado desc ',[],function(tx,results){
+	tx.executeSql(' SELECT * FROM PRODUCTOS',[],function(tx,results){
+		for (var i=0; i < results.rows.length; i++){
+			var row = results.rows.item(i);
+			formulado = row.formulado;
+			timespanCat = row.categoriaid;
+			cat=$('.categoriasPrecargadas[timespan="'+timespanCat+'"]').text();
+			//alert(timespanCat + ">>" + formulado + "==" +cat );
+		}
+	});
 	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan ',[],function(tx,results){
 		//console.log(results);
 		var inhtml='';
@@ -373,14 +384,15 @@ function getSearch(){
 						 </div>\
 					</div>\
 				';*/
+				categoria=$('.categoriasPrecargadas[timespan="'+row.categoriaid+'"]').text();
 				inhtml+='\
-				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+row.cat+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.timespancat+'" > <div class="pricing-table" class="clear" style=" ">\
+				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'" > <div class="pricing-table" class="clear" style=" ">\
 					<div class="plan">\
 						<h3 style="">'+row.formulado+'<span><img src="img/cafe.jpg" height="170" style="margin-left:-25px;"/></span></h3>\
 						<a class="signup" href="javascript:void(0);" onclick="editProduct(\''+row.timespan+'\')" >Editar</a>         \
 						<ul>\
 							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
-							<li><b>Categoría</b> '+row.cat+'</li>\
+							<li><b>Categoría</b> '+categoria+'</li>\
 							<li><b>Carga IVA</b> '+checkiva2+'</li>\
 						</ul> \
 					</div>\
