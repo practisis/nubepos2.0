@@ -15,7 +15,7 @@
         //console.log("Ana");
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id_local integer primary key AUTOINCREMENT,id integer, formulado text, codigo text, precio real, categoriaid integer,cargaiva integer,productofinal integer,materiaprima integer,timespan integer,ppq real default 0)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id_local integer primary key AUTOINCREMENT,id integer, formulado text, codigo text, precio real, categoriaid integer,cargaiva integer,productofinal integer,materiaprima integer,timespan text,ppq real default 0)');
         tx.executeSql('CREATE TABLE IF NOT EXISTS CARDEX (id integer primary key AUTOINCREMENT,id_formulado integer, cantidad real, descripcion text, precio_unidad real, fecha integer,ppq_real real,iva numeric,timespan integer)');
         tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS',[],function(tx,res){
             var existen=res.rows.item(0).cuantos;
