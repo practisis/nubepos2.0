@@ -275,7 +275,7 @@ function GuardaProducto(){
 			}else{
 				idcategoria=$('#idcategoria').val();
 				
-				alert("Id cat null >> " + currentTimeSpanCat );
+				//alert("Id cat null >> " + currentTimeSpanCat );
 				db.transaction(function(tx){
 				timeSpan=getTimeSpan();
 				tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
