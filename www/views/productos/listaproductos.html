@@ -376,8 +376,8 @@ function getSearch(){
 				inhtml+='\
 				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+row.cat+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.timespancat+'" > <div class="pricing-table" class="clear" style=" ">\
 					<div class="plan">\
-						<h3 style="background-color:Red;">'+row.formulado+'<span><img src="img/cafe.jpg" height="120" style="margin-left:-25px;"/></span></h3>\
-						<a class="signup" href="javascript:void(0);" onclick="editProduct('+row.timespan+')" >Editar</a>         \
+						<h3 style="">'+row.formulado+'<span><img src="img/cafe.jpg" height="170" style="margin-left:-25px;"/></span></h3>\
+						<a class="signup" href="javascript:void(0);" onclick="editProduct(\''+row.timespan+'\')" >Editar</a>         \
 						<ul>\
 							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
 							<li><b>Categoría</b> '+row.cat+'</li>\
