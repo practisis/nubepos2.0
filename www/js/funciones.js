@@ -193,11 +193,15 @@ function ActivarCategoria(cual,categoria){
 	$('#pager').val('1');
 	var fila=cual.parentNode.parentNode;
 	var miscateg=fila.getElementsByTagName('div');
+	//var tam='btn-lg';
 	for(k=0;k<miscateg.length;k++){
+		/*tam='btn-lg';
+		if($(miscateg[k].hasClass( "btn-xs" )))
+			tam='btn-xs';*/
 		if(miscateg[k].id!='listaCategorias' && miscateg[k].id!='contenidoCategorias')
-			miscateg[k].className="categoria esCategoria btn-lg btn-default";
+			miscateg[k].className="categoria esCategoria btn-lg btn-default active ";
 	}
-	cual.className="categoriaActiva esCategoria btn btn-lg btn-warning";
+	cual.className="categoriaActiva esCategoria btn btn-lg btn-default";
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(
 	function (tx){
@@ -1175,7 +1179,7 @@ function Init3(){
 	//$('#detalle').css("height",h/3.3);
 	//$('#contentdetalle').css("height",(h/3.3)-40);
 	//$('#detalle').css("height",h/4.5);
-	$('#contentdetalle').css("height",(h/4)-40);
+	$('#contentdetalle').css("height",(h/2)-40);
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
@@ -1194,11 +1198,13 @@ function Init3(){
 	$('.producto,.categoriaActiva,.categoria').css('width',w/6);
 	if(vertical){
 		$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
-		$('#listaProductos').css('height',"230px");
+		$('#listaProductos').css('height',"100%");
 	}else{
 		$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
-		$('#listaProductos').css('height',"140px");
+		$('#listaProductos').css('height',"100%");
 	}
+	
+	//$('#productos').css('height',h);
 	
 	$('#listaCategorias').css('height',(parseInt($('.categoria').css('height'))+10)+'px');
 	//$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
@@ -1225,7 +1231,7 @@ function Init3(){
 		if($(this).html().length>=15)
 		{
 			//$('.producto').css('font-size',parseInt($('.producto').css('height'))*47/100);
-			$('.producto,.categoria,.categoriaActiva').css('line-height',parseInt($('.producto').css('font-size'))*7/100);
+			//$('.producto,.categoria,.categoriaActiva').css('line-height',parseInt($('.producto').css('font-size'))*7/100);
 		}
 	});
 	//alert('init');
