@@ -382,7 +382,7 @@ function performInternalPurchase(){
 	}
 	
 function performPurchase(restaurant){
-	$('#printFactura').show();
+	//$('#printFactura').show();
 	pagar();
 	if($('#idCliente').val()!=''&&$('#idCliente').val()>0){
 		var table;
@@ -405,6 +405,7 @@ function performPurchase(restaurant){
 		
 		if(invoicePaid < invoiceTotal){
 			alert('El valor pagado es menor del total');
+            //$('#printFactura').hide();
 			return false;
 			}
 			
@@ -626,6 +627,9 @@ function performPurchase(restaurant){
 					//location.reload();
 					/*}
 				});*/
+
+                impresionMovil();
+
 	}else{
 		alert("Por favor, elija un cliente.");
 	}
@@ -2519,8 +2523,8 @@ function codigoimpresion(numeroFactura,nombreCliente,rucCliente,pagoForm,subnoiv
   distanciatotal += 90;
   extend += 40;
 
-  baseu += "BT+7+0+5%0d%0aBARCODE+128+3+3+60+90+"+distanciatotal+"+"+f.getTime()+"%0d%0aBT";
-  extend += 60;
+  //baseu += "BT+7+0+5%0d%0aBARCODE+128+3+3+60+90+"+distanciatotal+"+"+f.getTime()+"%0d%0aBT";
+  extend += 80;
 
   var ins="!+0+200+200+"+extend+"+1%0d%0a"+baseu+"%0d%0aPRINT%0d%0a";
   return ins;
