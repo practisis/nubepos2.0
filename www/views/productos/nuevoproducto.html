@@ -133,7 +133,10 @@ var datoscateg='';
 				var row=results.rows.item(i);
 				$("#nombreproducto").val(row.formulado);
 				$("#titulonuevopr").html("Editar <i>" + row.formulado + "</i>");
-				$("#codigoproducto").val(row.codigo);
+				str=row.codigo;
+					codigop='';
+				if(str.indexOf('ocode')!=-1) codigop=''; else codigop=str;
+				$("#codigoproducto").val( codigop);
 				$("#precioproducto").val(row.precio);
 				$("#search-renderitem").val( saberNombreCategoria(row.categoriaid) );
 				
@@ -241,7 +244,8 @@ function GuardaProducto(){
 			matprima=1;
 		if($('#pfinal').prop('checked'))
 			prfinal=1;
-			
+			var rnd= Math.floor((Math.random() * 10000) + 1);
+			if($.trim(codigop)=='') codigop='nocode'+rnd;
 		if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
 			
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -265,6 +269,7 @@ function GuardaProducto(){
 						
 					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
 						$("#contentAll").find("input").val(" ");
+						alert("Producto " + nombrep + " Creado con éxito")
 						editarProductoID=0;
 					});
 
@@ -284,13 +289,15 @@ function GuardaProducto(){
                     tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
 					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
 					});
+				alert("Producto " + nombrep + " Creado con éxito")
 				envia("nuevoproducto");
 				});
 				},errorCB,successCB);
 			}
-			alerta("<i> Producto guardado con éxito </i>");
+			//alert("<i> Producto guardado con éxito </i>");
 		}else{
 			$('#jsalert').html("Por favor complete todos los datos.");
+			alert("Por favor complete todos los datos");
 			setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
 			setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
 		}
@@ -333,7 +340,7 @@ function ActualizarProducto(){
 		matprima=1;
 	if($('#pfinal').is(':checked'))
 		prfinal=1;
-		
+		if($.trim(codigop)=='')  codigop=idproducto;
 	if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		if(idcategoria==0){
@@ -363,10 +370,13 @@ function ActualizarProducto(){
 
 				VerDatosProducto(idproducto);
 				$('#jsalert').html("Datos Actualizados con éxito.");
+				alert("Datos Actualizados con éxito.");
 				setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
 				setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
 				$("#contentAll").find("input").val(" ");
+				alert("Producto " + nombrep + " Actualizado con éxito")
 				editarProductoID=0;
+				envia("nuevoproducto");
 				});
 				},errorCB,successCB);
 				});
@@ -397,12 +407,15 @@ function ActualizarProducto(){
                 	  });
                     }
 					$("#contentAll").find("input").val(" ");
+					alert("Producto " + nombrep + " Actualizado con éxito");
+					envia("nuevoproducto");
 					editarProductoID=0;
 				});
 				},errorCB,successCB);
 		}
 	}else{
 		$('#jsalert').html("Por favor complete todos los datos.");
+		alert("Por favor complete todos los datos.");
 		setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
 		setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
 	}
