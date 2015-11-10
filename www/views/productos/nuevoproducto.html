@@ -1,13 +1,13 @@
-﻿
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <div id="mainDiv" class="row" style="">
 	
-	<div class="col-sm-12" align="left">
+	<div class="col-sm-12" align="left" id="contentAll">
 		
 		<h2 id='titulonuevopr'>Datos Producto</h2>
 		<hr/>
 		<h4>Nombre</h4> 
 		<input style='display:none;' id='idproducto' name='idproducto'/>
-		<input class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su nombre " name='nombreproducto' id='nombreproducto' style="width:90%;">
+		<input class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí el nombre de su producto " name='nombreproducto' id='nombreproducto' style="width:90%;">
 		<br/>
 		<h4>Código</h4> 
 		<div class="row" style="">
@@ -157,12 +157,14 @@ var datoscateg='';
 	}
 	
 	function saberNombreCategoria(id){
+	
 		json=$("#jsoncomplete").text();
 		obj=$.parseJSON(json);
 		for(k=0; k<= obj.length-1; k++){
 			currentCategory = obj[k].label;
 			currentIDCategory=obj[k].id;
-			if(currentIDCategory == id){
+			currentTimespanCategory=obj[k].timespan;
+			if(currentTimespanCategory == id){
 				theCategoryMatch=currentCategory;
 			}
 			
@@ -179,7 +181,7 @@ function DataAutocomplete(){
 		for (var i=0; i < results.rows.length; i++){
 			var row=results.rows.item(i);
 			if(i>0) datac+=",";
-			datac+='{"label":"'+row.categoria+'", "id":"'+row.id+'"}';
+			datac+='{"label":"'+row.categoria+'", "id":"'+row.id+'" , "timespan" : "'+row.timespan+'"}';
 		}
 		$('#jsoncomplete').html("["+datac+"]");
 		
@@ -188,7 +190,7 @@ function DataAutocomplete(){
 	});
 	},errorCB,successCB);
 }
-
+var currentTimeSpanCat=0;
 function verbusquedacateg(){
 	datoscateg =JSON.parse($('#jsoncomplete').html());
 	$("#idcategoria").val('0');
@@ -196,12 +198,17 @@ function verbusquedacateg(){
 	$("#search-renderitem").autocomplete(
 		{
 			source:datoscateg,
+			create : function(event , ui){
+			$("li[id^='ui-id-'").css("background-color", "red");
+			},
 			select: function( event, ui ) {
-				$("#search-renderitem").val(ui.item.label);
+				$("#search-renderitem").val(""+ui.item.label + "");
 				$("#idcategoria").val(ui.item.id);
+				currentTimeSpanCat=ui.item.timespan;
 				return false;
 			}
 		});
+		
 }
 
 function GuardaProducto(){
@@ -211,12 +218,13 @@ function GuardaProducto(){
     var timeSpanFormulado=getTimeSpan();
 
 	if(!editarProductoID){
-
+		var idcategoria=0;
 		var nombrep=$('#nombreproducto').val();
 		var codigop=$('#codigoproducto').val();
 		var preciop=$('#precioproducto').val();
 		var categoria=$('#search-renderitem').val();
-		var idcategoria=$('#idcategoria').val();
+		idcategoria=parseInt($('#idcategoria').val());
+		if(!idcategoria) idcategoria=0;
         var costo=$('#costo').val();
         var canti=$('#cantidad').val();
 		var iva=0;
@@ -237,23 +245,25 @@ function GuardaProducto(){
 		if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
 			
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-
 			if(idcategoria==0){
-				
+			
 				db.transaction(function(tx){
-				
 				tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe,timespan) SELECT "'+categoria+'",1,0,'+timeSpanCat+' WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+categoria+'");',[],function(tx,results){
+				idInsert=results.insertId;
+				if(!idInsert) timeSpanCat=currentTimeSpanCat;
 					$('#idcategoria').val(results.insertId);
+					
 					console.log("categ:"+results.insertId);
-					idcategoria=$('#idcategoria').val();
-						console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
+					//idcategoria=$('#idcategoria').val();
+						console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
 					db.transaction(function(tx){
-					tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+idcategoria+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+					tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+','+timeSpanFormulado+','+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
 					console.log("prod:"+results.insertId);
-					//envia("nuevoproducto");
 
                     tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
+						
 					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
+						$("#contentAll").find("input").val(" ");
 					});
 
 					});
