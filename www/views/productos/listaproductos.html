@@ -215,6 +215,35 @@
     background: #62bc30;       
     top: 2px;
     box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset; 
+}  
+
+
+  
+.pricing-table .signupdelete {
+    position: relative;
+    padding: 8px 20px;
+    margin: 20px 0 0 0;  
+    color: #fff;
+    font: bold 14px Arial, Helvetica;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;       
+    background-color: red;
+    background-image: linear-gradient(red, #E31B22);
+    border-radius: 3px;     
+    text-shadow: 0 1px 0 rgba(0,0,0,.3);        
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+}
+
+.pricing-table .signupdelete:hover {
+    background-color: #62bc30;
+    background-image: linear-gradient(#E31B22,red); 
+}
+
+.pricing-table .signupdelete:active, .pricing-table .signup:focus {
+    background: #62bc30;       
+    top: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset; 
 }
 
 /* --------------- */
@@ -389,7 +418,7 @@ function getSearch(){
 				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'" > <div class="pricing-table" class="clear" style=" ">\
 					<div class="plan">\
 						<h3 style="">'+row.formulado+'<span><img src="img/cafe.jpg" height="170" style="margin-left:-25px;"/></span></h3>\
-						<a class="signup" href="javascript:void(0);" onclick="editProduct(\''+row.timespan+'\')" >Editar</a>         \
+						<a class="signup" href="javascript:void(0);" onclick="editProduct(\''+row.timespan+'\')" >Editar</a>   <a class="signupdelete" href="javascript:void(0);" style="background-color:red;" onclick="eliminarProduct(\''+row.timespan+'\')" >Borrar</a>        \
 						<ul>\
 							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
 							<li><b>Categoría</b> '+categoria+'</li>\
@@ -459,4 +488,17 @@ function showCategory(t){
 	$('div[clase="listProduct"][timespanCat="'+timespan+'"]').fadeIn("fast");
 }
 
+function eliminarProduct(timeSpan){
+	
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql(' DELETE FROM PRODUCTOS WHERE timespan="'+timeSpan+'" ',[],function(tx,results){
+		envia("listaproductos");
+		
+		
+	});
+	},errorCB,successCB);
+	
+	
+}
 </script>
