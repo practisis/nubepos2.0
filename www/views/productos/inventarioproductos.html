@@ -6,7 +6,7 @@
 	color:#404041;
 }
 </style>
-	<div style="background-color:white;" class="row">
+	<div style="" class="row">
 
 		<div class="col-lg-12">
 
@@ -26,18 +26,17 @@
 				<div class="col-sm-12" align="center">
 					<div class="row">
 
-						<div class="col-md-4" align="left" >
+						<div class="col-sm-3" align="center" >
 
 							<div role="group" class="btn-group">
-								   <div id="includeDropCategory" style="width:90%;"></div>
-
-								  </div>
+								   <div id="includeDropCategory" style="width:100%;"></div>
+							</div>
 						</div>
-						<div class="col-md-8" align="left">
-							<div class="input-group" style="width:70%;">
+						<div class="col-sm-9" align="center">
+							<div class="input-group" style="width:100%;">
 								<input  type="text" class="form-control" placeholder="Escriba un producto..." id="searchKeyword" onkeyUp="searchProduct($(this))">
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" onclick="page=0; getSearch(); return false;">Buscar</button>
+									<button class="btn btn-default" type="button" onclick="searchProduct($('#searchKeyword'));">Buscar</button>
 								</span>
 							</div><!-- /input-group -->
 						</div>
@@ -51,30 +50,21 @@
 
 				<div class="col-sm-2" >
 					<select id='listacategorias' style='font-size:15px;display:none;'>
-									<option value='0'>Todas las categorias</option>
-								</select>
+    					<option value='0'>Todas las categorias</option>
+    				</select>
 				</div>
 
 			</div> <!-- END Row Header Search.. -->
 			<br/>
 			<div class="row" align="center" > <!-- Row Table of products.. -->
-
-					<div class="col-sm-12">
-
-
-
-
-
-
-					</div>
+    			<div class="col-sm-12">
+    			</div>
 			</div>
-					<div class="row" align="center" > <!-- Row Table of products.. -->
-
-					<div class="col-sm-10">
-						<div id="detailDiv" style="font-size:15px;" class="table-responsive"></div>
-						<input id='totalpags' style='display:none;'/>
-					</div>
-
+			<div class="row" align="center" > <!-- Row Table of products.. -->
+    			<div class="col-sm-12">
+    				<div id="detailDiv" style="font-size:15px;" class="table-responsive table-striped"></div>
+    				<input id='totalpags' style='display:none;'/>
+    			</div>
 			</div>
 
 			<div class="row"> <!-- Row footer.. -->
@@ -85,8 +75,6 @@
 			</div>
 
 			<hr color="gray"/>
-
-
 
 		</div> <!-- END Col-LG-12. -->
 	</div> <!-- END ROW.. -->
@@ -157,15 +145,14 @@ function ListarCategorias(){
 function LlenarComboCat(options,options2){
 	$('#listacategorias').append(options);
 	$("#includeDropCategory").html('\
-	\
-									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
-									Seleccione una Categoría\
-									<span class="caret"></span>\
-								  </button>\
-								  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4"  >\
-								  '+options2+'\
-								  </ul>\
-								</div>\
+	\<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
+    	Seleccione una Categoría\
+    	<span class="caret"></span>\
+      </button>\
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu4"  >\
+      '+options2+'\
+      </ul>\
+    </div>\
 		');
 		//alert(options2);
 	//$("#dropDownCategory").append('>');
@@ -184,7 +171,7 @@ function getSearch(){
 
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(function(tx){
-		tx.executeSql('SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c WHERE '+queryextra+' and p.categoriaid=c.id ORDER BY p.formulado asc',[],function(tx,result){
+		tx.executeSql('SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c WHERE '+queryextra+' and p.categoriaid=c.timespan ORDER BY p.formulado asc',[],function(tx,result){
 			$('#paginacion').html('');
 			var npags=Math.ceil(result.rows.length/15);
 			$('#totalpags').val(npags);
@@ -201,7 +188,7 @@ function getSearch(){
 
 
 	db.transaction(function(tx){
-	tx.executeSql('SELECT p.*,(select sum(cantidad) as cantidad from cardex where p.id_local=id_formulado) as cantidad FROM PRODUCTOS p ORDER BY p.formulado desc LIMIT '+desde+',15;',[],function(tx,results){
+	tx.executeSql('SELECT p.*,(select sum(cantidad) as cantidad from cardex where p.id_local=id_formulado) as cantidad,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c where p.categoriaid=c.timespan ORDER BY p.formulado desc LIMIT '+desde+',15;',[],function(tx,results){
 		//console.log(results);
 		var inhtml='';
 		for (var i=0; i < results.rows.length; i++){
@@ -224,14 +211,12 @@ function getSearch(){
 			/*inhtml+='<tr><td>'+row.formulado+'</td><td>'+row.codigo+'</td><td>'+row.nombrec+'</td><td style="text-align:right">'+parseFloat(row.precio).toFixed(2)+'</td><td style="text-align:center"><input disabled type="checkbox" '+checkiva+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id_local+');"></span></td></tr>';*/
 
 			inhtml+='\
-					<div style="cursor:default;" class="panel panel-primary" iddb="'+row.id+'" categoria="'+row.nombrec+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct">\
-						  <div class="panel-heading">\
-							<h4 class="panel-title" style="color:white;" >'+row.formulado+'</h4>\
-						  </div>\
-						  <div class="panel-body" >\
+					<div style="cursor:default;" class="panel panel-primary" iddb="'+row.id+'" categoria="'+row.nombrec+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" style="background-color: #CC0000;">\
+						  <div class="panel-body">\
 							<div class="row" align="center"> \
 								<div class="col-sm-2">	\
 									<img src="img/cafe.jpg" style="box-shadow:1px 1px 1px gray;" width="80" />\
+                                    <h4 class="panel-title" style="color:#404041;" >'+row.formulado+'</h4>\
 								</div>\
 								<div class="col-sm-4">	\
 									<h4><small>Código</small><br/>'+row.codigo+'</h4>\
