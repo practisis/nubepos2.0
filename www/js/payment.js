@@ -513,7 +513,7 @@ function performPurchase(restaurant){
 			function Ingresafacturas(tx){
 				tx.executeSql("INSERT INTO FACTURAS(clientName,RUC,address,tele,fetchJson,paymentsUsed,cash,cards,cheques,vauleCxC,paymentConsumoInterno,tablita,aux,acc,echo,fecha)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[clientName,RUC,address,tele,fetchJson,paymentsUsed,cash,cards,cheques,valueCxC,paymentConsumoInterno,table,aux,acc,echo,hoy],function(){
 					console.log("Nueva Factura Ingresada");
-					$('#pay').fadeOut('fast');
+					//$('#pay').fadeOut('fast');
 					// envia('nubepos/nubepos/');
 				});
 			}
