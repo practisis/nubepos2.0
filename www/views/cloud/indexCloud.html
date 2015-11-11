@@ -116,6 +116,7 @@ function imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,subtotales,totales,i
 										
 										
 									}
+									console.log(strImprimir);
 									
 numeroFactura=0;
 nombreCliente="josue";
@@ -132,7 +133,7 @@ valor="0 @0 ";
 
   var nombrelocal = 'DETALLE DE CAJA';
   var baseu='';
-  var extend=430;
+  var extend=espacio;//430;
   var f = new Date();
   var midate= f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate();
   var hora=f.getHours();
