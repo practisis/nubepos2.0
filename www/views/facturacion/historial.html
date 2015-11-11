@@ -15,6 +15,7 @@
 		var d = today.getDate();
 		return y+"-"+m+"-"+d;
 	}
+	
 	function convertirTime(strFecha){
 		var myDate=strFecha; // 2015-11-11 var myDate="26-02-2012";
 		myDate=myDate.split("-");
@@ -23,7 +24,7 @@
 	}
 	
 	$("#imprimirDetalle").click(function(){
-		fechaFiltro=convertirTime($("#fechadesde").val())//1447263393685;//"2015-11-11"; ////$("#select").val();
+		fechaFiltro=parseInt(convertirTime($("#fechadesde").val()));//1447263393685;//"2015-11-11"; ////$("#select").val();
 		
 		fechaRealFiltro=saberFecha(fechaFiltro);
 		fechaNow=obtenerFechaHoy();
@@ -33,37 +34,42 @@
 		var sumaSubtotales=0;
 		var sumaIvas=0;
 		var today = new Date().getTime();
+		
 		jsonFormaPago=$.parseJSON($("#jsonformaspago").text());
-		alert('SELECT * FROM FACTURAS WHERE fecha>='+fechaFiltro+' AND fecha<='+today+' ');
+		
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 			db.transaction(function(tx){
-				tx.executeSql('SELECT * FROM FACTURAS WHERE fecha>='+fechaFiltro+' AND fecha<='+today+' ',[],function(tx,results){
+				tx.executeSql('SELECT * FROM FACTURAS',[],function(tx,results){
 				strDetalle='';
+				intToday=parseInt(today);
 					for (var i=0; i <= results.rows.length-1; i++){
 									var row = results.rows.item(i);
-									var fechaFactura = row.fecha;
-									var Json = row.fetchJson;
-									var formaPago = row.paymentsUsed;
-									
-									obj=$.parseJSON(Json);
-									currentTotal=parseFloat(obj.Pagar[0].factura.total);
-									var cash = currentTotal;//row.cash;
-									for(j=0;j<=(jsonFormaPago.FormaPago.length-1);j++){
-										idForma=jsonFormaPago.FormaPago[j].id;
-										nombreForma=jsonFormaPago.FormaPago[j].nombre;
+									var fechaFactura = parseInt(row.fecha);
+									alert('desde:'+fechaFactura+">=" + fechaFiltro +" YYY "+ fechaFactura + "<=" + intToday + "<hasta");
+									if(fechaFactura>=fechaFiltro && fechaFactura<=intToday){
+										var Json = row.fetchJson;
+										var formaPago = row.paymentsUsed;
 										
-										if(idForma==formaPago){
-											strDetalle+=idForma+'@'+nombreForma+'@'+cash+"|";
+										obj=$.parseJSON(Json);
+										currentTotal=parseFloat(obj.Pagar[0].factura.total);
+										var cash = currentTotal;//row.cash;
+										for(j=0;j<=(jsonFormaPago.FormaPago.length-1);j++){
+											idForma=jsonFormaPago.FormaPago[j].id;
+											nombreForma=jsonFormaPago.FormaPago[j].nombre;
+											
+											if(idForma==formaPago){
+												strDetalle+=idForma+'@'+nombreForma+'@'+cash+"|";
+											}
 										}
+										
+										
+												sumaTotales=sumaTotales+currentTotal;
+										currentSubtotal=parseFloat(obj.Pagar[0].factura.subtotal_iva);
+											sumaSubtotales=sumaSubtotales+currentSubtotal;
+										expImp=(obj.Pagar[0].factura.impuestos).split("/");
+										iva=parseFloat(expImp[1]);
+											sumaIvas = sumaIvas + iva;
 									}
-									
-									
-											sumaTotales=sumaTotales+currentTotal;
-									currentSubtotal=parseFloat(obj.Pagar[0].factura.subtotal_iva);
-										sumaSubtotales=sumaSubtotales+currentSubtotal;
-									expImp=(obj.Pagar[0].factura.impuestos).split("/");
-									iva=parseFloat(expImp[1]);
-										sumaIvas = sumaIvas + iva;
 							
 
 							}
