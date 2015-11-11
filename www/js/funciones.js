@@ -1354,13 +1354,26 @@ function Ready(){
 			},errorCB,successCB);
 		});
 		
-		if(e.keyCode==13||e.keyCode==66){
-			var misugerencias=document.getElementsByClassName('sugerencia');
+		if(e.keyCode==13){
+			/*var misugerencias=document.getElementsByClassName('sugerencia');
 			for(j=0;j<misugerencias.length;j++){
 				if(misugerencias[j].getAttribute('enfocada')==1){
 					misugerencias[j].firstChild.click();
 				}	
-			}
+			}*/
+			
+			$('.sugerencia').each(function(){
+				if($(this).attr('enfocada')==1){
+					$(this).find('div').click();
+				}
+			});
+			
+			
+			/*for(j=0;j<misugerencias.length;j++){
+				if(misugerencias[j].getAttribute('enfocada')==1){
+					misugerencias[j].firstChild.click();
+				}*/
+			
 			
 		}else if(e.keyCode==38){
 			if(document.getElementById('tableresults')){
