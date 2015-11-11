@@ -49,7 +49,7 @@
 									
 									if(fechaFactura>=fechaFiltro && fechaFactura<=intToday){
 										contPasa++;
-										alert("Correcto Pasa");
+										
 										var Json = row.fetchJson;
 										var formaPago = row.paymentsUsed;
 										
@@ -202,9 +202,7 @@ valor="0 @0 ";
 							<td  style='vertical-align:middle;'>
                                 <button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Filtrar</button>
 							</td>
-								<td  style='vertical-align:middle;'>
-								  <button class="btn btn-primary"  id="imprimirDetalle" type="button" >Detalles</button>
-								</td>
+								
 						</tr>
 					</table>
 				</td>
@@ -216,6 +214,10 @@ valor="0 @0 ";
 							<!--<td style='vertical-align:middle;'>
 								<input placeholder='Hasta' type="text" class='form-control' id="fechahasta" name="fechahasta" style='margin:5px;'/>
 							</td>-->
+							<td  style='vertical-align:middle;'>
+								  <button class="btn btn-primary"  id="imprimirDetalle" type="button" >Imprimir Cierre de Caja</button>
+							</td>
+								
 							<td  style='vertical-align:middle;'>
                                 <b>TOTAL$</b> <span id="totalencabezado"></span>
 							</td>
