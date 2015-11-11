@@ -1745,6 +1745,7 @@ function BuscarCliente(e){
 	var valor=$('#busquedacliente').val();
 	if(e==13){
 		mostrarClientes();
+		//$('#opaco').fadeIn();
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(
 		function (tx){
@@ -2099,7 +2100,7 @@ function jsonNuevoCliente()
 					console.log("Cliente Actualizado!");
 					$('#idCliente').val(res.rows.item(0).id);
 					$("#clientefind").html(nombreP);
-					$("#newCliente").fadeOut();
+					$("#newCliente,#opaco").fadeOut();
 				});	
 			}else{
 				tx.executeSql('INSERT INTO CLIENTES (nombre,direccion,cedula,telefono,email,existe) VALUES (?,?,?,?,?,?)',[nombreP,direccionP,cedula,telefonoP,email,0],
@@ -2107,7 +2108,7 @@ function jsonNuevoCliente()
 					console.log(res3.insertId);
 					$('#idCliente').val(res3.insertId);
 					$("#clientefind").html(nombreP);
-					$("#newCliente").fadeOut();
+					$("#newCliente,#opaco").fadeOut();
 				});	
 			}
 			
@@ -2136,75 +2137,60 @@ function jsonNuevoCliente()
 }
 function noCliente()
 {
-	$("#cuadroClientes").fadeOut("fast",function(){$(this).remove();});
-
-
+	$("#cuadroClientes,#opaco").fadeOut("fast",function(){});
 }
 
 function mostrarClientes(){
 //$('#borrable').remove();
-	if($("#cuadroClientes").length){
-		$("#cuadroClientes").fadeIn();
-	}else{
-		if($("#opaco").css('display')== "none"){
-			$("#opaco").fadeIn();
-		}
-		$("#newCliente ").html('\
-			<div style="position:relative; left:0%; width:100%;" id="borrable">\
-			<div id="opaco" style="width:100%; height:100%; position:absolute; top:0%; left:0%; background-color:rgba(0,0,0,0.7);">\
-				<div id="cuadroClientes" class="cuadroClientes" style="display:none;"> \
+	/*if($("#cuadroClientes").length>0){
+		$("#cuadroClientes,#opaco,#newCliente").fadeIn();
+	}else{*/
+		/*if($("#opaco,#newCliente,#newCliente").css('display')== "none"){
+			$("#opaco,#cuadroClientes,#newCliente").fadeIn();
+		}*/
+		if($("#newCliente").html()!=''){
+			$("#opaco,#cuadroClientes,#newCliente").fadeIn();
+		}else{
+			$("#newCliente ").html('\
+			<div style="position:relative; left:0%; width:100%; height:100%" id="borrable">\
+				<div id="cuadroClientes" class="cuadroClientes" style=""> \
 					<h3>\
 						Cliente\
 					</h3> \
-					<button type="button" style="color:white; margin-right:5px; position:absolute; top:10px; right:12px; cursor:pointer;" class="close" onclick="noCliente();" aria-label="Close"><span aria-hidden="true">x</span></button>\
-					<table class="table table-stripped" id="descripcionD" width="100%" > \
+					<button type="button" style="margin-right:5px; position:absolute; top:10px; right:12px; cursor:pointer;" class="close" onclick="noCliente();" aria-label="Close"><span aria-hidden="true">x</span></button>\
+					<table id="descripcionD" class="table table-striped">\
 						<tr> \
 							<td colspan=2>\
 								<br><br>\
 									<table cellpadding="0" cellspacing="0" width="70%" style="position: relative;margin: 0px auto;">\
 										<tr>\
-											<td width="10%" class="camposcolor">\
-												<span class="glyphicon glyphicon-triangle-right"></span>\
+											<td>\
+											<div class="input-group" style="width:100%;"><span class="input-group-addon" style="width:30%">\
 													&nbsp;Cédula* \
-											</td>\
-												<td class="valorcolor">\
-													<input tabindex="0" id="cedulaP" value="9999999999" style="width:100%;" class="valor" /> \
+											</span><input tabindex="0" id="cedulaP" value="9999999999" class="form-control"/> </div>\
 												</td>\
 										</tr>\
 										<tr>\
-											<td width="20%" class="camposcolor">\
-												<span class="glyphicon glyphicon-triangle-right"></span>\
-													&nbsp;Nombre*\
-											</td>\
-											<td width="70%" class="valorcolor">\
-												<input  tabindex="1" id="nombreP" style="width:100%;" class="valor"/>\
+											<td>\
+												<div class="input-group" style="width:100%;"><span class="input-group-addon" style="width:30%">&nbsp;Nombre*</span>\
+													<input  tabindex="1" id="nombreP" class="form-control"/></div>\
 											</td>\
 										</tr>\
 										\
 										<tr>\
-												<td width="20%" class="camposcolor">\
-													<span class="glyphicon glyphicon-triangle-right"></span>\
-													&nbsp;Teléfono\
-												</td>\
-												<td width="70%" class="valorcolor">\
-													<input tabindex="3" style="width:100%;" id="telefonoP" class="valor"/>\
+												<td>\
+											     <div class="input-group" style="width:100%;"><span class="input-group-addon"  style="width:30%">&nbsp;Teléfono</span>\<input tabindex="3" id="telefonoP"class="form-control" type="number"/></div>				</td>\
+										</tr>\
+										<tr>\
+												<td>\
+												 <div class="input-group" style="width:100%;">									<span class="input-group-addon"  style="width:30%">&nbsp;Dirección</span>\
+													<input tabindex="4" id="direccionP" class="form-control"/></div> \
 												</td>\
 										</tr>\
 										<tr>\
-												<td width="20%" class="camposcolor">\
-													<span class="glyphicon glyphicon-triangle-right"></span>&nbsp;Dirección\
-												</td>\
-												<td width="70%" class="valorcolor">\
-													<input tabindex="4" style="width:100%;" id="direccionP" class="valor"/> \
-												</td>\
-										</tr>\
-										<tr>\
-												<td width="20%" class="camposcolor">\
-													<span class="glyphicon glyphicon-triangle-right"></span>\
-													&nbsp;Email\
-												</td>\
-												<td width="70%" class="valorcolor">\
-													<input tabindex="5" id="emailP" style="width:100%;" class="valor"/>\
+												<td>\<div class="input-group" style="width:100%;">														<span class="input-group-addon"  style="width:30%">&nbsp;Email</span>\
+													\
+													<input tabindex="5" id="emailP" class="form-control"/></div>\
 												</td>\
 										</tr>\
 										\
@@ -2216,14 +2202,14 @@ function mostrarClientes(){
 						<tr>\
 							<td colspan=2>\
 								<br>\
-								<div style="background-color: #E0DEDE; width: 101%;position: relative;margin-left: -4px;height: 100px;">\
+								<div>\
 									<table style="cursor:pointer;position: relative; margin: 0px auto;" cellspacing="5px">\
 										<tr>\
 											<td style="vertical-align: top;">\
-												<div tabindex="7" style="margin-top:0px; height:34px; width:150px; line-height: 1;" class="actiongreenbutton" onclick="jsonNuevoCliente()">Guardar</div> \
+												<button tabindex="7" class="btn btn-primary" onclick="jsonNuevoCliente()">Guardar</button> \
 											</td>\
 											<td onclick="noCliente(1);" style="vertical-align:top;">\
-												<div tabindex="8" style="width: 125px; margin-top:0px; line-height: 1;" class="actionredbutton">Cancelar</div> \
+												<button tabindex="8" class="btn btn-danger">Cancelar</button> \
 											</td>\
 										</tr>\
 									</table>\
@@ -2231,7 +2217,6 @@ function mostrarClientes(){
 							</td>\
 						</tr>\
 					</table>\
-					</div>\
 				</div>\
 			<input type="hidden" id="idCliente" value="1"/></div>\
 			<style>\
@@ -2289,7 +2274,8 @@ function mostrarClientes(){
 			);*/
 		}
 	});
-	}
+		}
+	//}
 }
 
 function cedula () {

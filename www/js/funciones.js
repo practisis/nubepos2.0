@@ -205,7 +205,7 @@ function ActivarCategoria(cual,categoria){
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(
 	function (tx){
-		tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' ORDER BY formulado asc',[],function(tx,res){
+		tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 ORDER BY formulado asc',[],function(tx,res){
 			if(res.rows.length>0){
 				//alert('prods');
 				for(m=0;m<res.rows.length;m++){
@@ -219,10 +219,12 @@ function ActivarCategoria(cual,categoria){
 					}
 					$('#listaProductos').append('<div id="'+ row.id+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
-				$('.producto').hide();
+				//$('.producto').hide();
 				//init2(categoria);
 				Init3();
-				showProducts(categoria);
+				$('#listaProductos').fadeIn();
+				//para mostrar productos por pagina
+				//showProducts(categoria);
 			}
 		});				
 	},errorCB,successCB);
@@ -927,7 +929,7 @@ function AclararSugerencia(celda,focus){
 		celda.setAttribute('enfocada','1');
 	}else{
 		celda.style.backgroundColor='transparent';
-		celda.style.color='#CCC';
+		celda.style.color='#404041';
 		celda.setAttribute('enfocada','0');
 	}
 }
@@ -958,7 +960,7 @@ function DetalleAbajo(){
 function AntesDePagar(){
 	$('#paymentModule').modal('show');
 	BuscarCliente(13);
-	$("#cuadroClientes").css('display','none');
+	//$("#cuadroClientes").css('display','none');
 	pagar();
 	if($('#idCliente').val!=''){
 	}else{
@@ -1198,10 +1200,10 @@ function Init3(){
 	$('.producto,.categoriaActiva,.categoria').css('width',w/6);
 	if(vertical){
 		$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
-		$('#listaProductos').css('height',"100%");
+		//$('#listaProductos').css('height',"100%");
 	}else{
 		$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
-		$('#listaProductos').css('height',"100%");
+		//$('#listaProductos').css('height',"100%");
 	}
 	
 	//$('#productos').css('height',h);
@@ -1227,13 +1229,6 @@ function Init3(){
 		$('.direccionales').css('display','block');
 		//$('#listaCategorias').css('width',((w)-(2*anchodireccionales)-10)+'px');
 		}
-	$('.producto').each(function(){
-		if($(this).html().length>=15)
-		{
-			//$('.producto').css('font-size',parseInt($('.producto').css('height'))*47/100);
-			//$('.producto,.categoria,.categoriaActiva').css('line-height',parseInt($('.producto').css('font-size'))*7/100);
-		}
-	});
 	//alert('init');
 }
 $(document).ready(function(){
@@ -1322,16 +1317,39 @@ function Ready(){
 		
 		var buscar = $('#inputbusc').val();
 		//alert(buscar);
-		var res1=new Array();
+		
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function(tx){
-			tx.executeSql("SELECT * FROM PRODUCTOS WHERE formulado like '%"+buscar+"%'",[],function(tx,results){
-				console.log(results);
+			tx.executeSql("SELECT * FROM PRODUCTOS WHERE formulado like '%"+buscar+"%' and productofinal=1",[],function(tx,results){
+				//console.log(results);
 				if(results.rows.length>0){
-					res1=results.rows;
-					var row = results.rows.item(0);
-					var id = row.id;
-					var formulado = row.formulado;
+					var res1=new Object();
+					for(var n=0;n<results.rows.length;n++){
+						var itemr=results.rows.item(n);
+						//console.log(itemr);
+						var productodata=new Object();
+						productodata.formulado=itemr.formulado;
+						productodata.codigo=itemr.codigo;
+						productodata.precio=itemr.precio;
+						productodata.id=itemr.timespan;
+						productodata.categoria=itemr.categoriaid;
+						if(itemr.cargaiva==1){
+							productodata.formulado_impuestos='0.12';
+							productodata.formulado_tax_id='1';
+						}else{
+							productodata.formulado_impuestos='0';
+							productodata.formulado_tax_id='';
+						}
+						
+						
+						res1[n]=productodata;
+					}
+					/*var productodata=new Array();
+					productodata.formulado = results.rows.item(0);
+					var id = row.id*/
+					$('#jsonproductos').html(JSON.stringify(res1));
+					//console.log(res1);
+					
 				}
 			},errorCB,successCB);
 		});
@@ -1370,27 +1388,26 @@ function Ready(){
 			if(filtro!=''){
 				$('#resultBuscador').fadeIn('slow');
 				$('#tableresults').html('');
-				// var json = $('#jsonProductos').html();
-				// var mijson = eval(''+json+'');
-				for(var j in res1){
-					for(var k in res1[j]){
-						for(i = 0; i < res1[j][k].length; i++){
-								var item = res1[j][k][i];
-								var suger='';
-								if(item.formulado.toLowerCase().indexOf(filtro.toLowerCase())>-1)
-									suger=item.formulado;
-								else if(item.codigo.toLowerCase().indexOf(filtro.toLowerCase())>-1)
-									suger=item.codigo;
+				var jsonf = $('#jsonproductos').html().toString();
+				console.log(jsonf);
+				var mijson = JSON.parse(jsonf);
+				console.log(mijson);
+				for(var j in mijson){
+					var item = mijson[j];
+					var suger='';
+					if(item.formulado.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+						suger=item.formulado;
+					else if(item.codigo.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+						suger=item.codigo;
 								
-								if(suger!='')
-								{
-									if(document.getElementById('tableresults').rows.length<4){
-										$('#tableresults').append("<tr><td class='sugerencia' onmouseover='AclararSugerencia(this,true);' onmouseout='AclararSugerencia(this,false);' enfocada='0'><div id='busc_"+ item.id +"' data-precio='"+ item.precio +"' data-impuestos='"+ item.formulado_impuestos +"' data-impuestosindexes='"+ item.formulado_tax_id +"' data-formulado='"+ item.nombre.toUpperCase()+"' onclick='PlaySound(2); agregarCompra(this,2); return false;'>"+suger.toUpperCase()+"</div></td></tr>");
-									}
-									
-								}
+					if(suger!='')
+					{
+						if(document.getElementById('tableresults').rows.length<4){
+						$('#tableresults').append("<tr><td class='sugerencia' onmouseover='AclararSugerencia(this,true);' onmouseout='AclararSugerencia(this,false);' enfocada='0'><div id='busc_"+ item.id +"' data-precio='"+ item.precio +"' data-impuestos='"+ item.formulado_impuestos +"' data-impuestosindexes='"+ item.formulado_tax_id +"' data-formulado='"+ item.formulado+"' onclick='agregarCompra(this,2); return false;'>"+suger.toUpperCase()+"</div></td></tr>");
 						}
+									
 					}
+					
 				}
 				if(document.getElementById('tableresults').rows[0]!=null){
 					AclararSugerencia(document.getElementById('tableresults').rows[0].cells[0],true);

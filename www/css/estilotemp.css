@@ -15,7 +15,6 @@
 	/*background: -ms-linear-gradient(top,  #f0f0f0 90%,#ffffff 100%); /* IE10+ */
 	/*background: linear-gradient(to bottom,  #f0f0f0 90%,#ffffff 100%); /* W3C */
 	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-
 }
 .totalpagar{
 	text-align:center;
@@ -376,11 +375,11 @@ margin-top:10px;
 }
 #resultBuscador{
 	position:absolute;
-	background-color:rgba(255,255,255,0.9);
+	background-color:rgba(255,255,255,1);
 	border-left:1px solid #CCC;
 	border-right:1px solid #CCC;
 	border-bottom:1px solid #CCC;
-	color:#CCC;
+	color:#404041;
 	overflow:hidden;
 	width:97%;
 	display:block;
