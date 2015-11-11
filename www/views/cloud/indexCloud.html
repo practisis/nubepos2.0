@@ -1,3 +1,4 @@
+<input id="fechadesde" value="2015-11-10">
 <button class="btn btn-primary"  id="imprimirDetalle" type="button" >Detalles</button>
 <script>
 	function obtenerFechaHoy(){
@@ -7,16 +8,24 @@
 		var d = today.getDate();
 		return y+"-"+m+"-"+d;
 	}
-		function saberFecha(fecha){
+	
+	function saberFecha(fecha){
 	var today = new Date(fecha);
 		var m = today.getMonth()+1; // 0-11
 		var y = today.getFullYear();
 		var d = today.getDate();
 		return y+"-"+m+"-"+d;
 	}
+	function convertirTime(strFecha){
+		var myDate=strFecha; // 2015-11-11 var myDate="26-02-2012";
+		myDate=myDate.split("-");
+		var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0]; // var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
+		return (new Date(newDate).getTime());
+	}
 	
 	$("#imprimirDetalle").click(function(){
-		fechaFiltro=1447263393685;//"2015-11-11"; ////$("#select").val();
+		fechaFiltro=convertirTime($("#fechadesde").val())//1447263393685;//"2015-11-11"; ////$("#select").val();
+		
 		fechaRealFiltro=saberFecha(fechaFiltro);
 		fechaNow=obtenerFechaHoy();
 		numeroFactura="75"; //$("#select").val();
