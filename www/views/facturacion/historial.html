@@ -42,11 +42,14 @@
 				tx.executeSql('SELECT * FROM FACTURAS',[],function(tx,results){
 				strDetalle='';
 				intToday=parseInt(today);
+				var contPasa=0;
 					for (var i=0; i <= results.rows.length-1; i++){
 									var row = results.rows.item(i);
 									var fechaFactura = parseInt(row.fecha);
-									alert('desde:'+fechaFactura+">=" + fechaFiltro +" YYY "+ fechaFactura + "<=" + intToday + "<hasta");
+									
 									if(fechaFactura>=fechaFiltro && fechaFactura<=intToday){
+										contPasa++;
+										alert("Correcto Pasa");
 										var Json = row.fetchJson;
 										var formaPago = row.paymentsUsed;
 										
@@ -73,12 +76,15 @@
 							
 
 							}
-							strDetalle=strDetalle.substring(0,strDetalle.length-1);
-									//alert( "Total : " + sumaTotales + " Subtotales :" + sumaSubtotales + " ivas: " + sumaIvas);
-									nFacturas=results.rows.length;
-									 var respuesta = imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,sumaSubtotales,sumaTotales,sumaIvas,strDetalle);
-									 
+							if(contPasa){
+								strDetalle=strDetalle.substring(0,strDetalle.length-1);
+								nFacturas=results.rows.length;
+								var respuesta = imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,sumaSubtotales,sumaTotales,sumaIvas,strDetalle);
 								window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta,'_system','location=yes');
+							}else{
+								alert("No existen facturas en este rango de fechas");
+							}
+									
 	
 				
 				});
