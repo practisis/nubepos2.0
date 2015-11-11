@@ -2150,13 +2150,14 @@ function mostrarClientes(){
 			$("#opaco").fadeIn();
 		}
 		$("#newCliente ").html('\
-			<div style="position:relative; left:20%; width:100%;" id="borrable">\
+			<div style="position:relative; left:0%; width:100%;" id="borrable">\
+			<div id="opaco" style="width:100%; height:100%; position:absolute; top:0%; left:0%; background-color:rgba(0,0,0,0.7);">\
 				<div id="cuadroClientes" class="cuadroClientes" style="display:none;"> \
-					<div style="background:linear-gradient(to bottom, #EF4331 0%, #BD222F 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);height: 40px;color: #FFFFFF;font-size: 20px;line-height: 40px;">\
+					<h3>\
 						Cliente\
-					</div> \
+					</h3> \
 					<button type="button" style="color:white; margin-right:5px; position:absolute; top:10px; right:12px; cursor:pointer;" class="close" onclick="noCliente();" aria-label="Close"><span aria-hidden="true">x</span></button>\
-					<table id="descripcionD" width="100%" > \
+					<table class="table table-stripped" id="descripcionD" width="100%" > \
 						<tr> \
 							<td colspan=2>\
 								<br><br>\
@@ -2230,6 +2231,7 @@ function mostrarClientes(){
 							</td>\
 						</tr>\
 					</table>\
+					</div>\
 				</div>\
 			<input type="hidden" id="idCliente" value="1"/></div>\
 			<style>\
