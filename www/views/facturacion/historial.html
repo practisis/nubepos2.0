@@ -34,7 +34,7 @@
 								<input placeholder='Hasta' type="text" class='form-control' id="fechahasta" name="fechahasta" style='margin:5px;'/>
 							</td>-->
 							<td  style='vertical-align:middle;'>
-                                <b>TOTAL</b> <span id="totalencabezado"></span>
+                                <b>TOTAL $</b> <span id="totalencabezado"></span>
 							</td>
                             <td style='vertical-align:middle;width: 20%;'>
 							</td>
@@ -48,7 +48,7 @@
 				</td>
 			</tr>
             <tr>
-				<td colspan="2">
+				<td colspan="2" style="background-color: #FFFFFF;">
                     <div id="detailDiva" style="height:100%;padding-top:20px;font-size:15px;background-color: #FFFFFF;"></div>
 				</td>
 			</tr>
@@ -95,12 +95,13 @@ getSearch();
 function getSearch(){
 	//console.log($('#fechadesde').val());
 	var filtrodesde=new Date($('#fechadesde').val());
-	//console.log(filtrodesde);
     var fechahoy=new Date($('#fechadesde').val());
     fechahoy=parseInt(fechahoy.getTime())+86400000;
 	filtrodesde=filtrodesde.getTime();
 	filtrohasta=fechahoy;
-	var desde=15*page;
+    console.log(filtrodesde);
+    console.log(filtrohasta);
+	var desde=2000000*page;
 	var queryextra=' id is not NULL';
 	if(filtrodesde!='')
 		queryextra+=' and fecha >='+filtrodesde+' and fecha <='+filtrohasta+' ';
@@ -109,7 +110,7 @@ function getSearch(){
 	db.transaction(function(tx){
 		tx.executeSql('SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc',[],function(tx,result){
 			$('#paginacion').html('');
-			var npags=Math.ceil(result.rows.length/10);
+			var npags=Math.ceil(result.rows.length/2000000);
 			$('#totalpags').val(npags);
 			$('#paginacion').append("<li onclick='CambiarPagina(-1);'><span class='enabled' id='atras'>&laquo;</span></li>");
 			for(var j=0;j<npags;j++){
@@ -122,7 +123,8 @@ function getSearch(){
 		});
 	},errorCB,successCB);
 	
-	var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc LIMIT '+desde+',15;';
+	//var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc LIMIT '+desde+',15;';
+    var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc;';
 	//console.log(miquery);
 
 	db.transaction(function(tx){
@@ -146,7 +148,7 @@ function getSearch(){
             totalfinal += parseFloat(totalf);
 			inhtml+='<tr><td>'+fechaformat+'</td><td>'+row.clientName+'</td><td>'+row.RUC+'</td><td>'+("000000000" + row.id).slice(-9)+'</td><td style="text-align:right;">'+totalf+'</td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="'+func+'"></span></td></tr>';
 		}
-        inhtml+='<tr><td></td><td></td><td></td><td style="text-align: right;"><b>TOTAL</b></td><td style="text-align:right;"><b>'+totalfinal.toFixed(2)+'</b></td><td></td></tr>';
+        inhtml+='<tr><td></td><td></td><td></td><td style="text-align: right;"><b>TOTAL $</b></td><td style="text-align:right;"><b>'+totalfinal.toFixed(2)+'</b></td><td></td></tr>';
         $('#totalencabezado').html(totalfinal.toFixed(2));
         var valorformapago = 0;
         var valortotal = 0;
@@ -166,10 +168,10 @@ function getSearch(){
 			        //console.log(rowa.total);
                     }
                     con++;
-                    inhtmla+='<tr><td style="text-align: center;">'+v['nombre']+'</td><td style="text-align:right;">'+totalfaux.toFixed(2)+'</td></tr>';
+                    inhtmla+='<tr><td style="text-align: right;">'+v['nombre']+' $</td><td style="text-align:right;">'+totalfaux.toFixed(2)+'</td></tr>';
                     valortotal += totalfaux;
                     if(con==7){
-                        inhtmla += '<tr><td style="text-align: center;"><b>TOTAL</b></td><td style="text-align:right;"><b>'+valortotal.toFixed(2)+'</b></td><td>&nbsp;&nbsp;</td></tr>';
+                        inhtmla += '<tr><td style="text-align: right;"><b>TOTAL $</b></td><td style="text-align:right;"><b>'+valortotal.toFixed(2)+'</b></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>';
                     }
                     LlenarTablaFacturasp(inhtmla);
         		});
@@ -184,10 +186,10 @@ function getSearch(){
 }
 
 function LlenarTablaFacturas(datos){
-	$('#detailDiv').html("<table align='center' class='table'><tr><th>Fecha</th><th>Cliente</th><th>RUC</th><th># Factura</th><th style='text-align:right;'>Total $USD</th><th><span class='fa fa-cog'></span></th>"+datos+"</table>");
+	$('#detailDiv').html("<table align='center' class='table'><tr><th>Fecha</th><th>Cliente</th><th>RUC</th><th># Factura</th><th style='text-align:right;'>Total $</th><th><span class='fa fa-cog'></span></th>"+datos+"</table>");
 }
 function LlenarTablaFacturasp(datosp){
-	$('#detailDiva').html("<table align='right' class='table' style='width: 30%;'><tr><th colspan='2' style='text-align:center;'>Formas de Pago</th></tr>"+datosp+"</table>");
+	$('#detailDiva').html("<div style='background-color: #FFFFFF;'><table align='right' class='table' style='width: 25%;'><tr><th colspan='2' style='text-align:center;'>Formas de Pago</th></tr>"+datosp+"</table><div>");
 }
 function LlenarTablaFacturasau(datosau){
 
