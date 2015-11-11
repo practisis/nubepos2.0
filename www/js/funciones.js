@@ -1354,7 +1354,7 @@ function Ready(){
 			},errorCB,successCB);
 		});
 		
-		if(e.keyCode==13){
+		if(e.keyCode==13||e.keyCode==66){
 			var misugerencias=document.getElementsByClassName('sugerencia');
 			for(j=0;j<misugerencias.length;j++){
 				if(misugerencias[j].getAttribute('enfocada')==1){
