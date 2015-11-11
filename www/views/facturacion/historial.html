@@ -1,4 +1,4 @@
-<button class="btn btn-primary"  id="imprimirDetalle" type="button" >Detalles</button>
+
 <script>
 	function obtenerFechaHoy(){
 	var today = new Date();
@@ -119,7 +119,7 @@ function imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,subtotales,totales,i
 										}
 										cont=cont+40;
 										espacio=340+cont;
-										strImprimir+="TEXT+7+0+20+"+espacio+"+"+nombreForma+"+"+sumaCurrent+"+"+BR;
+										strImprimir+="TEXT+7+0+20+"+espacio+"+"+nombreForma+"+"+parseFloat(sumaCurrent).toFixed(2)+"+"+BR;
 										
 										
 										
@@ -152,7 +152,7 @@ valor="0 @0 ";
   txt_linea1="TEXT+7+0+20+60+Fecha+caja+"+fechaRealFiltro + BR;
   txt_linea2="TEXT+7+0+20+100+Fecha+de+impresion+"+fechaNow+BR;
   txt_linea3="TEXT+7+0+20+140+Numero+de+facturas+"+nFacturas+BR;
-  txt_linea4="TEXT+7+0+20+280+Facturas+anuladas+0"+BR;
+  txt_linea4="TEXT+7+0+20+200+Facturas+anuladas+0"+BR;
   txt_linea5="TEXT+7+0+20+240+SUBTOTAL+"+subtotales+BR;
   txt_linea6="TEXT+7+0+20+280+IVA+"+ivas+BR;
   txt_linea7="TEXT+7+0+20+320+TOTAL+"+totales+BR;
@@ -190,6 +190,9 @@ valor="0 @0 ";
 							<td  style='vertical-align:middle;'>
                                 <button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Filtrar</button>
 							</td>
+								<td  style='vertical-align:middle;'>
+								  <button class="btn btn-primary"  id="imprimirDetalle" type="button" >Detalles</button>
+								</td>
 						</tr>
 					</table>
 				</td>
