@@ -43,8 +43,8 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-	<gap:plugin name="nl.x-services.plugins.launchmyapp">
-	<param name="URL_SCHEME" value="http://nuveposv"/>
+	<gap:plugin name="cordova-plugin-customurlscheme" source="npm">
+	  <param name="URL_SCHEME" value="nubeposv" />
 	</gap:plugin>
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
