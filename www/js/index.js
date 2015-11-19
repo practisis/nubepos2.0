@@ -408,3 +408,17 @@ if (xmlhttp.readyState==4){
 }}} 
 xmlhttp.send(null);
 }
+
+function showalert(msg){
+	$('#alert').html(msg);
+	$('html, body').animate( { scrollTop : 0 },500,function(){
+		$('#alert').slideDown('slow',function(){
+			setTimeout(function(){hidealert()},1500);
+		});
+	});
+}
+
+function hidealert(){
+	$('#alert').html('');
+	$('#alert').slideUp('fast');
+}
