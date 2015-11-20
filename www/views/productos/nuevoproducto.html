@@ -8,6 +8,7 @@
 		<h4>Nombre</h4> 
 		<input style='display:none;' id='idproducto' name='idproducto'/>
 		<input class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí el nombre de su producto " name='nombreproducto' id='nombreproducto' style="width:90%;">
+		<label style="color:red;display:none;" class="errorLabel1">Ingrese un nombre válido</label>
 		<br/>
 		<h4>Código</h4> 
 		<div class="row" style="">
@@ -16,7 +17,7 @@
 			</div>
 		</div>
 		<br/>
-			<!--<div class="app">
+			<div class="app">
 									<div id="deviceready" class="blink" style="display:none;">
 										<p class="event listening">Connecting to Device</p>
 										<p class="event received">Device is Ready</p>
@@ -28,13 +29,15 @@
 								//app.initialize();
 							</script>
 		
-			<br/>--->
+			<br/>
 				<h4>Categoría </h4>
 				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese aquí su categoría" id="search-renderitem" name="search-renderitem" onkeydown='verbusquedacateg();'/>
+				<label style="color:red;display:none;" class="errorLabel2">Ingrese una categoría</label>
 	
 				<h4> Precio  </h4>
 				<input style="width:90%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event)">
-		
+				<label style="color:red;display:none;" class="errorLabel3">Ingrese un precio válido</label>
+
 				<h4>Costo </h4>
 				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Costo" id="costo" name="costo" onkeypress="return soloNumerosprecio(event)" value="0"/>
                 <input type="hidden" id="costoreal" name="costoreal" value=""/>
@@ -270,6 +273,7 @@ function GuardaProducto(){
 						$("#contentAll").find("input").val(" ");
 						showalert("Producto <b>" + nombrep + "</b> Creado con éxito");
 						editarProductoID=0;
+						envia("nuevoproducto");
 					});
 
 					});
@@ -297,6 +301,10 @@ function GuardaProducto(){
 		}else{
 			//$('#jsalert').html("Por favor complete todos los datos.");
 			showalert("Por favor complete todos los datos");
+			if($("#nombreproducto").val()=='') {$(".errorLabel1").fadeIn();setTimeout(function(){$('.errorLabel1').fadeOut('slow');},5000);}
+			if($("#search-renderitem").val()=='') {$(".errorLabel2").fadeIn();setTimeout(function(){$('.errorLabel2').fadeOut('slow');},5000);}
+			if($("#precioproducto").val()=='') {$(".errorLabel3").fadeIn();setTimeout(function(){$('.errorLabel3').fadeOut('slow');},5000);}
+
 			setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
 			setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
 		}
