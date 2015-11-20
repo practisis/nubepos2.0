@@ -51,10 +51,10 @@
 			 
 			  <form method="post" class="contact-form form-validate4" id="myloginform" novalidate="novalidate">
 				<div class="form-group">
-				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="josue2@practisis.com" autocomplete="off" aria-required="true">
+				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="josuenubepos@practisis.com" autocomplete="off" aria-required="true">
 				</div>
 				<div class="form-group">
-				  <input type="password" id="pass2" name="mipass" value="1105097586" class="form-control input-lg" placeholder="Password" required="" autocomplete="off" aria-required="true">
+				  <input type="password" id="pass2" name="mipass" value="123456" class="form-control input-lg" placeholder="Password" required="" autocomplete="off" aria-required="true">
 				</div>
 				<div class="form-group">
 					<a data-toggle="modal" data-target="#recuperarPass" href="">¿Olvidaste tu contraseña?</a><br/>  <a data-toggle="modal" data-target="#recuperarPass" href="javascript:void(0);" ontap="nuevaCuenta()">¿Crear Cuenta NubePOS?</a> 
@@ -301,7 +301,10 @@
 		function compararJSONproductos(){
 			JSONproductosLocal=$("#JSONproductosLocal").html();
 			JSONproductosNube=$("#JSONproductosNube").html();
-			//alert(JSONproductosLocal);
+			console.log('________');
+			console.log(JSONproductosLocal);
+			console.log('________');
+			console.log(JSONproductosNube);
 			JLocal=jQuery.parseJSON(JSONproductosLocal);
 			JNube=$.parseJSON(JSONproductosNube);
 			arrayProductosLocalFaltantes= new Array();
@@ -315,10 +318,10 @@
 				for(k=0; k<= (JNube.Productos.length -1); k++ ){
 						pNube=JNube.Productos[k];		
 						tsNube=$.trim(pNube.formulado_timespan);
-						//alert(tsNube + "<>"  + tsLocal );
-						if(tsLocal==tsNube) { //alert("match" + formuladoLocal );
+						if(tsLocal==tsNube) { 
 						hayProductoEnNube=true; }
 				}
+
 				if(hayProductoEnNube==false){
 					//alert("No hay producto local en nube");
 					arrayProductosLocalFaltantes[arrayProductosLocalFaltantes.length]=tsLocal;
@@ -345,7 +348,7 @@
 			}else{
 				globalContProductosLocal++;
 				actualTimeSpan=arrayProductosLocalFaltantes[globalContProductosLocal];
-				//Actualizar Productos faltante Locales en la Nube 
+				//Actualizar Productos faltantes Locales en la Nube 
 				//alert( arrayProductosLocalFaltantes[globalContProductosLocal]  );
 				
 				JSONproductosLocal=$("#JSONproductosLocal").html();
@@ -367,7 +370,7 @@
 				}
 				
 				if(formulado){
-					//alert(empresa);
+					alert(formulado + "<<" +empresa);
 						$.post('http://practisis.net/practipos2/ajax/apiSincronizador/apiSincronizaNubeposProductosNew.php',{
 							empresa : empresa , formulado : formulado , codigo : codigo , precio : precio , categorianombre : categorianombre , cargaiva : cargaiva , productofinal : productofinal , materiaprima : materiaprima, timespan : actualTimeSpan
 						}).done(function(data){
@@ -537,7 +540,7 @@
 			JSONCategoriasLocal=$("#JSONCategoriasLocal").text();
 			//alert(JSONCategoriasLocal);
 			JLocalCat=$.parseJSON(JSONCategoriasLocal);
-		hayMatch=false;
+			hayMatch=false;
 			for(i=0;i<=(JLocalCat.Categorias.length-1); i++){
 				id=JLocalCat.Categorias[i].id;
 				timespan=JLocalCat.Categorias[i].timespan;
@@ -634,9 +637,18 @@
 				}
 				if(hayMatchCat==false && hayMatchNombre==true){
 					arrayFaltanteCategoryLocal[arrayFaltanteCategoryLocal.length]=idCatLocal+"|"+idNube;
+					var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+						db.transaction(function(tx){
+						
+							tx.executeSql("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?;",[idNube,timeSpan],function(tx,results){
+								
+							});
+							alert("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?" + idNube + " <> " + timeSpan);
+						},errorCB ,successCB);	
 					console.log("actualizar timespan abajo>>" + catLocal.categoria +  ">>" + idNube);
 				}
 			}
+
 			actualizarCategoriasID();
 			
 			
@@ -773,7 +785,7 @@
 				
 				
 				
-				//alert(currentClientPost);
+				alert(currentClientPost + "<>falta ese man " +  nombre );
 				$.post('https://www.practisis.net/nubeposboot/www/ajax/addNewClient.php', { 
 					dbID : empresa ,
 					nombre : nombre,
@@ -783,7 +795,7 @@
 					cedula : cedula,
 					direccion : direccion
 					}).done(function(data){
-					//alert(data);
+					alert(data);
 					agregarClientesFaltanteLocal();
 				});
 			}
@@ -821,6 +833,7 @@
 		function agregarClientesFaltanteNube(){
 			contFaltanteClienteNube++;
 			if(contFaltanteClienteNube > (arrayClientesFaltanteNube.length-1) ){
+
 				//alert("Fin clientes");
 				$("#theProgress").width("100%");
 				return;
@@ -934,8 +947,14 @@
 					var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 						db.transaction(function(tx){
 						tx.executeSql("UPDATE CATEGORIAS SET timespan=? WHERE id=?;",[currentIDCatNube,currentIDCatLocal],function(tx,results){
+							/*tx.executeSql("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?;",[currentIDCatLocal,currentIDCatNube],function(tx,results){
+								
+							});*/
 							actualizarCategoriasID();
+							
 						});
+						
+
 						},errorCB ,successCB);
 						
 			}
@@ -951,13 +970,13 @@
 								id_emp : empresa 
 						}).done(function(response){
 					//alert(response);
+
 					var arraydatos=JSON.parse(response); 
 					JSONproductosNube=arraydatos.productos;
 					JSONcategoriasNube=arraydatos.categorias;
 					JSONclientesNube=arraydatos.clientes;
 					$("#JSONclientesNube").html(JSONclientesNube);
 					console.log(arraydatos);
-					//JSONcajasNube=arraydatos.cajas;
 					$("#JSONCategoriasNube").html(JSONcategoriasNube);
 					$("#JSONproductosNube").html(JSONproductosNube);
 					$("#JSONproductosLocal").html('');
@@ -965,7 +984,7 @@
 					$("#JSONproductosLocal").append(JSONproductosLocal);
 					var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 					db.transaction(function(tx){
-					tx.executeSql('SELECT p.*,c.categoria as nombrec , p.timespan as timespan ,  c.id as idcat FROM PRODUCTOS p,CATEGORIAS c WHERE p.categoriaid=c.id ORDER BY p.formulado ASC',[],function(tx,results){
+					tx.executeSql('SELECT p.*,c.categoria as nombrec , p.timespan as timespan ,  c.id as idcat FROM PRODUCTOS p,CATEGORIAS c WHERE p.categoriaid=c.timespan ORDER BY p.formulado ASC',[],function(tx,results){
 					
 								for (var i=0; i <= results.rows.length-1; i++){
 								var row = results.rows.item(i);
