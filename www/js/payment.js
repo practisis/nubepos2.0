@@ -119,7 +119,7 @@ $('.buttonsPayment').click(function(){
 	var dataValue = $(this).attr('data-value');
 	var valueFromButtonClicked = $.trim(parseFloat(dataValue));
 	sumOfButtonClicked += parseFloat(valueFromButtonClicked);
-	$('#paymentEfectivo').val(parseFloat(sumOfButtonClicked).toFixed(2));
+	//$('#paymentEfectivo').val(parseFloat(sumOfButtonClicked).toFixed(2));
 	
 	var value = 0;
 	$('.paymentMethods').each(function(){
@@ -128,7 +128,7 @@ $('.buttonsPayment').click(function(){
 			}
 		});
 	updateForm(value);
-	});
+});
 	
 function updateForm(value){
 	value = parseFloat(value);
@@ -159,7 +159,6 @@ function updateForm(value){
 			$('#chequeValue').val(0);
 			}
 		}
-
 	$('#changeFromPurchase').html(change.toFixed(2));
 	}
 	
@@ -1829,21 +1828,16 @@ function BuscarCliente(e){
 }
 
 function CambiarMetodo(cual){
-	//$("#paymentCategory-"+cual).click();
 	var nombre=$('#payment'+cual).attr('paymentMethod');
 	var index=$('#payment'+cual).attr('idPaymentMethod');
-	//var idimagen=$('#paymentCategory-'+index+' .originalImage').attr('id').split('_');
-	//alert(nombre);
-	/*$('.originalImage').each(function(){
-		var getImage = $(this).attr('id').split('_');
-		$(this).attr('src','../../images/'+ getImage[1] +'.png');
-		});*/
-
-	//$('#pagos_'+ nombre).attr('src', '../../images/'+idimagen[1]+'Hover.png');
+	console.log(cual);
 	$('.textoformapago').css('color','#58595B');
 	$('#forma_'+index).css('color','#FFF');
-	$('.functionalityDiv').hide();
-	$('#functionality-'+ index).show();
+	if(cual=='Efectivo'&&$('#touchefectivo').css('display')=='none'){
+		$('.touchpago').hide();$('#touchefectivo').slideDown();}
+	if(cual=='Tarjetas'&&$('#touchtarjetas').css('display')=='none'){$('.touchpago').hide();$('#touchtarjetas').slideDown();}
+	if(cual=='Cheques'&&$('#touchcheques').css('display')=='none'){$('.touchpago').hide();$('#touchcheques').slideDown();}
+	if(cual=='CxC'&&$('#touchcxc').css('display')=='none'){$('.touchpago').hide();$('#touchcxc').slideDown();}
 	$('.columna1 div').each(function(){
 		$(this).attr('class','paymentCategories');
 		$(this).css('backgroundColor','');
@@ -1862,7 +1856,7 @@ function CambiarMetodo(cual){
 		pagado+=partepago;
 	});
 	
-	if(faltante>0){
+	/*if(faltante>0){
 		if($('#payment'+nombre).val()=='')
 			$('#payment'+nombre).val(faltante.toFixed(2));
 		else{
@@ -1874,7 +1868,7 @@ function CambiarMetodo(cual){
 				}
 			}
 			
-	}
+	}*/
 	$('#payment'+cual).select();
 }
 

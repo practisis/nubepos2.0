@@ -37,8 +37,6 @@
    
 // }
 
-
-
 var altolistaprod=0;
 var pantAlto=$('#content').height();
 var pantAncho=$('#content').width();
@@ -556,6 +554,10 @@ function agregarCompra(item,origen){
 	//alert(subtotalSinIva+'/'+subtotalSinIvaCompra);
 	$('#totalmiFactura').val(sumTotal);
 	$('#total').html('$'+ parseFloat(sumTotal).toFixed(2))
+	$('#justo').html(total.toFixed(2));
+	$('#justo').attr('data-value',-1*total.toFixed(2));
+	$('#redondeado').html(Math.round(total).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));
 	$('#subtotalSinIva').val(parseFloat(subtotalSinIva) + parseFloat(subtotalSinIvaCompra));
 	$('#subtotalIva').val(parseFloat(subtotalIva) + parseFloat(subtotalIvaCompra));
 	$('.cantidad').html('0');
@@ -1010,7 +1012,7 @@ function ColocarFormasPago(){
 				mihtml+= '</td>';
 				mihtml+= '<td class="columna2">';
 				mihtml+= '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
-				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onkeypress="return soloNumerost(event);"/>';
+				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onchange="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" onkeypress="return soloNumerost(event);"/>';
 				mihtml+= '</div>';
 				mihtml+= '</td>';
 				mihtml+= '</tr>';
@@ -1310,6 +1312,7 @@ function Ready(){
 			
 		showProducts(category,direction);
 		});
+		vertarjetas();
 }
 
 
@@ -1428,3 +1431,80 @@ function Ready(){
 			}
 		}
 	}
+	
+
+function subirefectivo(boton){
+	var valor=$(boton).attr('data-value');
+	//console.log(valor);
+	valor=parseFloat(valor);
+	var cuantohay=0;
+	if($('#paymentEfectivo').val()=='')
+		cuantohay=0;
+	else
+		cuantohay=parseFloat($('#paymentEfectivo').val());
+	var newvalor=0;
+	if(valor>0)
+		newvalor=valor+cuantohay;
+	else{
+		if(valor==-1)
+			newvalor=0;
+		else
+			newvalor=-1*valor;
+	}
+	console.log(newvalor);
+	$('#paymentEfectivo').val(newvalor.toFixed(2));
+	$('#paymentEfectivo').change();
+}
+
+function vertarjetas(){
+	var tarjetas=$('#jsontarjetas').html();
+	var evalJson=JSON.parse(tarjetas);
+	//console.log(evalJson);
+	for(var k in evalJson){
+		var x = 1;
+		var mihtml='';
+		for(var j in evalJson[k]){
+			var dat=evalJson[k][j];
+			var div='<div class="col-lg-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');">'+dat.nombre+'</button></div>';
+			$('#lastarjetas').append(div);
+			x++;
+		}
+	}
+}
+
+function elegirTarjeta(id){
+	var clase=$('.card').attr('class');
+	clase=clase.replace('btn-success','btn-default');
+	$('.card').attr('class',clase);
+	clase=clase.replace('btn-default','btn-success');
+	$('#card_'+id).attr('class',clase);
+	/*var valor=$('#card_'+id).attr('data-value');
+	valor=parseFloat(valor);
+	var cuantohay=0;
+	if($('#paymentTarjetas').val()=='')
+		cuantohay=0;
+	else
+		cuantohay=parseFloat($('#paymentTarjetas').val());
+	var newvalor=0;
+	if(cuantohay==0)
+		newvalor=parseFloat($('#invoiceTotal').html());
+	console.log(newvalor);*/
+	var suma=0;
+	$('.card').each(function(){
+		suma+=parseFloat($(this).attr('data-value'));
+	});
+	
+	if(suma==0){
+		//$('#valortarjeta').val(parseFloat($('#invoiceTotal').html()));
+		$('#card_'+id).attr('data-value',$('#invoiceTotal').html());
+	}
+	
+	$('#valortarjeta').val(parseFloat(('#card_'+id).attr('data-value')).toFixed(2));
+	
+	var suma=0;
+	$('.card').each(function(){
+		suma+=parseFloat($(this).attr('data-value'));
+	});
+
+	$('#paymentTarjetas').val(suma.toFixed(2));
+}

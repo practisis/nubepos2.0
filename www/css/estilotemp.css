@@ -595,10 +595,10 @@ margin-top:10px;
 	border-top-right-radius:15px;
   }
   .ventanaformapago{
-    height: 280px;
+    height: 180px;
     width: 97%;
     margin-top:10px;
-    margin-left:20px;
+    /*margin-left:20px;*/
   }
   .columna1{
     width:30%;
@@ -686,7 +686,7 @@ margin-top:10px;
     width: 320px; height: 30px;
   }
   .cuadrototal{
-    width:320px;
+    /*width:320px;*/
     margin-left: auto;
     margin-right: auto;
     font-size: 24px;
@@ -1168,4 +1168,18 @@ margin-top:10px;
 #divInNumPad .row .col-lg-4,#divInNumPad .row .col-lg-12{
 	padding-left:5px;
 	padding-right:5px;
+}
+
+.touchpago{
+	background-color:#EEE;
+	border-radius:5px;
+}
+.touchpago .row .col-lg-4 .btn,.touchpago .row .col-lg-3 .btn{
+	width:100%;
+	margin-top:3px;
+}
+.touchpago .row .col-lg-4,.touchpago .row .col-lg-3{
+	padding-left:3px;
+	padding-right:3px;
+	
 }
