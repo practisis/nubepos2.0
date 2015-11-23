@@ -507,14 +507,59 @@
 								    </div>
 								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
 								<span class="input-group-addon" id="basic-addon1" >Valor US</span>
-								<input type='number' class='form-control input-lg' id='valortarjeta' value='0.00'/>
+								<input type='number' onchange='valorcardchange();' class='form-control input-lg' id='valortarjeta' value='0.00' onclick='this.select();'/>
 								</div>
 							</div>
 							<div class="touchpago" id='touchcheques'  style='display:none;'>
-								cheques
+								<table>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;'> Cheque No.</span>
+								<input type='text' id='chequeno1' name='chequeno1' class='form-control input' value='' placeholder='0000' onclick='this.select();'/>
+								</div></td>
+								<td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input type='number' onchange='valorchequechange();' class='form-control input cheque' id='valorcheque1' name='valorcheque1' value='0.00' onclick='this.select();'/>
+								</div>
+								</td></tr>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;'>Cheque No.</span>
+								<input type='text' id='chequeno2' name='chequeno2' class='form-control input' value='' placeholder='0000' onclick='this.select();'/>
+								</div></td>
+								<td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input type='number' onchange='valorchequechange();' class='form-control input cheque' id='valorcheque2' name='valorcheque2' value='0.00' onclick='this.select();'/>
+								</div>
+								</td></tr>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;'> Cheque No.</span>
+								<input type='text' id='chequeno3' name='chequeno3' onchange='$("#")' class='form-control input' value='' placeholder='0000' onclick='this.select();'/>
+								</div></td>
+								<td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input type='number' onchange='valorchequechange();' class='form-control input cheque' id='valorcheque3' name='valorcheque3' value='0.00' onclick='this.select();'/>
+								</div>
+								</td>
+								</tr>
+								</table>
 							</div>
 							<div class="touchpago" id='touchcxc'  style='display:none;'>
-								cxc
+								<table width='100%'><tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input type='number' onchange='valorcxcchange();' class='form-control input cheque' id='valorcxc' name='valorcxc' value='0.00' onclick='this.select();'/>
+								</div>
+								</td></tr><tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Justificación</span>
+								<input type='text' class='form-control input cheque' id='justcxc' name='justcxc' onclick='this.select();'/>
+								</div>
+								</td></tr></table>
 							</div>
 						</div>
 						<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px" width='100%'>

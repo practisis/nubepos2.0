@@ -79,23 +79,27 @@
         </div>
 		<div class='col-md-3'>
 			<section class="panel panel-box info-box">
-						<div class="panel-left panel-item bg-warning">
+						<!---<div class="panel-left panel-item bg-warning">
 							<h1><i class="fa fa-dollar text-large box-icon">
 							</i></h1>
 						</div>
 						<div class="panel-right panel-item bg-reverse">
 							<p class="size-h2 no-margin" id='costototal'>0.00</p>
 							<p class="text-muted no-margin"><span data-i18n="Costo Total US$">Costo Total US$</span></p>
-						</div>
+						</div>-->
+					<div id='ventascategoria'>
+					</div>
 			</section>
 			<section class="panel panel-box info-box">
-						<div class="panel-left panel-item bg-info">
+					<!---<div class="panel-left panel-item bg-info">
 							<h1><i class="fa fa-users text-large stat-icon">
 							</i></h1>
 						</div>
 					<div class="panel-right panel-item bg-reverse">
 					<p class="size-h2 no-margin"><span id='porcentajecostos'>0%</span></p>
 					<p class="text-muted no-margin"><span data-i18n="Porcentaje de Costos %">Porcentaje de Costos</span></p>
+					</div>-->
+					<div id='productosten'>
 					</div>
 			</section>
 		</div>
@@ -132,14 +136,6 @@ $(document).ready(function(){
  });
  //colocar fechas
   var ahora=new Date();
-  var mimanana=ahora.getTime()+(1000*60*60*24);
-  var manana=new Date(mimanana);
-  var dia=manana.getDate().toString();
-  var mes=(parseInt(manana.getMonth())+1).toString();//console.log(mes);
-  if(dia.length==1)
-			dia='0'+dia;
-  if(mes.length==1)
-			mes='0'+mes;
 			
   var mesa=(parseInt(ahora.getMonth())+1).toString();//console.log(mes);
   var diaa=ahora.getDate().toString();
@@ -148,6 +144,17 @@ $(document).ready(function(){
   if(mesa.length==1)
 			mesa='0'+mesa;
   var fechahoy=ahora.getFullYear()+"-"+mesa+'-'+diaa;
+  
+  var mimanana=new Date(fechahoy.replace("-","/")+" 00:00:00").getTime()+(1000*59*59*23);
+  var manana=new Date(mimanana);
+  console.log(fechahoy);
+  var dia=manana.getDate().toString();
+  var mes=(parseInt(manana.getMonth())+1).toString();//console.log(mes);
+  if(dia.length==1)
+			dia='0'+dia;
+  if(mes.length==1)
+			mes='0'+mes;
+  
   var fechamanana=manana.getFullYear()+"-"+mes+'-'+dia;
   $('#desde').val(fechahoy);
   $('#hasta').val(fechamanana);
@@ -183,6 +190,8 @@ function ObtenerDatosDashboard(){
 				var misubtotal=0;
 				var morrisvector=new Array();
 				var productosvector=new Array();
+				var categoriasvector=new Array();
+				
 				for(var n=0;n<res.rows.length;n++){
 					var mifact=JSON.parse(res.rows.item(n).fact);	
 					//productos para ranking
@@ -229,6 +238,21 @@ function ObtenerDatosDashboard(){
 							var ahorac=parseFloat(misproductos[s].cant_prod)+antesc;
 							productosvector['"'+misproductos[s].id_producto+'"'].cantidad=ahorac.toFixed(2);
 						}
+						
+						/*consulta categorias*/
+						db.transaction(
+							function (tx4){
+								tx4.executeSql('SELECT c.categoria as cat,c.timespan as idcat from categorias c,productos p where p.timespan=? and c.timespan=p.categoriaid'
+								,[misproductos[s].id_producto],
+								function(tx4,res4){
+									console.log(misproductos[s].id_producto);
+									console.log(res4);
+									if(res4.rows.length>0){
+										console.log(res4.rows.item(0).cat);
+									}
+								});				
+						},errorCB,successCB);
+						
 					}
 					
 					//console.log(productosvector);
@@ -287,6 +311,8 @@ function ObtenerDatosDashboard(){
 				});
 			});				
 	},errorCB,successCB);
+	
+	//query para ventas por categoria
 }
 
 </script>

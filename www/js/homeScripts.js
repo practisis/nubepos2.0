@@ -24,9 +24,6 @@ function loginPractisis(){
 	}
 
 function envia(donde){
-	
-		
-
 					var lugar='';
 				
 					if(donde=='dashboard')
@@ -40,8 +37,9 @@ function envia(donde){
 					lugar="views/productos/nuevoproducto.html";
                     if(donde=='inventario')
 					lugar="views/productos/inventarioproductos.html";
-					if(donde=='listadeclientes'){				lugar="views/clientes/listaclientes.html"; }
-					if(donde=='nuevocliente')
+					if(donde=='listadeclientes'){
+						lugar="views/clientes/listaclientes.html"; 
+					}if(donde=='nuevocliente')
 					lugar="views/clientes/nuevocliente.html";
 					if(donde=='historial')
 					lugar="views/facturacion/historial.html";

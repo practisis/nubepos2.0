@@ -334,9 +334,12 @@ function getSearch(){
 			var datosfact=JSON.parse(row.fetchJson);
 			var totalf=parseFloat(datosfact.Pagar[0].factura.total).toFixed(2);
             totalfinal += parseFloat(totalf);
-			inhtml+='<tr><td>'+fechaformat+'</td><td>'+row.clientName+'</td><td>'+row.RUC+'</td><td>'+("000000000" + row.id).slice(-9)+'</td><td style="text-align:right;">'+totalf+'</td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="'+func+'"></span></td></tr>';
+			var anulada='No';
+			if(row.anulada==1)
+				anulada='Si';
+			inhtml+='<tr onclick="'+func+'" style="cursor:pointer;"><td>'+fechaformat+'</td><td>'+row.clientName+'</td><td>'+row.RUC+'</td><td>'+("000000000" + row.id).slice(-9)+'</td><td>'+anulada+'</td><td style="text-align:right;">'+totalf+'</td></tr>';
 		}
-        inhtml+='<tr><td></td><td></td><td></td><td style="text-align: right;"><b>TOTAL$</b></td><td style="text-align:right;"><b>'+totalfinal.toFixed(2)+'</b></td><td></td></tr>';
+        inhtml+='<tr><td></td><td></td><td></td><td></td><td style="text-align: right;"><b>TOTAL$</b></td><td style="text-align:right;"><b>'+totalfinal.toFixed(2)+'</b></td></tr>';
         $('#totalencabezado').html(totalfinal.toFixed(2));
         var valorformapago = 0;
         var valortotal = 0;
@@ -374,7 +377,7 @@ function getSearch(){
 }
 
 function LlenarTablaFacturas(datos){
-	$('#detailDiv').html("<table align='center' class='table'><tr><th>Fecha</th><th>Cliente</th><th>RUC</th><th># Factura</th><th style='text-align:right;'>Total$</th><th><span class='fa fa-cog'></span></th>"+datos+"</table>");
+	$('#detailDiv').html("<table align='center' class='table table-hover table-striped'><tr><th>Fecha</th><th>Cliente</th><th>RUC</th><th># Factura</th><th>Anulada</th><th style='text-align:right;'>Total US</th>"+datos+"</table>");
 }
 function LlenarTablaFacturasp(datosp){
 	$('#detailDiva').html("<div style='background-color: #FFFFFF;'><table align='right' class='table' style='width: 25%;'><tr><th colspan='2' style='text-align:center;'>Formas de Pago</th></tr>"+datosp+"</table><div>");
@@ -412,7 +415,7 @@ $(document).keyup(function(event){
 });
 
 function EditarFactura(idfactura){
-	$('#content').load("views/facturacion/editarfactura.html",function(){
+	$('#main').load("views/facturacion/editarfactura.html",function(){
 		VerDatosFactura(idfactura);
 	});
 }

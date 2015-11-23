@@ -215,7 +215,7 @@ function ActivarCategoria(cual,categoria){
 						impuestos+='0.12';
 						impuestosid+='1';
 					}
-					$('#listaProductos').append('<div id="'+ row.id+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
+					$('#listaProductos').append('<div id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
 				//$('.producto').hide();
 				//init2(categoria);
@@ -1465,7 +1465,7 @@ function vertarjetas(){
 		var mihtml='';
 		for(var j in evalJson[k]){
 			var dat=evalJson[k][j];
-			var div='<div class="col-lg-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');">'+dat.nombre+'</button></div>';
+			var div='<div class="col-lg-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
 			$('#lastarjetas').append(div);
 			x++;
 		}
@@ -1478,17 +1478,6 @@ function elegirTarjeta(id){
 	$('.card').attr('class',clase);
 	clase=clase.replace('btn-default','btn-success');
 	$('#card_'+id).attr('class',clase);
-	/*var valor=$('#card_'+id).attr('data-value');
-	valor=parseFloat(valor);
-	var cuantohay=0;
-	if($('#paymentTarjetas').val()=='')
-		cuantohay=0;
-	else
-		cuantohay=parseFloat($('#paymentTarjetas').val());
-	var newvalor=0;
-	if(cuantohay==0)
-		newvalor=parseFloat($('#invoiceTotal').html());
-	console.log(newvalor);*/
 	var suma=0;
 	$('.card').each(function(){
 		suma+=parseFloat($(this).attr('data-value'));
@@ -1499,7 +1488,14 @@ function elegirTarjeta(id){
 		$('#card_'+id).attr('data-value',$('#invoiceTotal').html());
 	}
 	
-	$('#valortarjeta').val(parseFloat(('#card_'+id).attr('data-value')).toFixed(2));
+	$('#valortarjeta').val(parseFloat($('#card_'+id).attr('data-value')).toFixed(2));
+	if($('#cardv_'+id).html()==''){
+		if(parseFloat($('#valortarjeta').val())>0)
+			$('#cardv_'+id).html(' ('+$('#valortarjeta').val()+')');
+		else
+			$('#cardv_'+id).html('');
+	}
+		
 	
 	var suma=0;
 	$('.card').each(function(){
@@ -1507,4 +1503,42 @@ function elegirTarjeta(id){
 	});
 
 	$('#paymentTarjetas').val(suma.toFixed(2));
+	changePaymentCategory('2','Tarjetas'); return false;
+}
+
+function valorcardchange(){
+	$('.card').each(function(){
+		if($(this).hasClass('btn-success')){
+			if(parseFloat($('#valortarjeta').val())>0){
+				var elid=$(this).attr('data-id');
+				$('#card_'+elid).attr('data-value',$('#valortarjeta').val());
+				$('#cardv_'+elid).html(' ('+$('#valortarjeta').val()+')');
+			}
+			else
+				$('#cardv_'+id).html(''); 
+		}
+	});
+	var suma=0;
+	$('.card').each(function(){
+		suma+=parseFloat($(this).attr('data-value'));
+	});
+	$('#paymentTarjetas').val(suma.toFixed(2));
+	changePaymentCategory('2','Tarjetas'); return false;
+}
+
+function valorchequechange(){
+	var suma=0;
+	$('.cheque').each(function(){
+		suma+=parseFloat($(this).val());
+	});
+	$('#paymentCheques').val(suma.toFixed(2));
+	changePaymentCategory('3','Cheques'); return false;
+}
+
+function valorcxcchange(){
+	var valorcxc=parseFloat($('#valorcxc').val());
+	if(valorcxc>0){
+		$('#paymentCxC').val(valorcxc.toFixed(2));
+	}
+	changePaymentCategory('4','CxC'); return false;
 }

@@ -16,7 +16,8 @@
 		</tr>
 		<tr>
 			<td colspan='2'>
-				<div style='width:80%; text-align:right; margin-left:auto; margin-right:auto;'>
+				<div style='text-align:center; font-size:26px; color:red; display:none;' id='factanulada'>FACTURA ANULADA</div>
+				<div style='width:100%; margin-top:20px; text-align:right; margin-left:auto; margin-right:auto;'>
 				<table class='table table-striped' style='text-align:center; margin-left:auto; margin-right:auto;'>
 					<thead><th>Producto</th><th>Cantidad</th><th style='text-align:right;'>Subtotal $USD</th><th style='text-align:right;'>Total $USD</th></thead>
 					<tbody id='cuerpodetalle'>
@@ -29,6 +30,7 @@
 		<tr>
 			<td colspan='2' style='text-align:center;'>
 			<button class='btn btn-primary btn-sm' onclick='MostrarFormasPago();'>Cambiar Forma Pago</button>
+			<button class='btn btn-danger btn-sm' onclick='AnularFactura();'>Anular Factura</button>
 			</td>
 		</tr>
 	</table>
@@ -36,11 +38,11 @@
 		<div class="modal-dialog" style='width:35%;'>
 		<div class='modal-content text-center'>
 			<div style='padding:20px;'>
-			<span class='fa fa-arrow-right' style='position:absolute; right:10px; top:5px;' onclick='$("#divformaspago").modal("hide");'></span>
-			<h3 style='color:#2e6da4;'>Formas de Pago</h3>
+			<span class='fa fa-close' style='position:absolute; cursor:pointer; right:10px; top:5px;' onclick='$("#divformaspago").modal("hide");'></span>
+			<h3>Formas de Pago</h3>
 			<table id='tablaformaspago'>
 			</table>
-			<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px">
+			<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px" width='100%'>
 				<tr>
 					<td class="totalsmall" colspan='2' align='center' valign='middle' style='font-size:24px;'>
 					<table class="totalvista" border="0" cellpadding="0" cellspacing="0" align='center'>
@@ -101,7 +103,7 @@
 				mihtml+= '<div id="paymentCategory-'+evalJson[k][j].id+'" class="paymentCategories" onclick="changePaymentCategory(\''+evalJson[k][j].id+'\',\''+evalJson[k][j].imagen+'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
 				mihtml+= '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
 			    mihtml+= '<tr style="cursor:pointer;">';
-				mihtml+= '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><img id="pagos_'+evalJson[k][j].imagen+'" class="originalImage"  style="margin-left:20px;" alt="" src="images/'+(evalJson[k][j].imagen)+'.png"/></td>';
+				mihtml+= '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><span id="pagos_'+evalJson[k][j].imagen+'" class="originalImage fa fa-circle"  style="margin-left:20px;" ></span></td>';
 				mihtml+= '<td class="textoformapago" id="forma_'+evalJson[k][j].id+'">';
 				mihtml+=evalJson[k][j].nombre;
 				mihtml+= '</td>';
@@ -180,12 +182,12 @@ function CambiarMetodo(cual){
 	var index=$('#payment'+cual).attr('idPaymentMethod');
 	var idimagen=$('#paymentCategory-'+index+' .originalImage').attr('id').split('_');
 	//alert(nombre);
-	$('.originalImage').each(function(){
+	/*$('.originalImage').each(function(){
 		var getImage = $(this).attr('id').split('_');
 		$(this).attr('src','../../images/'+ getImage[1] +'.png');
-		});
+		});*/
 
-	$('#pagos_'+ nombre).attr('src', '../../images/'+idimagen[1]+'Hover.png');
+	//$('#pagos_'+ nombre).attr('src', '../../images/'+idimagen[1]+'Hover.png');
 	$('.textoformapago').css('color','#58595B');
 	$('#forma_'+index).css('color','#FFF');
 	$('.functionalityDiv').hide();
@@ -222,5 +224,33 @@ function CambiarMetodo(cual){
 			
 	}
 	$('#payment'+cual).select();
-}	
+}
+
+function AnularFactura(){
+	var id=$('#idfactura').val();
+    var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+    db.transaction(function(tx){
+    tx.executeSql('SELECT c.* FROM CARDEX c WHERE c.idfactura=?',[id],function(tx,results){
+		db.transaction(function(tx2){
+			console.log(results);		
+			/**/
+			db.transaction(function(tx3){
+				tx3.executeSql('UPDATE FACTURAS SET anulada=? where id=?',[1,id],function(tx3,results3){
+					console.log(results3);
+				},errorCB,successCB);
+				});
+			/**/
+			for(var n=0;n<results.rows.lenght;n++){
+				var itemr=results.rows.item(n);
+				var times=getTimeSpan();
+				db.transaction(function(tx){
+				tx2.executeSql('INSERT INTO CARDEX c (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan)VALUES (?,?,?,?,?,?,?,?) ',[itemr.id_formulado,itemr.cantidad,'Anulacion factura',itemr.precio_unidad,new Date().getTime(),itemr.ppq_real,itemr.iva,times],function(tx2,results2){
+					console.log(results2);
+				},errorCB,successCB);
+				});
+			}
+		});
+    },errorCB,successCB);
+    });
+}
 </script>
