@@ -1,4 +1,4 @@
-﻿	<!DOCTYPE html>
+	<!DOCTYPE html>
 	<html>
 		<head>
 <!--			<base href="http://demos.jquerymobile.com/1.4.2/navbar/">-->
@@ -159,8 +159,9 @@
 							<tr>
 								<td valign="center" align="center" >
 									<div id="contentCenterFadeArea">
-										<img src="" id="logo" style="display:none;">
+										<img src="" id="logo" style="display:none;"><BR/>
 										<img src='images/loader.gif' width='30px'/>
+										<br/><label style="color:white;" id="putText">Inicializando...</label>
 									</div>
 								</td>
 							</tr>
@@ -183,7 +184,7 @@
 				<script src="slide/bootstrap-switch.js"></script>
 				<link href="slide/bootstrap-switch.css" rel="stylesheet">
 				<script src="slide/highlight.js"></script>
-				<!--<script src="slide/js/bootstrap-switch.js"></script>--->
+				<!--<script src="slide/js/bootstrap-switch.js"></script>-->
 		<style>
 			.col-sm-offset-1{
 					margin:0px;
@@ -191,10 +192,11 @@
 		</style>
 		<script>
 			startAnimation();
+			var timerFade;
 			function startAnimation(){
 				$("#logo").load(function() {
 					$("#logo").fadeIn("slow");
-					setTimeout(function(){
+					timerFade=setTimeout(function(){
 						$("#fade").animate({  top: "-100%", display : "none"  } , 1500 , "easeOutQuint" , function(){
 						
 								$("#contentCenterFadeArea").html('');
