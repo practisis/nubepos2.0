@@ -3,19 +3,21 @@
 	<div class='row'>
 		<div class='col-lg-12'>
 		<div class="panel mini-box">
-		<div class='col-lg-5'>
-			Desde:
+		<div class='row'>
+		<div class='col-lg-10'>
+			Fecha:
 			<div class="input-group"> 
 			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/></div>
 		</div>
-		<div class='col-lg-5'>
+		<!---<div class='col-lg-5'>
 			Hasta:
 		<div class="input-group">
-			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon2"></span><input type='text' class='form-control' id='hasta'/>
-		</div>
-		</div>
+			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon2"></span>--><input type='text' class='form-control' id='hasta' style='display:none;'/>
+		<!--</div>
+		</div>--->
 		<div class='col-lg-2' style='text-align:right;'>
-			<button class='btn btn-primary' type='button' style='margin-top:15px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
+			<button class='btn btn-primary' type='button' style='margin-top:20px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
+		</div>
 		</div>
 		</div>
 		</div>
@@ -60,8 +62,8 @@
                     <i class="fa fa-dollar"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h3" id='utilidad'>0.00</p>
-                    <p class="text-muted"><span data-i18n="Utilidad $">Utilidad US$</span></p>
+                    <p class="size-h3"><span id='cumplimiento'>0.00</span>%</p>
+                    <p class="text-muted"><span data-i18n="cumplimiento $">% Cumplimiento - Presupuesto US<span id='mipres'></span></span></p>
                 </div>
             </div>
         </div>
@@ -69,42 +71,34 @@
     <!-- end stats -->
 
     <div class="row">
-        <div class="col-md-9">
+        <!--<div class="col-md-6">
             <section class="panel panel-default" style='text-align:left;'>
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ventas">Ventas</span></strong></div>
-				<div class="panel-body" data-ng-controller="morrisChartCtrl" st>
+				<div class="panel-body" data-ng-controller="morrisChartCtrl">
                         <div id="chartventas"></div>
                 </div>
             </section> 
-        </div>
-		<div class='col-md-3'>
+        </div>-->
+		<div class='col-md-6'>
 			<section class="panel panel-box info-box">
-						<!---<div class="panel-left panel-item bg-warning">
-							<h1><i class="fa fa-dollar text-large box-icon">
-							</i></h1>
-						</div>
-						<div class="panel-right panel-item bg-reverse">
-							<p class="size-h2 no-margin" id='costototal'>0.00</p>
-							<p class="text-muted no-margin"><span data-i18n="Costo Total US$">Costo Total US$</span></p>
-						</div>-->
+					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="ventascateg">Ventas por Categoria</span></strong></div>
+					<div class="panel-body">
 					<div id='ventascategoria'>
 					</div>
+					</div>
 			</section>
+		</div>
+		<div class='col-md-6'>
 			<section class="panel panel-box info-box">
-					<!---<div class="panel-left panel-item bg-info">
-							<h1><i class="fa fa-users text-large stat-icon">
-							</i></h1>
-						</div>
-					<div class="panel-right panel-item bg-reverse">
-					<p class="size-h2 no-margin"><span id='porcentajecostos'>0%</span></p>
-					<p class="text-muted no-margin"><span data-i18n="Porcentaje de Costos %">Porcentaje de Costos</span></p>
-					</div>-->
+					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="productosten">Ranking de Productos</span></strong></div>
+					<div class="panel-body">
 					<div id='productosten'>
+					</div>
 					</div>
 			</section>
 		</div>
 	</div>
-	<div class='row'>
+	<div class='row' style='display:none;'>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Rank Productos">Ranking de Productos</span></strong></div>
@@ -126,6 +120,7 @@
         </div>
     </div>
 </div>
+<div id='jsoncats'></div>
 <script>
 $(document).ready(function(){
  $('#desde,#hasta').datepicker({
@@ -162,6 +157,7 @@ $(document).ready(function(){
   
   //obtener datos para el dashboard
   /*"SELECT COUNT(*) AS number_rows FROM facturacion join locales on facturacion.id_locales = locales.id WHERE ".$plazafact." and (fecha >=? AND fecha <=?) AND anulada = FALSE".$localFact." and facturacion.id not in (select f.id from facturacion f,pagos p where p.idfactura=f.idreal and p.idformapago in(7,12) and f.id_locales=p.id_locales)"*/
+  
 });
 
 
@@ -172,6 +168,7 @@ function ObtenerDatosDashboard(){
 	var fhasta=$('#hasta').val()+" 23:59:59";
 	fhasta=fhasta.replace("-","/");
 	fhasta=new Date(fhasta);
+	categoriasvector= new Array();
 	var db = window.openDatabase("Database","1.0","PractisisMobile", 200000);
 	db.transaction(
 		function (tx){
@@ -221,6 +218,9 @@ function ObtenerDatosDashboard(){
 							morrisvector['"'+indice+'"']=parseFloat(totprod).toFixed(2);
 							//console.log(morrisvector);
 						}
+						
+						//console.log(misproductos[s].id_producto);
+						SumarCategoria(misproductos[s].id_producto,misproductos[s].precio_orig,misproductos[s].cant_prod);
 					
 						
 						if(productosvector['"'+misproductos[s].id_producto+'"']==null){
@@ -237,38 +237,34 @@ function ObtenerDatosDashboard(){
 							var antesc=parseFloat(productosvector['"'+misproductos[s].id_producto+'"'].cantidad);
 							var ahorac=parseFloat(misproductos[s].cant_prod)+antesc;
 							productosvector['"'+misproductos[s].id_producto+'"'].cantidad=ahorac.toFixed(2);
-						}
-						
-						/*consulta categorias*/
-						db.transaction(
-							function (tx4){
-								tx4.executeSql('SELECT c.categoria as cat,c.timespan as idcat from categorias c,productos p where p.timespan=? and c.timespan=p.categoriaid'
-								,[misproductos[s].id_producto],
-								function(tx4,res4){
-									console.log(misproductos[s].id_producto);
-									console.log(res4);
-									if(res4.rows.length>0){
-										console.log(res4.rows.item(0).cat);
-									}
-								});				
-						},errorCB,successCB);
-						
+						}						
 					}
 					
 					//console.log(productosvector);
-					var lineasrank='';
+					var datap = new google.visualization.DataTable();
+					datap.addColumn('string', 'Producto');
+					datap.addColumn('number', 'Ventas');
+					//var lineasrank='';
 					//if(productosvector.length>0){
 						for(var pro in productosvector){
 							//console.log(pro);
-							lineasrank+='<tr><td>'+productosvector[pro].nombre+'</td><td>'+parseFloat(productosvector[pro].cantidad).toFixed(2)+'</td><td>'+parseFloat(productosvector[pro].venta).toFixed(2)+'</td></tr>';
+							/*lineasrank+='<tr><td>'+productosvector[pro].nombre+'</td><td>'+parseFloat(productosvector[pro].cantidad).toFixed(2)+'</td><td>'+parseFloat(productosvector[pro].venta).toFixed(2)+'</td></tr>';*/
+							datap.addRow([productosvector[pro].nombre,parseFloat(productosvector[pro].venta)]);
 						}
-						$('#tablarank tbody').html(lineasrank);
+						//$('#tablarank tbody').html(lineasrank);
 					//}
+				
+					var optionsp = {
+						title: 'Ranking de ventas por Producto'
+					};
+
+					var chartp = new google.visualization.ColumnChart(document.getElementById('productosten'));
+					chartp.draw(datap,optionsp);
 					
 				}
 				
 				//querycostos
-				var costototal=0;
+				/*var costototal=0;
 				tx.executeSql('SELECT sum((cantidad*-1)*ppqreal) as costo FROM cardex WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
 				function(tx,res){
 					costototal=res.rows.item(0).costo;
@@ -278,7 +274,7 @@ function ObtenerDatosDashboard(){
 				if(costototal>0){
 				$('#utilidad').html((misubtotal-costototal).toFixed(2));
 				$('#porcentajecostos').html((costototal*100/misubtotal).toFixed(2));
-				}
+				}*/
 				
 				
 				
@@ -300,6 +296,8 @@ function ObtenerDatosDashboard(){
 				else
 				$('#ticketpromedio').html((0).toFixed(2));
 				//console.log(JSON.parse(cadenamorris));
+				$('#chartventas').html('');
+				
 				new Morris.Area({
 				  element: 'chartventas',
 				  data:JSON.parse(cadenamorris),
@@ -309,11 +307,81 @@ function ObtenerDatosDashboard(){
 				  parseTime: true,
 				  lineColors: ['#E94B3B']
 				});
+				
+				/*Datos del presupuesto*/
+				
+				
 			});				
 	},errorCB,successCB);
 	
-	//query para ventas por categoria
+	//query para presupuesto
+	db.transaction(
+		function (tx5){
+			tx5.executeSql('SELECT valor as suma , transacciones as trans FROM presupuesto WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+			function(tx5,res){
+				if(res.rows.length>0){
+					var vendido=res.rows.item(0);
+					var ventast=parseFloat($('#totalventas').html());
+					var trans=parseFloat($('#transacciones').html());
+					var porcen=(ventast)*100/(vendido.suma);
+					$('#cumplimiento').html(porcen.toFixed(2));
+					$('#mipres').html(vendido.suma.toFixed(2));
+				}
+			});
+		},errorCB,successCB);
 }
 
+function drawChart(vectorcat) {
+	//console.log(vectorcat);
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Categoria');
+	data.addColumn('number', 'Ventas');
+	for(var k in vectorcat){
+		data.addRow([vectorcat[k].nombre,parseFloat(vectorcat[k].venta)]);
+	}
+    var options = {
+        title: 'Ventas por Categoría'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('ventascategoria'));
+    chart.draw(data,options);
+}
+
+var categoriasvector= new Array();
+function SumarCategoria(idprod,precio,cant){
+		console.log(idprod);
+		var db = window.openDatabase("Database","1.0","PractisisMobile", 200000);
+		db.transaction(
+			function (tx4){
+				//console.log(misproductos[s].id_producto);
+				tx4.executeSql('SELECT c.categoria as cat,c.timespan as idcat from categorias c left join productos p on p.categoriaid=c.timespan where p.timespan=?',[idprod],
+				function(tx4,res4){
+					//console.log(res4);
+					if(res4.rows.length>0){
+						for(var t=0;t<res4.rows.length;t++){
+							var miitem=res4.rows.item(t);
+							//console.log(miitem);
+							var cati=miitem.idcat;
+							var catn=miitem.cat;
+							if(categoriasvector['"'+cati+'"']==null){
+								categoriasvector['"'+cati+'"']=new Array();
+								categoriasvector['"'+cati+'"'].venta=parseFloat(precio)*parseFloat(cant);
+								categoriasvector['"'+cati+'"'].nombre=catn;
+							}else{
+								var antes=parseFloat(categoriasvector['"'+cati+'"'].venta);
+								var ahora=(parseFloat(cant)*parseFloat(precio))+antes;
+								//console.log(misproductos[s].cant_prod);
+								categoriasvector['"'+cati+'"'].venta=ahora.toFixed(2);
+								var antesc=parseFloat(categoriasvector['"'+cati+'"'].cantidad);
+							}
+						}
+										
+					}
+					console.log(categoriasvector);
+					drawChart(categoriasvector);
+				});								
+		},errorCB,successCB);
+			
+}
 </script>
   

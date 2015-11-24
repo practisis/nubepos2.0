@@ -97,6 +97,7 @@
             //console.log('Ana');
             //$('#myModal').modal('hide');
         });
+		tx.executeSql('CREATE TABLE IF NOT EXISTS PRESUPUESTO (id integer primary key AUTOINCREMENT,timespan text,valor real,fecha integer,transacciones integer);');
     }
 
     function populateDB(tx){

@@ -36,6 +36,7 @@
 			<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 			<link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
 			<link rel="stylesheet" href="css/estilotemp.css">
+			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 			<style>
 			.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
 			.nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
@@ -145,14 +146,14 @@
 		</body>
 		<script>
 		$(document).ready(function() {
-		  $('#simple-menu').sidr();
-		  $('#responsive-menu-button').sidr();
+		  //$('#simple-menu').sidr();
+		  //$('#responsive-menu-button').sidr();
 		});
 		</script>
 		    <!-- Include jQuery -->
 		    <!--<script src="js/jquery.js"></script>-->
 		    <!-- Include the Sidr JS -->
-		    <script src="jquery.sidr.min.js"></script>
+		    <!--<script src="jquery.sidr.min.js"></script>-->
 			
 					<div style="overflow:hidden;position:absolute;left:0px;top:0px;width:100%;height:100%;background:rgba(40,40,41,1);z-index:9000;display:block;" id="fade">
 						<table width="100%" height="100%" cellpadding="0" cellspacing="0" >
@@ -191,6 +192,7 @@
 			}
 		</style>
 		<script>
+			google.load("visualization", "1", {packages:["corechart"]});
 			startAnimation();
 			var timerFade;
 			function startAnimation(){
