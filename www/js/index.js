@@ -1,38 +1,105 @@
 	onDeviceReady();
+
    function onDeviceReady(){
 	    envia('dashboard');
-        //alert("listo");
-        var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);        
         db.transaction(iniciaDB, errorCB, successCB);
-        //IngresaCategorias();
-        console.log(db);
+
     }
 
     // Populate the database
     //
     
     function iniciaDB(tx){
-        //console.log("Ana");
+        /*Saber si hay base de datos*/
+
+
+
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-        //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id_local integer primary key AUTOINCREMENT,id integer, formulado text, codigo text, precio real, categoriaid integer,cargaiva integer,productofinal integer,materiaprima integer,timespan text,ppq real default 0)');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS CARDEX (id integer primary key AUTOINCREMENT,id_formulado integer, cantidad real, descripcion text, precio_unidad real, fecha integer,ppq_real real,iva numeric,timespan integer,idfactura text)');
-        tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS',[],function(tx,res){
-            var existen=res.rows.item(0).cuantos;
-            if(existen==0)
-                db.transaction(Ingresaproductos,errorCB,successCB);
-        });
+           /*tx.executeSql("DROP TABLE PRODUCTOS",[],function(tx,results){
+                        },errorCB,successCB);*/
+            tx.executeSql("SELECT name as nombre FROM sqlite_master WHERE type='table' AND name='PRODUCTOS';",[],function(tx,results){
+                    
+                    var actualizar='';
+                    for (var i=0; i < results.rows.length; i++){
+                        var row = results.rows.item(i);
+                        var tabla = row.nombre;
+                    }
+                    if(tabla){
+                        
+                        /*NORMAL DATABESE LOAD*/
+
+                    }else{
+                        clearInterval(timerFade);
+                       
+                         tx.executeSql('CREATE TABLE IF NOT EXISTS PRODUCTOS (id_local integer primary key AUTOINCREMENT,id integer, formulado text, codigo text, precio real, categoriaid integer,cargaiva integer,productofinal integer,materiaprima integer,timespan text,ppq real default 0)',[],function(tx,res){
+                             /*Tabla 1*/
+                             $("#putText").html("10%");
+                             tx.executeSql('CREATE TABLE IF NOT EXISTS CARDEX (id integer primary key AUTOINCREMENT,id_formulado integer, cantidad real, descripcion text, precio_unidad real, fecha integer,ppq_real real,iva numeric,timespan integer,idfactura text)',[],function(tx,res){
+                                /*Tabla 2*/
+                                $("#putText").html("20%");
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS empresa (id integer primary key AUTOINCREMENT, nombre integer )',[],function(tx,res){
+                                    /*Tabla 3*/
+                                    $("#putText").html("30%");
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS logActualizar (id integer primary key AUTOINCREMENT, tabla text , incicial integer , final integer)',[],function(tx,res){
+                                            /*Tabla 4*/
+                                            $("#putText").html("40%");
+                                            tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIAS (id integer primary key AUTOINCREMENT, categoria text, activo integer, existe integer , timespan integer )',[],function(tx,res){
+                                                   /*Tabla 5*/
+                                                    $("#putText").html("50%");
+                                                 tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id integer primary key AUTOINCREMENT,nombre text, cedula text, email text, direccion text, telefono text,existe integer,timespan TEXT)',[],function(tx,res){
+                                                      /*Tabla 6*/
+                                                    $("#putText").html("60%");
+                                                        tx.executeSql('CREATE TABLE IF NOT EXISTS FACTURAS (id integer primary key AUTOINCREMENT,clientName,RUC,address,tele,fetchJson,paymentsUsed,cash,cards,cheques,vauleCxC,paymentConsumoInterno,tablita,aux,acc,echo,fecha,anulada integer);',[],function(tx,result){
+                                                            /*Tabla 7*/
+                                                        $("#putText").html("70%");
+                                                            tx.executeSql('CREATE TABLE IF NOT EXISTS CAJA (id integer primary key AUTOINCREMENT,hora_ingreso text,hora_salida text,activo integer,sobrante_faltante real,total real,establecimiento text,autorizacion text);',[],function(tx,result){
+                                                                /*Tabla 8*/
+                                                            $("#putText").html("80%");
+                                                                tx.executeSql('CREATE TABLE IF NOT EXISTS CAJA_APERTURA_CIERRE (id integer primary key AUTOINCREMENT,id_caja integer,valor_apertura real,movimiento integer);',[],function(tx,result){
+                                                                    /*Tabla 9*/
+                                                                    $("#putText").html("100%");
+                                                                        timerFade=setTimeout(function(){
+                                                                            $("#fade").animate({  top: "-100%", display : "none"  } , 1500 , "easeOutQuint" , function(){
+                                                                            $("#contentCenterFadeArea").html('');
+                                                                            });
+                                                                        },3000);
+                                                                });
+                                                            });    
+                                                        });
+                                                        
+                                                        
+                                                 });
+                                            });
+                                    });
+                                });
+                            });    
+
+                         });
+
+
+                          /*tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS',[],function(tx,res){
+                          var existen=res.rows.item(0).cuantos;
+                          if(existen==0)
+                            db.transaction(Ingresaproductos,errorCB,successCB);
+                         });*/
+                        /*INICIALIZAR BASE DE DATOS*/
+                    }
+                });
+
+       
         
         
-        var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+       // var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS empresa (id integer primary key AUTOINCREMENT, nombre integer )');
         
-        var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+        
+        //var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS logActualizar (id integer primary key AUTOINCREMENT, tabla text , incicial integer , final integer)');
-        tx.executeSql('select count(id) as cuantos from logActualizar',[],function(tx,res){
+        
+        /*tx.executeSql('select count(id) as cuantos from logActualizar',[],function(tx,res){
         var existenD=res.rows.item(0).cuantos;
+        
             if(existenD==0){
                 for(var i = 1 ; i <= 5 ; i++){
                     var tabla ='';
@@ -55,8 +122,8 @@
                 }
             }
         });    
-        
-        
+        */
+        /*
         
         function insertaTablas(tabla){
             console.log(tabla);
@@ -66,45 +133,38 @@
                 console.log("logActualizar :"+res.insertId);
             });    
             
-        }
-        // tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS',[],function(tx,res){
-            // var existen=res.rows.item(0).cuantos;
-            // if(existen==0)
-                // db.transaction(Ingresaproductos,errorCB,successCB);
-        // });
-        
-        
-        
-        
+        }*/
+       
         //tx.executeSql('DROP TABLE IF EXISTS CATEGORIAS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIAS (id integer primary key AUTOINCREMENT, categoria text, activo integer, existe integer , timespan integer )');
+      /*  tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIAS (id integer primary key AUTOINCREMENT, categoria text, activo integer, existe integer , timespan integer )');
         tx.executeSql('SELECT COUNT(id) as cuantos FROM CATEGORIAS',[],function(tx,res){
             var existen=res.rows.item(0).cuantos;
             if(existen==0)
                 db.transaction(IngresaCategorias,errorCB,successCB);
-        });
+        });*/
         //tx.executeSql('DROP TABLE IF EXISTS CLIENTES');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id integer primary key AUTOINCREMENT,nombre text, cedula text, email text, direccion text, telefono text,existe integer,timespan TEXT)');
+       /* tx.executeSql('CREATE TABLE IF NOT EXISTS CLIENTES (id integer primary key AUTOINCREMENT,nombre text, cedula text, email text, direccion text, telefono text,existe integer,timespan TEXT)');
         tx.executeSql('SELECT COUNT(id) as cuantos FROM CLIENTES',[],function(tx,res){
             var existen=res.rows.item(0).cuantos;
             if(existen==0)
                 db.transaction(IngresaClientes,errorCB,successCB);
-        });
+        });*/
         //tx.executeSql('DROP TABLE IF EXISTS FACTURAS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS FACTURAS (id integer primary key AUTOINCREMENT,clientName,RUC,address,tele,fetchJson,paymentsUsed,cash,cards,cheques,vauleCxC,paymentConsumoInterno,tablita,aux,acc,echo,fecha,anulada integer);');
+      /*  tx.executeSql('CREATE TABLE IF NOT EXISTS FACTURAS (id integer primary key AUTOINCREMENT,clientName,RUC,address,tele,fetchJson,paymentsUsed,cash,cards,cheques,vauleCxC,paymentConsumoInterno,tablita,aux,acc,echo,fecha,anulada integer);');
         tx.executeSql('CREATE TABLE IF NOT EXISTS CAJA (id integer primary key AUTOINCREMENT,hora_ingreso text,hora_salida text,activo integer,sobrante_faltante real,total real,establecimiento text,autorizacion text);');
         tx.executeSql('CREATE TABLE IF NOT EXISTS CAJA_APERTURA_CIERRE (id integer primary key AUTOINCREMENT,id_caja integer,valor_apertura real,movimiento integer);',[],function(tx,result){
+            */
             //console.log('Ana');
             //$('#myModal').modal('hide');
-        });
+       // });
     }
 
-    function populateDB(tx){
+   /* function populateDB(tx){
         //tx.executeSql('DROP TABLE IF EXISTS DEMO');
         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
-    }
+    }*/
 
     // Transaction error callback
     //
@@ -117,7 +177,7 @@
     function successCB() {
         console.log("success!");
     }
-
+/*
     function selector(){
          var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
          db.transaction(sacadatos, errorCB, successCB);
@@ -129,8 +189,9 @@
          });
          
     }
-    
+    */
     /*Funciones Ana:*/
+    /*
     function Ingresaproductos(){
          var json = $('#jsonProductos').html();
             var mijson = eval(''+json+'');
@@ -158,7 +219,8 @@
                     });                
             },errorCB,successCB);
     }
-    
+    */
+
     function IngresaCategorias(){
 		/*
         var json = $('#jsonCategorias').html();
@@ -172,7 +234,7 @@
             }
 		*/
     }
-    
+    /*
     function metedatoscat(itemc){
         //console.log(itemc);
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -185,7 +247,8 @@
                     });                
         },errorCB,successCB);
     }
-    
+    */
+
     function IngresaClientes(){
         /*
 		var json = $('#jsonmisclientes').html();
@@ -199,7 +262,7 @@
             }
 		*/
     }
-    
+    /*
     function metedatoscliente(itemc){
         //console.log(itemc);
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -212,7 +275,8 @@
                     });                
         },errorCB,successCB);
     }
-    
+    */
+    /*
     function VerDatosProducto(id){
     var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
     db.transaction(function(tx){
@@ -237,7 +301,7 @@
     },errorCB,successCB);
     });
     }
-    
+    */
     function VerDatosCliente(id){
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         db.transaction(function(tx){
@@ -425,3 +489,36 @@ function hidealert(){
 	$('#alert').html('');
 	$('#alert').slideUp('fast');
 }
+
+
+
+
+
+/*Josue Scripts */
+function existeDataBase(){
+
+         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+        /*db.transaction(function(tx){
+                tx.executeSql("DROP TABLE PRODUCTOS",[],function(tx,results){
+                },errorCB,successCB);
+            });*/
+
+         db.transaction(function(tx){
+                var excluir = 0;
+                tx.executeSql("SELECT name FROM sqlite_master WHERE type='table' AND name='PRODUCTOS';",[],function(tx,results){
+                    var actualizar='';
+                    for (var i=0; i < results.rows.length; i++){
+                        var row = results.rows.item(i);
+                        var tabla = row.name;
+                    }
+                    if(!tabla){
+                        return true;
+                        /*INICIALIZAR BASE DE DATOS*/
+
+                    }else{
+                        return false;
+                        /*NORMAL DATABESE LOAD*/
+                    }
+                },errorCB,successCB);
+            });
+    }
