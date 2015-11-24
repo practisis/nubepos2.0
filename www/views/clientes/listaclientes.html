@@ -1,4 +1,4 @@
-﻿<style>
+<style>
 .fa-edit{
 	color:#23ae89;
 }
@@ -133,13 +133,23 @@ function getSearch(){
 		//console.log(results);
 		var inhtml='';
 		var inhtml2='';
+			inhtml2='\
+<div class="row">\
+  <div class="col-md-3"><b>Nombre</b></div>\
+  <div class="col-md-2"><b>Cédula</b></div>\
+  <div class="col-md-2"><b>Telefono</b></div>\
+  <div class="col-md-2"><b>Email</b></div>\
+  <div class="col-md-2"></b>Dirección</b></div>\
+</div><hr/>\
+			';
 		for (var i=0; i < results.rows.length; i++){
 			var row = results.rows.item(i);
 			var func="EditarCliente("+row.id+");";
 			if(row.cedula=='9999999999999')
 				func='';
 			inhtml+='<tr><td><img src="img/avatar.png" width="50" /></td><td>'+row.nombre+'</td><td>'+row.cedula+'</td><td>'+row.telefono+'</td><td>'+row.direccion+'</td><td>'+row.email+'</td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="'+func+'"></span></td></tr>';
-			inhtml2+='\
+		
+			/*inhtml2+='\
 				\
 					<div class="col-md-6">\
 				<div style="cursor:default;" class="panel panel-primary" iddb="0" categoria="undefined" codedb="Coca01" formulado="Coca cola" clase="listProduct">				\
@@ -171,6 +181,16 @@ function getSearch(){
 				</div>\
 				</div>\
 			\
+			';*/
+			inhtml2+='\
+<div class="row">\
+  <div class="col-md-3">'+row.nombre+'</div>\
+  <div class="col-md-2">'+row.cedula+'</div>\
+  <div class="col-md-2">'+row.telefono+'</div>\
+  <div class="col-md-2">'+row.email+'</div>\
+  <div class="col-md-2">'+row.direccion+'</div>\
+   <div class="col-md-1"></b><span class="fa fa-edit" onclick="editClient('+row.id+')"></span></b></div>\
+</div><hr/>\
 			';
 		}
 		LlenarTablaClientes(inhtml,"<div class='row' > "+inhtml2 + "</div>");
