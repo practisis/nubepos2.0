@@ -130,7 +130,7 @@ function init(){
 }
 
 $(window).resize(function (){
-	Init3();
+	//Init3();
 	/*$('#central').css("width",parseInt($('#content').css('width'))-20);
 	$('#central').css("height",parseInt($('#content').css('height'))-20);
 	pantAlto=parseInt($('#content').css('height'));
@@ -141,7 +141,7 @@ $(window).resize(function (){
 });
 
 $(window).bind("orientationchange", function(event){
-	Init3();
+	//Init3();
 	/*$('#central').css("width",parseInt($('#content').css('width'))-20);
 	$('#central').css("height",parseInt($('#content').css('height'))-20);
 	pantAlto=parseInt($('#content').css('height'));
@@ -219,7 +219,7 @@ function ActivarCategoria(cual,categoria){
 				}
 				//$('.producto').hide();
 				//init2(categoria);
-				Init3();
+				//Init3();
 				$('#listaProductos').fadeIn();
 				//para mostrar productos por pagina
 				//showProducts(categoria);
@@ -228,7 +228,7 @@ function ActivarCategoria(cual,categoria){
 	},errorCB,successCB);
 	$('.producto').hide();
 	//$('.categoria_producto_'+ categoria).show();
-	Init3();
+	//Init3();
 	showProducts(categoria);
 	}
 	
