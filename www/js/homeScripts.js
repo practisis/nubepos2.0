@@ -291,12 +291,15 @@ function envia(donde){
 		
 	
 	/*Ajax Load Html out document.ready scripts */
-	function recibeConsultaApi(id_emp){
+	function recibeConsultaApi(id_emp,nombreempresa){
 			$("#fadeRow").fadeOut();
 			 $("#contentStepSincro").fadeIn();
 				localStorage.setItem("empresa", id_emp);
+				$.post
+				localStorage.setItem("nombreempresa",nombreempresa );
 				
 				 var empresa = localStorage.getItem('empresa');
+
 				 $('#id_emp').html('Emp'+empresa);
 				 
 				var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -307,7 +310,7 @@ function envia(donde){
 							
 							db.transaction(
 								function (tx){
-									tx.executeSql('INSERT INTO empresa (nombre) VALUES (?);',[id_emp],
+									tx.executeSql('INSERT INTO empresa (nombre,nombreempresa) VALUES (?,?);',[id_emp,nombreempresa],
 									function(tx,res){
 										
 										console.log("Insert ID Empresa Sql:"+res.insertId);
