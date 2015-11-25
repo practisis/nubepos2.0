@@ -57,7 +57,7 @@
 	</div>
 <br/><br/>
 	
-	
+	<div id="putHereIframes"> </div>
 	<div class="row" style="margin:0 auto;display:block;" id="fadeRow" >
 		<div class="col-md-3" >
 		</div>
@@ -109,9 +109,9 @@
 		</div>
 		<br><br><br><br><br><br><br><br><br>
 	  </div> <!--End row -->
-	  <br><br><br><br><br><br><br><br><br>
-	  <br><br><br><br><br><br><br><br><br>
+
 	  <script>
+	  	nuevaCuenta();
 			function mostrarSignIn(){
 				$("#demoGratis").css("display" , "none");
 				$("#fadeRow").fadeIn();
@@ -144,36 +144,51 @@
 			  <h3 style="-webkit-margin-before: 1em;
 		-webkit-margin-after: 1em;
 		-webkit-margin-start: 0px;
-		-webkit-margin-end: 0px;">Solicita tu PractiPOS  <span style="color:#0893d2;">gratis!</span></h3>
-			  <span class="subtitle" style=" margin-bottom: 36px; margin-top: 0;font-size:16px;color:#9a9a9a;">No necesitas tarjeta de crédito</span><br><br>
+		-webkit-margin-end: 0px;">Solicita tu nubePOS  <span style="color:#0893d2;">gratis!</span></h3>
+			 <!-- <span class="subtitle" style=" margin-bottom: 36px; margin-top: 0;font-size:16px;color:#9a9a9a;">No necesitas tarjeta de crédito</span><br><br>-->
 			 
-			   <div class="form-group">
+			 <!--  <div class="form-group">
               <input class="form-control input-lg" type="text" name="nombres" id="nombres" placeholder="Tu nombre completo" required="" autocomplete="off">
+            </div>-->
+            <div class="form-group">
+              <input type="form-control input-lg" name="empresa"  class="form-control input-lg" id="newEmpresa" placeholder="Nombre de tu Negocio" required="" autocomplete="off">
             </div>
 
             <div class="form-group">
-              <input class="form-control input-lg" type="email" name="email" id="email" placeholder="E-mail" required="" autocomplete="off">
+              <input class="form-control input-lg" type="email" name="email" id="newEmail" placeholder="E-mail" required="" autocomplete="off">
             </div>
 
+           
+
+<!--
             <div class="form-group">
               <input type="text" name="telefono" id="telefono" class="form-control input-lg" placeholder="Teléfono" required="" autocomplete="off">
             </div>
-			
+        -->
+         <div class="form-group">
+              <input type="password" name="pass" id="newPass"  class="form-control input-lg" placeholder="Ingresa una contraseña" required="" autocomplete="off">
+            </div>
+			 <div class="form-group">
+              <input type="password" name="pass" id="newConfirm"  class="form-control input-lg" placeholder="Confirma tu contraseña" required="" autocomplete="off">
+            </div>
+			<!--
 			<div class="form-group">
               <input type="form-control input-lg" name="empresa" id="empresa" class="form-control input-lg" placeholder="Nombre de tu Negocio" required="" autocomplete="off">
             </div>
+        -->
 
-            <div class="form-group">
+           <!-- <div class="form-group">
               <textarea style="height: 80px;" id="observacion" name="observacion" class="form-control input-lg" placeholder="Observaciones" required="" autocomplete="off"></textarea>
             </div>
+        -->
 			
 			
 			<div class="form-group">
-					<a data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Iniciar sesión?</a><br/> 
+					<a data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta nuebePOS?</a><br/> 
 			</div>
 				
 			
-<input class="btn btn-md btn-primary btn-center" type="button" value="Enviar" onclick="validaremail();">
+<input class="btn btn-md btn-primary btn-center" type="button" id="btnNewEmp" value="Enviar" onclick="registrarUser();">
 			  </div>
 			  
 			  <div id="varias">
@@ -1558,4 +1573,51 @@
 				$('#myModal').modal('hide');
 			}
 			//$("#fadeRow").fadeIn("slow");
+			function registrarUser(){
+				newEmpresa=$("#newEmpresa").val();
+				newEmail=$("#newEmail").val();
+				newPass=$("#newPass").val();
+				newConfirm=$("#newConfirm").val();
+				if(newConfirm == newPass){
+					nombre='User NubePOS';
+					celular=0;
+					email=0;
+					passw=newPass;
+					rpassw=newConfirm;
+					empresa=newEmpresa;
+					planPrecio=2;
+					nTerminales=1;
+					sistema=0;
+					franquicia=0;
+					pais=1;
+					versiones=7;
+					plan=0;
+					$("#btnNewEmp").html('<img src="images/loader.gif"  width="50%" />');
+					$.post("http://practisis.net/registro/registroNubePOS.php", { 
+						nombre : nombre,
+						celular : celular,
+						email :newEmail,
+						passw : newPass,
+						rpassw : newConfirm,
+						empresa : empresa,
+						planPrecio : planPrecio,
+						nTerminales : nTerminales,
+						sistema : sistema,
+						pais : pais,
+						franquicia : franquicia,
+						versiones : versiones
+
+					}).done(function(data){
+						$("#btnNewEmp").html('Enviar');
+						$("#demoGratis").css("display" , "none");
+						$("#fadeRow").css("display" , "none");
+						$("#putHereIframes").html(data);
+						$("#putHereIframes").prepend("<b>Espere 180 segundos</b>");
+						//alert(data);
+					});
+
+				}
+				//alert( newEmpresa + "<>" + newEmail + "<>" + newPass + "<>" + newConfirm );
+
+			}
 	</script>
