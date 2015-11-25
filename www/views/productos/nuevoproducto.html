@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <div id="mainDiv" class="row" style="padding-bottom:150px;">
-	
 	<div class="col-sm-12" align="left" id="contentAll">
-		
 		<h2 id='titulonuevopr'>Datos Producto</h2>
 		<hr/>
 		<h4>Nombre</h4> 
@@ -18,11 +16,11 @@
 		</div>
 		<br/>
 			<div class="app">
-									<div id="deviceready" class="blink" style="display:none;">
-										<p class="event listening">Connecting to Device</p>
-										<p class="event received">Device is Ready</p>
-									</div>
-									 <div class='btn-lg btn-success' style='margin-top:10px;width:90%;' type='button' id='scan'>SCAN&nbsp;<span class='fa fa-barcode'></span></div>
+				<div id="deviceready" class="blink" style="display:none;">
+					<p class="event listening">Connecting to Device</p>
+					<p class="event received">Device is Ready</p>
+				</div>
+				<div class='btn-lg btn-success' style='margin-top:10px;width:90%;' type='button' id='scan'>SCAN&nbsp;<span class='fa fa-barcode'></span></div>
 			</div>
 							
 							<script>
@@ -35,8 +33,25 @@
 				<label style="color:red;display:none;" class="errorLabel2">Ingrese una categoría</label>
 	
 				<h4> Precio  </h4>
-				<input style="width:90%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event)">
+				<input style="width:90%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event);">
 				<label style="color:red;display:none;" class="errorLabel3">Ingrese un precio válido</label>
+				<div class='row'>
+				<div class='col-lg-12'>
+				<div>
+				<h4>Color</h4>
+				<div class='row' id='paleta' style='margin-left:3px;'>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='1' style='background-color:#337ab7; border:2px solid 337ab7'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='2' style='background-color:#f68a1e; border:2px solid #f68a1e'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='3' style='background-color:#713c19; border:2px solid #713c19'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='4' style='background-color:#524fa1; border:2px solid #524fa1'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='5' style='background-color:#b62367; border:2px solid #b62367'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='6' style='background-color:#6cc8be; border:2px solid #6cc8be'>&nbsp;</div>
+					<div class='color col-lg-1 col-xs-1 col-md-1' data-col='7' style='background-color:#00a550; border:2px solid #00a550'>&nbsp;</div>
+				</div>
+				</div>
+				</div>
+				<input style="display:none;" class="form-control input-sm" autofocus="" placeholder="Color" name='colorproducto' id='colorproducto' type='text' value=''/>
+				</div>
 <!--
 				<h4>Costo </h4>
 				<input style="width:90%;" class="form-control" type="text" autofocus="" placeholder="Ingrese su Costo" id="costo" name="costo" onkeypress="return soloNumerosprecio(event)" value="0"/>
@@ -112,6 +127,22 @@
 </div>
 
 <script>
+$(document).ready(function(){
+	$('.color').each(function(){
+		$(this).click(function(){
+			$('.color').each(function(){
+				var fondo=$(this).css('background-color');
+				$(this).css('border','2px solid '+fondo);
+				$(this).html('');
+			});
+			$(this).css('border','2px solid white');
+			$('#colorproducto').val($(this).css('background-color'));
+			$(this).html('<h4 style="margin-top:21px;"><span class="fa fa-check-square-o"></span></h4>');
+		});
+	});
+});
+
+
 function quebloque(quien){
   if(quien == 1){
     $('#ingresos').fadeIn('slow');
@@ -119,11 +150,7 @@ function quebloque(quien){
 }
 DataAutocomplete(); // Precarga la categoria
 var datoscateg='';
-
-	
-			
 	function leerProducto(){
-	
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function(tx){
 		tx.executeSql('\
@@ -142,15 +169,24 @@ var datoscateg='';
 				$("#codigoproducto").val( codigop);
 				$("#precioproducto").val(row.precio);
 				$("#search-renderitem").val( saberNombreCategoria(row.categoriaid) );
-				
+				//console.log("Ana");
 				$("#idcategoria").val(row.categoriaid);
                 $("#costo").val(row.ppq);
                 $("#cantidad").val(row.cantidad);
                 $("#costoreal").val(row.ppq);
                 $("#cantidadreal").val(row.cantidad);
+				//console.log("Ana"+row.color);
+                $("#colorproducto").val(row.color);
 				if(row.cargaiva==0) $("#coniva").click();
 				if(row.productofinal==0) $("#pfinal").click();
 				if(row.materiaprima==0) $("#mprima").click();
+				
+				var col=$("#colorproducto").val();
+				$('.color').each(function(){
+					console.log(col+"/"+$(this).css('background-color'));
+					if($(this).css('background-color')==col)
+						$(this).click();
+				});
 
 			}
 			
@@ -230,6 +266,8 @@ function GuardaProducto(){
 		var preciop=$('#precioproducto').val();
 		var categoria=$('#search-renderitem').val();
 		idcategoria=parseInt($('#idcategoria').val());
+		var micolor='"'+$('#colorproducto').val()+'"';
+		console.log(micolor);
 		if(!idcategoria) idcategoria=0;
         //var costo=$('#costo').val();
 		var costo=0;
@@ -251,6 +289,7 @@ function GuardaProducto(){
 			prfinal=1;
 			var rnd= Math.floor((Math.random() * 10000) + 1);
 			if($.trim(codigop)=='') codigop='nocode'+rnd;
+		
 		if(nombrep!=''&&codigop!=''&&preciop!=''&&categoria!=''){
 			
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -265,9 +304,9 @@ function GuardaProducto(){
 					
 					console.log("categ:"+results.insertId);
 					//idcategoria=$('#idcategoria').val();
-						console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
+						console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
 					db.transaction(function(tx){
-					tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+					tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+timeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
 					console.log("prod:"+results.insertId);
 
                     tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
@@ -289,8 +328,8 @@ function GuardaProducto(){
 				//alert("Id cat null >> " + currentTimeSpanCat );
 				db.transaction(function(tx){
 				timeSpan=getTimeSpan();
-				tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
-                console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
+				tx.executeSql('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+                console.log('INSERT INTO PRODUCTOS(id,formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color) SELECT 0,"'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
                 //console.log("prod:"+results.insertId);
                     tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
 					    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex);
@@ -333,13 +372,15 @@ function ActualizarProducto(){
 	var iva=0;
 	var prfinal=0;
 	var matprima=0;
-    var costo=$('#costo').val();
+    //var costo=$('#costo').val();
+    var costo=0;
     var canti=$('#cantidad').val();
     var costoreal = $("#costoreal").val();
     var cantidadreal = $("#cantidadreal").val();
     var costoin=$('#costoingreso').val();
     var cantidadin=$('#cantidadingreso').val();
     var ajuste = 0;
+	var micolor='"'+$('#colorproducto').val()+'"';
     ajuste = canti-cantidadreal;
     var fechaaux = new Date();
     var fecha = fechaaux.getTime();
@@ -359,7 +400,7 @@ function ActualizarProducto(){
 				$('#idcategoria').val(results.insertId);
 				idcategoria=$('#idcategoria').val();
 				db.transaction(function(tx){
-				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE id_local='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and id_local!='+idproducto+');',[],function(tx,results){
+				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE id_local='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and id_local!='+idproducto+');',[],function(tx,results){
 				console.log("prod:"+idproducto);
 
                     if(costo != costoreal && costo != ''){
@@ -392,11 +433,10 @@ function ActualizarProducto(){
 				});
 			},errorCB,successCB);
 		}else{
-
 			idcategoria=$('#idcategoria').val();
-            console.log('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE timespan="'+idproducto + '"');
+            console.log('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan="'+idproducto + '"');
 			db.transaction(function(tx){
-				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+' WHERE timespan="'+idproducto + '"',[],function(tx,results){
+				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan="'+idproducto + '"',[],function(tx,results){
 
 				VerDatosProducto(idproducto);
                 showalert("Datos Actualizados con éxito.");
@@ -454,4 +494,5 @@ function soloNumerosprecio(e){
 	}
 	
 }
+
 </script>

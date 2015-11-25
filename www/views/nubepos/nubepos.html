@@ -99,7 +99,7 @@
 <div class='row' id='row1'>
 	<div class='productos col-lg-8 col-md-8 col-xs-12' id='productos' align='center'>
 		<div class='row'>
-		<div class='col-lg-12'>
+		<div class='col-lg-12' id='menuproductos'>
 		<div id="loader" style="display:none; position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255,255,255,0.8); text-align: center;">
 				<img alt="" style="height:20%;" src="images/loading.gif"/>
 		</div>
@@ -135,11 +135,127 @@
 					</div>
 			</tr>
 		</table>
-		
+		</div>
+		<!---div calculadora-->
+		<div class='col-lg-2'></div>
+		<div class='numpad col-lg-8 col-md-8 col-xs-5' id='numpad' style='display:none;'>
+		<div id='divInNumPad' class='panel panel-default' style='margin-top:10px; background-color:#EEE;'>
+			<div class='panel-body' style='padding:10px; text-align:center;'>
+					<div class='row'>
+						<div class='col-lg-12 col-md-12 col-xs-12' style='margin-bottom:5px;'>
+						<div class='cantidad btn btn-default btn-lg'>0</div>
+						</div>
+					</div>
+					<div class='row' style='text-align:center;'>
+					<div class='col-lg-1'></div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='7'>7</div>
+				    </div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='8'>8</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='9'>9</div>
+					</div>
+					</div>
+					
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-success btn-lg' cual='/'>/</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-warning btn-lg' cual='PT'>PT</div>
+					</div>
+					</div>
+					<div class='col-lg-1'></div>
+					
+					<div class='col-lg-1'></div>
+					
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='4'>4</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='5'>5</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='6'>6</div>
+					</div>
+					</div>
+					
+					
+					
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+					<button class='numero btn btn-default btn-lg' cual='1'>1</button>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='2'>2</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='3'>3</div>
+					</div>
+					</div>
+					
+					
+				
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='0'>0</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='p'>.</div>
+					</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-xs-2'>
+					<div class='contnumero' align='center'>
+						<div class='numero  btn btn-default btn-lg' cual='d'><span class='glyphicon glyphicon-remove'></span></div>
+					</div>
+					</div>
+					</div>
+				</div>
+			</div>
 	</div>
+	<div class='col-lg-2'></div>
 	</div>
+		<!--fin calculadora--->
 	<div class='col-lg-4 col-md-4 col-xs-12'>
 	<div class='row'>
+	<div class='buscador col-lg-12 col-md-12 col-xs-5' id='buscador' style='margin-top:10px;'>
+		<div class='row'>
+		<div class='col-lg-2'>
+			<button type='button' onclick='toogleCalc();' id='pad' class='btn btn-primary bnt-lg'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Pad</span></button>
+			<button type='button' onclick='toogleCalc();' id='grid' class='btn btn-primary bnt-lg' style='display:none;'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Grid</span></button>
+		</div>
+		<div class='col-lg-10'>
+			<div class="input-group">
+			<span class="input-group-addon"><span class='glyphicon glyphicon-search'></span></span>
+			<input type='text' id='inputbusc' name='inputbusc' placeholder='Buscar' onkeydown='BuscarSugerencias2(this.value,event);' class='form-control input'  onchange='BuscarSugerencias2(this.value,event);'/>
+			</div>
+			<div id="resultBuscador" class='resultBuscador'>
+				<table id='tableresults' width='100%' cellspacing='0px' cellpadding='0px'>
+				</table>
+			</div>
+		</div>
+		</div>
+	</div>
 		<div class='detalle col-lg-12 col-md-12 col-xs-7' id='detalle'>
 		<div class='row'>
 		<div class='divDetalle col-lg-12'>
@@ -179,17 +295,6 @@
 		</div>
 		</div>
 	</div>
-	<div class='buscador col-lg-12 col-md-12 col-xs-5' id='buscador' style='margin-top:10px;' >
-	<div class="input-group">
-    <span class="input-group-addon"><span class='glyphicon glyphicon-search'></span></span>
-	<input type='text' id='inputbusc' name='inputbusc' placeholder='Buscar' onkeydown='BuscarSugerencias2(this.value,event);' class='form-control input-lg'  onchange='BuscarSugerencias2(this.value,event);'/>
-	</div>
-	<div id="resultBuscador" class='resultBuscador'>
-		<table id='tableresults' width='100%' cellspacing='0px' cellpadding='0px'>
-		</table>
-	</div>
-	<!---<img src='images/atras.png' style='cursor:pointer; position:absolute; top:0px; right:0px; z-index:100; display:block;' onclick='window.history.back();' id='backmenu'/>-->
-	</div>
 	<!--<div class='scan col-lg-12 col-md-12 col-xs-5' id='scan'>
 		<div class="app">
 			<div id="deviceready" class="blink" style="display:none;">
@@ -200,89 +305,6 @@
 		</div>
 	</div>-->
 	<!--<iframe src="scan/index.html" style="position:relative; z-index:500; width:100px; height:30px; overflow:hidden; margin-left:10px; margin-top:30px;" frameborder="0"></iframe>-->
-
-	<div class='numpad col-lg-12 col-md-12 col-xs-5' id='numpad'>
-		<div id='divInNumPad' class='panel panel-default' style='margin-top:10px; background-color:#EEE;'>
-			<div class='panel-body' style='padding:10px; text-align:center;'>
-					<div class='row'>
-						<div class='col-lg-12 col-md-12 col-xs-12' style='margin-bottom:5px;'>
-						<div class='cantidad btn btn-default btn-lg'>0</div>
-						</div>
-					</div>
-					<div class='row' style='text-align:center;'>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='7'>7</div>
-				    </div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='8'>8</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='9'>9</div>
-					</div>
-					</div>
-					
-					
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='4'>4</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='5'>5</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='6'>6</div>
-					</div>
-					</div>
-					
-					
-					
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-					<button class='numero btn btn-default btn-lg' cual='1'>1</button>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='2'>2</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='3'>3</div>
-					</div>
-					</div>
-					
-					
-				
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='0'>0</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='p'>.</div>
-					</div>
-					</div>
-					<div class='col-lg-4 col-md-4 col-xs-4'>
-					<div class='contnumero' align='center'>
-						<div class='numero  btn btn-default btn-lg' cual='d'><span class='glyphicon glyphicon-remove'></span></div>
-					</div>
-					</div>
-					</div>
-				</div>
-			</div>
-	</div>
-
 	</div>
 	</div>
 <!--</div>--->

@@ -215,7 +215,7 @@ function ActivarCategoria(cual,categoria){
 						impuestos+='0.12';
 						impuestosid+='1';
 					}
-					$('#listaProductos').append('<div id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
+					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
 				//$('.producto').hide();
 				//init2(categoria);
@@ -1175,15 +1175,9 @@ function ElegirDenominacion(cual){
 function Init3(){
 	var h=$(window).height();
 	var w=$(window).width();
-	console.log(h);
-	//$('#central').height(h);
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
-	//$('#row2').css("height",(h/2));
-	//$('#detalle').css("height",h/3.3);
-	//$('#contentdetalle').css("height",(h/3.3)-40);
-	//$('#detalle').css("height",h/4.5);
-	$('#contentdetalle').css("height",(h/2)-40);
+	$('#contentdetalle').css("height",(3*h/5));
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
@@ -1541,4 +1535,9 @@ function valorcxcchange(){
 		$('#paymentCxC').val(valorcxc.toFixed(2));
 	}
 	changePaymentCategory('4','CxC'); return false;
+}
+
+function toogleCalc(){
+	$('#pad,#grid').toggle();
+	$('#menuproductos,#numpad').toggle('fast');
 }
