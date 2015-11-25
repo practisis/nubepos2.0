@@ -1,16 +1,33 @@
+
 <script>
 		var empresa = localStorage.getItem('empresa');
 		if(empresa){
-			$(".putEmp").html(empresa);
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+				db.transaction(function(tx){
+			tx.executeSql('SELECT nombreempresa FROM empresa',[],function(tx,results){
+				
+								for (var i=0; i <= results.rows.length-1; i++){
+									var row = results.rows.item(i);
+									var nombreempresa = row.nombreempresa;
+								}
+
+								$(".putEmp").html(""+nombreempresa+ "<small>("+empresa+")</small>");
 			$("#yaConectado").fadeIn();
 			$("#contentLogin").css("display" , "none");
 			$("#texto15Dias").css("display" , "none");
-			
+			$("#demoGratis").css("display" , "none");
+			$("#fadeRow").css("display" , "none");
 
-			setInterval(function(){
+			},errorCB ,successCB);
+		});
+
+		
+			/*setInterval(function(){
 				y=Math.floor((Math.random() * 100) + 1);
 				$('#progress2 div').width(y + "%");
-			},2000);
+			},2000);*/
+		}else{
+			nuevaCuenta();
 		}
 </script>
 <br/> <br/>
@@ -22,13 +39,9 @@
 		background-position: center top;font-size: 40px;    padding: 15px;
 		border-bottom: 1px solid #e5e5e5;
 		min-height: 16.42857143px;">
-			  NubePOS Conectado A Empresa <label class="putEmp"></label>
-			  <small><br/>Sincronizando</small>
-			<div class="progress" id="progress2">
-			  <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-			    <span class="sr-only">80% Complete (danger)</span>
-			  </div>
-			</div>
+			  NubePOS Conectado <br/> <label class="putEmp"></label>
+			  <small><br/>Sincronizando...</small>
+			  <center><a href="https://www.practisis.net/login.php" target="_blank" ><input class="btn btn-md btn-primary btn-center" type="button"  value="Abrir punto de venta en la nube" /> </a></center>
 			</div>
 			
 </div>
@@ -57,13 +70,13 @@
 	</div>
 <br/><br/>
 	
-	<div id="putHereIframes"> </div>
+	<div id="putHereIframes" style="display:none;"> </div>
 	<div class="row" style="margin:0 auto;display:block;" id="fadeRow" >
 		<div class="col-md-3" >
 		</div>
 		
 		<div class="col-md-6">
-			<label id="texto15Dias">Puedes conectarte a una cuenta PractiPOS <br/> para ver tus datos en la nube y manejar invetarios, 15 días gratis!</label>
+			<label id="texto15Dias">Puedes conectarte a una cuenta NubePOS <br/> para ver tus datos en la nube y manejar invetarios</label>
 		<div class="modal-content text-center" id="contentLogin" style="min-height: 263px;">
 			<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
 		padding-bottom: 35px;
@@ -111,7 +124,7 @@
 	  </div> <!--End row -->
 
 	  <script>
-	  	nuevaCuenta();
+	  	
 			function mostrarSignIn(){
 				$("#demoGratis").css("display" , "none");
 				$("#fadeRow").fadeIn();
@@ -144,7 +157,7 @@
 			  <h3 style="-webkit-margin-before: 1em;
 		-webkit-margin-after: 1em;
 		-webkit-margin-start: 0px;
-		-webkit-margin-end: 0px;">Solicita tu nubePOS  <span style="color:#0893d2;">gratis!</span></h3>
+		-webkit-margin-end: 0px;">Solicita tu NubePOS  </h3>
 			 <!-- <span class="subtitle" style=" margin-bottom: 36px; margin-top: 0;font-size:16px;color:#9a9a9a;">No necesitas tarjeta de crédito</span><br><br>-->
 			 
 			 <!--  <div class="form-group">
@@ -184,7 +197,7 @@
 			
 			
 			<div class="form-group">
-					<a data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta nuebePOS?</a><br/> 
+					<a data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta NubePOS?</a><br/> 
 			</div>
 				
 			
@@ -1597,8 +1610,8 @@
 						nombre : nombre,
 						celular : celular,
 						email :newEmail,
-						passw : newPass,
-						rpassw : newConfirm,
+						pass : newPass,
+						rpass : newConfirm,
 						empresa : empresa,
 						planPrecio : planPrecio,
 						nTerminales : nTerminales,
@@ -1612,7 +1625,17 @@
 						$("#demoGratis").css("display" , "none");
 						$("#fadeRow").css("display" , "none");
 						$("#putHereIframes").html(data);
-						$("#putHereIframes").prepend("<b>Espere 180 segundos</b>");
+						$("#putHereIframes").prepend("Procesando Petición");
+						$("#fadeCloud").html("\
+								<table width='100%' height='100%' cellpadding='0'  cellspacing='0'>\
+									<tr>\
+										<td valign='center' align='center' > \
+									<iframe src='views/cloud/timer.html' style='width:60%;height:50%;border:0px;' border='0' ></iframe>\
+										</td>\
+									</tr>\
+								</table>\
+									");
+						$("#fadeCloud").fadeIn();
 						//alert(data);
 					});
 
