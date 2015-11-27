@@ -26,7 +26,7 @@
         
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS empresa (id integer primary key AUTOINCREMENT, nombre integer, nombreempresa text )');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS empresa (id integer primary key AUTOINCREMENT, nombre integer )');
         
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         //tx.executeSql('DROP TABLE IF EXISTS PRODUCTOS');
@@ -264,6 +264,7 @@
                 var row = results.rows.item(i);
                 //console.log(row);
                 $('#idfactura').val(row.id);
+                $('#numerofactura').html('Factura N° 00000000'+row.id);
                 var timefecha=new Date(row.fecha);
                 var mes=timefecha.getMonth()+1;
                 if(mes.toString().length<2)
@@ -271,6 +272,7 @@
                 var fechaformat=timefecha.getDate()+"/"+mes+"/"+timefecha.getFullYear()+" "+timefecha.getHours()+":"+timefecha.getMinutes()+":"+timefecha.getSeconds();
                 //console.log(row);
                 $('#fecha').val(fechaformat);
+				
                 var datosfact=JSON.parse(row.fetchJson);
                 var totalf=parseFloat(datosfact.Pagar[0].factura.total).toFixed(2);
                 $('#total').html(totalf);
@@ -281,19 +283,49 @@
                     intabla+="<tr><td style='text-align:left;'>"+variosprods[n].nombre_producto+"</td><td style='text-align:right;'>"+parseInt(variosprods[n].cant_prod)+"</td><td style='text-align:right;'>"+parseFloat(variosprods[n].precio_prod).toFixed(2)+"</td><td style='text-align:right;'>"+parseFloat(variosprods[n].precio_total).toFixed(2)+"</td></tr>";
                 }
                 $('#cuerpodetalle').html(intabla);
-                var fpago=row.paymentsUsed.split(',');
-                var c=0;
-                for(var t=0;t<fpago.length;t++){
-                    if(fpago[t]==1){
-                        $('#paymentEfectivo').val(parseFloat(row.cash).toFixed(2));
-                    }
-                    if(fpago[t]==2){
-                        var datocard=row.cards.split('|');
-                        //console.log(datocard);
-                        $('#paymentTarjetas').val(parseFloat(datocard[2]).toFixed(2));
-                    }
+				var formaDePago = row.paymentsUsed;
+				console.log('Forma de pago es :'+formaDePago);
+				if(formaDePago == 1){
+					$('#detaFormPago').html('Efectivo');
+					$('#detaFormPagoValor').html(parseFloat(row.cash).toFixed(2));
+				}
+				if(formaDePago == 2){
+					var datocard=row.cards.split('|');
+					$('#detaFormPago').html('Tarjeta');
+					$('#detaFormPagoValor').html(datocard[2].substring(0,datocard[2].length - 1));
+				}
+				if(formaDePago == 3){
+				var datocheque=row.cheques.split('|');
+				//alert(datocheque[2].substring(0,datocheque[2].length - 1));
+					$('#detaFormPago').html('Cheques');
+					$('#detaFormPagoValor').html(datocheque[2].substring(0,datocheque[2].length - 1));
+				}
+				
+				if(formaDePago != 1 && formaDePago != 2 && formaDePago != 3){
+					var fpago=row.paymentsUsed.split(',');
+					console.log(fpago);
+					var c=0;
+					for(var t=0;t<fpago.length;t++){
+						console.log(t);
+						if(fpago[t]==1){
+							$('#detaFormPago').html('Efectivo');
+							$('#detaFormPagoValor').html(parseFloat(row.cash).toFixed(2));
+						}
+						if(fpago[t]==2){
+							var datocard=row.cards.split('|');
+							$('#detaFormPago1').html('Tarjeta');
+							//console.log(datocard);
+							$('#detaFormPagoValor1').html(datocard[2].substring(0,datocard[2].length - 1));
+						}
+						
+						if(fpago[t]==3){
+							var datocheque=row.cheques.split('|');
+							$('#detaFormPago2').html('Cheques');
+							//console.log(datocard);
+							$('#detaFormPagoValor2').html(datocheque[2].substring(0,datocheque[2].length - 1));
+						}
+					}
                 }
-                
                 if(row.anulada==1){
                     $('#factanulada').fadeIn();
                 }
