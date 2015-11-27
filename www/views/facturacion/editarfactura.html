@@ -1,9 +1,14 @@
 <div id="mainDiv" style="margin: 0px; padding: 0px; width:100%; height: 800px; background-color: #ffffff; font-size:14px; color:#404041;">
 	<table class='table'>
 		<tr>
-			<td colspan='2'>
-				<h3 id='numerofactura'>Factura No. 101-02-001</h3>
+			<td >
+				<h3 id='numerofactura'></h3>
 				<input type='hidden' style='display:none;' id='idfactura'/>
+			</td>
+			<td>
+				<div style='width:100%;text-align:right;padding-right:30px;padding-top:15px;cursor:pointer;color:#1495C0;'>
+					<i class="fa fa-chevron-circle-left fa-2x" title='Volver...' onclick="envia('historial')"></i>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -26,6 +31,45 @@
 				<div class='totaldolares' style='margin-left:auto;'><span id='total'></span></div>
 				</div>
 			</td>
+		</tr>
+		<tr>
+			<td>
+				<table class='table' style='width:300px !important;border:1;'>
+					<tr>
+						<th>
+							Forma de Pago 
+						</th>
+						<th>
+							Valor
+						</th>
+					</tr>
+					<tr> 
+						<td id='detaFormPago'>
+							
+						</td>
+						<td id='detaFormPagoValor' >
+							
+						</td>
+					</tr>
+					<tr> 
+						<td id='detaFormPago1'>
+							
+						</td>
+						<td id='detaFormPagoValor1' >
+							
+						</td>
+					</tr>
+					<tr> 
+						<td id='detaFormPago2'>
+							
+						</td>
+						<td id='detaFormPagoValor2' >
+							
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td colspan='2' style='text-align:center;'>
