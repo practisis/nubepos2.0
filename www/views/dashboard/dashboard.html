@@ -1,29 +1,22 @@
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
-    <!-- stats -->
 	<div class='row'>
 		<div class='col-lg-12'>
-		<div class="panel mini-box">
-		<div class='row'>
-		<div class='col-lg-10'>
-			Fecha:
-			<div class="input-group"> 
-			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/></div>
-		</div>
-		<!---<div class='col-lg-5'>
-			Hasta:
-		<div class="input-group">
-			<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon2"></span>--><input type='text' class='form-control' id='hasta' style='display:none;'/>
-		<!--</div>
-		</div>--->
-		<div class='col-lg-2' style='text-align:right;'>
-			<button class='btn btn-primary' type='button' style='margin-top:20px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
-		</div>
-		</div>
-		</div>
+			<div class="panel mini-box">
+				<div class='row'>
+					<div class='col-lg-10'>
+						Fecha:
+						<div class="input-group"> 
+						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/></div>
+					</div>
+					<div class='col-lg-2' style='text-align:right;'>
+						<button class='btn btn-primary' type='button' style='margin-top:20px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
     <div class="row">
-	    <div class="col-lg-3 col-xsm-6">
+	    <div class="col-xs-3">
             <div class="panel mini-box">
                 <span class="box-icon bg-danger">
                     <i class="fa fa-shopping-cart"></i>
@@ -34,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-xsm-6">
+        <div class="col-xs-3">
             <div class="panel mini-box">
                 <span class="box-icon bg-success">
                     <i class="fa fa-credit-card"></i>
@@ -45,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-xsm-6">
+        <div class="col-xs-3">
             <div class="panel mini-box">
                 <span class="box-icon bg-info">
                     <i class="fa fa-users"></i>
@@ -56,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-xsm-6">
+        <div class="col-xs-3">
             <div class="panel mini-box">
                 <span class="box-icon bg-warning">
                     <i class="fa fa-dollar"></i>
@@ -79,7 +72,7 @@
                 </div>
             </section> 
         </div>-->
-		<div class='col-md-6'>
+		<div class='col-xs-6'>
 			<section class="panel panel-box info-box">
 					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="ventascateg">Ventas por Categoria</span></strong></div>
 					<div class="panel-body">
@@ -88,7 +81,7 @@
 					</div>
 			</section>
 		</div>
-		<div class='col-md-6'>
+		<div class='col-xs-6'>
 			<section class="panel panel-box info-box">
 					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="productosten">Ranking de Productos</span></strong></div>
 					<div class="panel-body">
@@ -99,7 +92,7 @@
 		</div>
 	</div>
 	<div class='row' style='display:none;'>
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Rank Productos">Ranking de Productos</span></strong></div>
                 <div class="panel-body"  data-ng-controller="flotChartCtrl">
