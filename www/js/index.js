@@ -460,7 +460,7 @@ function hidealert(){
 }
 
 function imprimervprueba(){
-  alert('entra');
+  //alert('entra');
   cordova.plugins.zbtprinter.print("^XA^FO10,10^AFN,26,13^FDHello, World!^FS^XZ",
     function(success) {
         alert("Print ok");
@@ -468,4 +468,5 @@ function imprimervprueba(){
         alert(fail);
     }
   );
+  alert('sale');
 }
