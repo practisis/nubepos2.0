@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Hello!</title>
+<script type="text/javascript">
+function imprime(){
+  alert('entra');
+  cordova.plugins.zbtprinter.print("AC:3F:A4:1D:7A:5C", "! U1 setvar "device.languages" "line_print"\r\nTEXT 11 0 0 0   ***Print test***\r\nPRINT\r\n",
+    function(success) {
+        alert("Print ok");
+    }, function(fail) {
+        alert(fail);
+    }
+  );
+}
+</script>
+</head>
+
+<body>
+
+<input id="pr" name="pr" type="button" onclick="imprime();" value="Prueba Impresion">
+
+</body>
+</html>

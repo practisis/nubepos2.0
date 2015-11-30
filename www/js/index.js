@@ -458,3 +458,14 @@ function hidealert(){
     $('#alert').html('');
     $('#alert').slideUp('fast');
 }
+
+function imprimervprueba(){
+  alert('entra');
+  cordova.plugins.zbtprinter.print("^XA^FO10,10^AFN,26,13^FDHello, World!^FS^XZ",
+    function(success) {
+        alert("Print ok");
+    }, function(fail) {
+        alert(fail);
+    }
+  );
+}

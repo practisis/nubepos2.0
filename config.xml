@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.practisis.nubeposv" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>nubeposv</name>
-    <app_name>nubeposv</app_name>
+    <name>NubePOSV</name>
     <description>
-        NubePOS de Practisis
+        NubePOS de Practisis3
     </description>
     <author email="info@practisis.com" href="http://practisis.net">
         Practisis S.A. NubePOS
@@ -46,6 +45,7 @@
 	<gap:plugin name="cordova-plugin-customurlscheme" source="npm">
 	  <param name="URL_SCHEME" value="nubeposv" />
 	</gap:plugin>
+    <gap:plugin name="cordova-plugin-zbtprinter" source="npm" />
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
@@ -70,11 +70,6 @@
     <gap:splash gap:platform="ios" height="1136" src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
     <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
-    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
-    <access origin="*" />
-    <activity
-	    android:name="aa.designers.canticosatletico.Song_detail"
-	    android:label="@string/song_detail"
-	    android:screenOrientation="landscape">
-   </activity>
+    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg"/>
+	 <access origin="*" />
 </widget>
