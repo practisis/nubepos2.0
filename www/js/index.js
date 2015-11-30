@@ -468,11 +468,11 @@ function imprimervprueba(){
         alert(fail);
     }
   );*/
-  cordova.plugins.zbtprinter.print("^XA^FO10,10^AFN,26,13^FDHello, World!^FS^XZ",
+  /*cordova.plugins.zbtprinter.print("^XA^FO10,10^AFN,26,13^FDHello, World!^FS^XZ",
     function(success) {
         alert("Print ok");
     }, function(fail) {
         alert(fail);
     }
-  );
+  );*/
 }
