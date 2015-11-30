@@ -699,7 +699,8 @@ function cancelPayment(){
 	$('#paymentCategory-1').addClass('categoryChosen');
 	$('#invoicePaid').html('0.00');
 	$('#changeFromPurchase').html('0.00');
-	$('#paymentModule').modal('hide');
+	//$('#paymentModule').modal('hide');
+	$('#paymentModule').slideUp();
 	}
 
 
@@ -2147,7 +2148,7 @@ function mostrarClientes(){
 		}else{
 			$("#newCliente ").html('\
 			<div style="position:relative; left:0%; width:100%; height:100%" id="borrable">\
-				<div id="cuadroClientes" class="cuadroClientes" style=""> \
+				<div id="cuadroClientes" class="cuadroClientes" style="height:100%;"> \
 					<h3>\
 						Cliente\
 					</h3> \
@@ -2159,30 +2160,30 @@ function mostrarClientes(){
 									<table cellpadding="0" cellspacing="0" width="70%" style="position: relative;margin: 0px auto;">\
 										<tr>\
 											<td>\
-											<div class="input-group" style="width:100%;"><span class="input-group-addon" style="width:30%">\
+										<div class="input-group" style="width:100%; margin-bottom:10px;"><span class="input-group-addon" style="width:30%">\
 													&nbsp;Cédula* \
 											</span><input tabindex="0" id="cedulaP" value="9999999999" class="form-control"/> </div>\
 												</td>\
 										</tr>\
 										<tr>\
 											<td>\
-												<div class="input-group" style="width:100%;"><span class="input-group-addon" style="width:30%">&nbsp;Nombre*</span>\
+												<div class="input-group" style="width:100%;margin-bottom:10px;"><span class="input-group-addon" style="width:30%">&nbsp;Nombre*</span>\
 													<input  tabindex="1" id="nombreP" class="form-control"/></div>\
 											</td>\
 										</tr>\
 										\
 										<tr>\
 												<td>\
-											     <div class="input-group" style="width:100%;"><span class="input-group-addon"  style="width:30%">&nbsp;Teléfono</span>\<input tabindex="3" id="telefonoP"class="form-control" type="number"/></div>				</td>\
+											     <div class="input-group" style="width:100%;margin-bottom:10px;"><span class="input-group-addon"  style="width:30%">&nbsp;Teléfono</span>\<input tabindex="3" id="telefonoP"class="form-control" type="number"/></div>				</td>\
 										</tr>\
 										<tr>\
 												<td>\
-												 <div class="input-group" style="width:100%;">									<span class="input-group-addon"  style="width:30%">&nbsp;Dirección</span>\
+												 <div class="input-group" style="width:100%;margin-bottom:10px;">									<span class="input-group-addon"  style="width:30%">&nbsp;Dirección</span>\
 													<input tabindex="4" id="direccionP" class="form-control"/></div> \
 												</td>\
 										</tr>\
 										<tr>\
-												<td>\<div class="input-group" style="width:100%;">														<span class="input-group-addon"  style="width:30%">&nbsp;Email</span>\
+												<td>\<div class="input-group" style="width:100%;margin-bottom:10px;">														<span class="input-group-addon"  style="width:30%">&nbsp;Email</span>\
 													\
 													<input tabindex="5" id="emailP" class="form-control"/></div>\
 												</td>\

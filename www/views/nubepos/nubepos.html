@@ -300,8 +300,8 @@
 				</tr>
 			</table>
 			
-			<button type='button' class='btn btn-danger btn-lg' id='btn_pagar' style='float:right; margin:5px;' onclick="AntesDePagar(); return false;">PAGAR</button>
-			<button type='button' class="btn btn-default btn-lg" style='margin:5px; float:right;' disabled='disabled' id='total'>$ 0.00</button>
+			<button type='button' class='btn btn-danger btn-lg' id='btn_pagar' style='float:right; margin:5px;' onclick="AntesDePagar(); return false;">PAGAR&nbsp;<span id='total'>0.00</span></button>
+			<!---<button type='button' class="btn btn-default btn-lg" style='margin:5px; float:right;' disabled='disabled' id='total'>$ 0.00</button>-->
 			<button type='button' class='btn btn-default btn-lg' style='margin:5px; float:right;' id='btn_descuento' onclick="showPopup(); return false;">DESCUENTO</button>
 			<button type='button' class='btn btn-default btn-lg' style='margin:5px; float:right; display:none;' id='btn_cierre' onclick='$("#modalcierre").modal("show");'>CIERRE</button>
 		</div>
@@ -415,26 +415,28 @@
 		<input type="hidden" id="maxPage" value="1"/>
 	</div>
 	
-<div id="paymentModule" class='modal fade'>
-<div id="pay" class="modal-dialog  modal-lg">
-	<div class="ventanaprincipal modal-content">
-		<div class='modal-body'>
+
+<div id="paymentModule" class='' style='display:none; position:absolute; top:0px; left:0%; width:100%; z-index:6;'>
+<div id="pay" class="" style='width:100%;'>
+	<div class="ventanaprincipal" style='height:100%;'>
+		
+		<!---<div class='col-lg-12'>-->
 		<div id="opaco" style="width:100%; height:100%; position:absolute; top:0%; left:0%; background-color:rgba(255,255,255,0.7); z-index:5; display:none;">
-		<div id="newCliente" style='z-index:6;'></div>
+		<div id="newCliente" style='z-index:6; height:100%;'></div>
 		</div>
 		<!--<div id="positionClosePreCuenta" style="position: absolute; left: 96%; top: 0%; z-index: 20;"><img onclick="cancelPayment(); return false;" style="cursor: pointer;" src="../images/xcierre.png"/></div>-->
 		<div style="display: none;" id="json"></div>
 		<form id="referenceToReset">
 				<input id="acc" name="acc" type="hidden" value="">
 				<input id="echo" name="echo" type="hidden" value=""> 
-				<div class='row'>
+				<div class=''>
 				<div class='col-lg-12'>
 				<table class='table' style='margin-bottom:0px;'>
 				<tr>
 					<td colspan='2' style="height:35px; text-align:center; border-top-right-radius:15px; border-top-left-radius:15px; position:relative;">
 						<h3 style='margin-top:0px;'>Pago</h3>
 						<!--<button type='button' class='btn btn-danger bnt-sm' style='position:absolute; top:25px; right:12px; cursor:pointer;' onclick='$("#paymentModule").modal("hide");'><span class='glyphicon glyphicon-remove-circle' ></span></button>-->
-						<button type='button' style='color:#404041; margin-right:5px; position:absolute; top:5px; right:12px; cursor:pointer;' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button>
+						<button type='button' style='color:#404041; margin-right:5px; position:absolute; top:5px; right:12px; cursor:pointer;' class='close' aria-label='Close'><span aria-hidden='true' onclick='$("#paymentModule").slideUp();'>x</span></button>
 						<table width="100%" cellpadding="0" cellspacing="0" style='display:none;'>
 							<tr>
 								<td style="width:20%;">
@@ -463,12 +465,13 @@
 							</tr>
 							<tr>
 								<td valign="middle" align="center">
-								<div class="input-group">
-									<div class="input-group-addon btn btn-primary btn-lg" onclick="BuscarCliente(13);">
-									<span class="glyphicon glyphicon-user" style='display:inline;'>&nbsp;Cliente</span>
+								<div class="input-group" style='float:left;'>
+									<div class="input-group-addon">
+									<span class="glyphicon glyphicon-user" style='display:inline;'></span>
 									</div>
-									<input class='form-control' name='busquedacliente' id='busquedacliente' maxlength='13' onclick="BuscarCliente(13);" readonly value='9999999999999'/>	
-								</div>								
+									<input class='form-control' name='busquedacliente' id='busquedacliente' maxlength='13' readonly value='9999999999999'/>	
+								</div>
+								<button style='float:left; margin-left:5px;' onclick="BuscarCliente(13);" type='button' class='btn btn-primary btn'>Cambiar Cliente</button>
 								</td>
 							</tr>
 						</table>
@@ -477,7 +480,7 @@
 				</table>
 				</div>
 				</div>
-				<div class='row'>
+				<div class=''>
 				<div class='col-lg-5'>
 					<td style="vertical-align:top; width:120px; height:150px;" colspan='2'>
 						<div class="ventanaformapago" style='overflow-y:auto; overflow-x:hidden;'>
@@ -487,11 +490,11 @@
 					</td>
 				</div>
 				<div class='col-lg-7'>
-						<div class='tipopago row'>
-							<div class='touchpago col-lg-12' id='touchefectivo'>
-								<div style='padding:3px;'>
-								<div class='row'>
-								<div class='col-lg-4'>
+						<div class='tipopago'>
+							<div class='touchpago' id='touchefectivo'>
+								
+								<div class='' style='margin-bottom:3px; text-align:left;'>
+								<!---<div class='col-lg-4'>
 								<button onclick='subirefectivo(this);' class='btn btn-lg btn-primary' data-value='100' type='button'>100</button>
 								</div>
 								<div class='col-lg-4'>
@@ -526,15 +529,15 @@
 								</div>
 								<div class='col-lg-4'>
 								<button onclick='subirefectivo(this);' class='btn btn-lg btn-danger' data-value='-1' type='button'>Borrar</button>
+								</div>--->
+								<div class='' style='text-align:left; display:inline;'>
+								<button onclick='subirefectivo(this);' id='redondeado' class='btn btn-lg btn-default' data-value='' type='button'></button>
 								</div>
-								<div class='col-lg-4'>
-								<button onclick='subirefectivo(this);' id='redondeado' class='btn btn-lg btn-primary' data-value='' type='button'></button>
-								</div>
-								<div class='col-lg-4'>
-								<button onclick='subirefectivo(this);' id='justo' class='btn btn-lg btn-primary' data-value='' type='button'>
+								<div class='' style='text-align:left; display:inline;'>
+								<button onclick='subirefectivo(this);' id='justo' class='btn btn-lg btn-default' data-value='' type='button'>
 								</div>
 								</div>
-								</div>
+								
 							</div>
 							<div class="touchpago col-lg-12" id='touchtarjetas' style='display:none;'>
 									<div id='lastarjetas' class='row'>
@@ -596,6 +599,7 @@
 								</td></tr></table>
 							</div>
 						</div>
+						
 						<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px" width='100%'>
 							<tr>
 								<td class="totalsmall" colspan='2' align='center' valign='middle' style='font-size:24px;'>
@@ -632,12 +636,12 @@
 						<table align='center'>
                             <tr>
                                 <td>
-        						<button style="float:right; margin-right:3px;" id="payButton" class="btn btn-primary" onclick="performPurchase('table'); return false;">Pagar</button>
+        						<button style="float:right; margin-right:3px;" id="payButton" class="btn btn-danger btn-lg" onclick="performPurchase('table'); return false;">Pagar</button>
                                 <td>
         						    <div style="display:none; min-width:80px; width:80px; height:30px; min-height:30px; padding-top:5px;" id="payButtonActivated" class='actiongreenbutton'>Pagar</div>
                                 </td>
                                 <td>
-    							    <button id="cancelButton" class='btn btn-danger' onclick="cancelPayment(); return false;" style=''>Cancelar</button>
+    							    <button id="cancelButton" class='btn btn-primary btn-lg' onclick="cancelPayment(); return false;" style=''>Cancelar</button>
                                 </td>
     						</tr>
 						</table>
@@ -645,7 +649,7 @@
 				</div>
 				</div>
 		</form>
-	</div>
+	<!--</div>--->
 	</div>
 	</div>
 <div id="printFactura" style="width: 100%; height: 100%; position: absolute; z-index: 200; top: 0; left: 0; display: none;">
