@@ -1165,9 +1165,10 @@ margin-top:10px;
 }
 
 
-#divInNumPad .row .col-lg-2,#divInNumPad .row .col-lg-12{
+#divInNumPad .row .col-xs-3,#divInNumPad .row .col-xs-12{
 	padding-left:5px;
 	padding-right:5px;
+	padding-top:5px;
 }
 
 .touchpago{

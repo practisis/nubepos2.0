@@ -204,6 +204,7 @@ function ActivarCategoria(cual,categoria){
 	db.transaction(
 	function (tx){
 		tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 ORDER BY formulado asc',[],function(tx,res){
+			console.log(res);
 			if(res.rows.length>0){
 				//alert('prods');
 				for(m=0;m<res.rows.length;m++){
@@ -937,8 +938,8 @@ function AclararSugerencia(celda,focus){
 }
 
 function PlaySound(id) {
-  var thissound=document.getElementById("beep"+id);
-  thissound.play();
+ /* var thissound=document.getElementById("beep"+id);
+  thissound.play();*/
 }
 
 function DetalleArriba(){

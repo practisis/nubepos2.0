@@ -396,7 +396,7 @@ function ActualizarProducto(){
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		if(idcategoria==0){
 			db.transaction(function(tx){
-			tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe) SELECT "'+categoria+'",1,0 WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+categoria+'");',[],function(tx,results){
+			tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe,timespan) SELECT "'+categoria+'",1,0,'+currentTimespanCategory+' WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+categoria+'");',[],function(tx,results){
 				$('#idcategoria').val(results.insertId);
 				idcategoria=$('#idcategoria').val();
 				db.transaction(function(tx){
