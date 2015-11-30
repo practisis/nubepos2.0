@@ -461,7 +461,7 @@ function hidealert(){
 
 function imprimervprueba(){
   //alert('entra');
-  cordova.plugins.zbtprinter.print("^XA^FO10,10^AFN,26,13^FDHello, World!^FS^XZ",
+  cordova.plugins.zbtprinter.print("AC:3F:A4:18:5A:31", "! U1 setvar "device.languages" "line_print"\r\nTEXT 11 0 0 0   ***Print test***\r\nPRINT\r\n",
     function(success) {
         alert("Print ok");
     }, function(fail) {
