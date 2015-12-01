@@ -7,9 +7,6 @@
         //IngresaCategorias();
         console.log(db);
     }
-    document.addEventListener('deviceready', function () {
-        alert('hola');
-    }, false);
 
     // Populate the database
     //
@@ -473,6 +470,9 @@ function imprimervprueba(){
 }
 
 function verificaimpnuevo(){
+  document.addEventListener('deviceready', function () {
+        alert('hola');
+  }, false);
   alert('entra');
   cordova.plugins.printer.isAvailable(
     function (isAvailable) {
