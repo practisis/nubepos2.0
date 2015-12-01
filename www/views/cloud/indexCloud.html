@@ -97,7 +97,7 @@
 			 
 			  <form method="post" class="contact-form form-validate4" id="myloginform" novalidate="novalidate">
 				<div class="form-group">
-				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="josuenubepos@practisis.com" autocomplete="off" aria-required="true">
+				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="fabricio123@practisis.com" autocomplete="off" aria-required="true">
 				</div>
 				<div class="form-group">
 				  <input type="password" id="pass2" name="mipass" value="123456" class="form-control input-lg" placeholder="Password" required="" autocomplete="off" aria-required="true">
@@ -899,9 +899,12 @@
 
 				//alert("Fin clientes");
 				$("#theProgress").width("100%");
-				envia("cloud");
+				sincronizaPresupuesto();
+				//envia("cloud");
 				return;
 			}
+
+
 			
 			
 			
@@ -957,7 +960,38 @@
 		
 		/*Fin Sincronizacion Clientes STEP 3*/
 		
-		
+		/*SINCRONIZAR TABLA PRESUPUESTOS*/
+
+		function sincronizaPresupuesto(){
+				$.post('http://practisis.net/practipos2/ajax/apiSincronizador/apiSincronizaNubeposPresupuesto.php',{
+							 empresa : empresa
+						}).done(function(data){
+							console.log(data);
+							json=$.parseJSON(data);
+							var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+							db.transaction(function(tx){
+							tx.executeSql("DELETE FROM PRESUPUESTO",[],function(tx,results){
+																				
+										});
+							},errorCB,successCB);		
+							for(i=0;i<=json.Presupuesto.length-1;i++){
+								id=json.Presupuesto[i].id ;
+								valor=json.Presupuesto[i].valor ;
+								transacciones=json.Presupuesto[i].transacciones ;
+								fecha=json.Presupuesto[i].fecha ;
+								idlocal=json.Presupuesto[i].idlocal ;
+					db.transaction(function(tx){
+										tx.executeSql('INSERT INTO PRESUPUESTO(timespan,valor,fecha,transacciones) VALUES("'+id+'",'+valor+','+fecha+','+transacciones+')',[],function(tx,results){
+										
+										});
+									},errorCB,successCB);
+
+							}
+						});
+
+			//envia("cloud");	
+		}
+			
 		
 		function agregarCategoriasFalatantesNube(){
 			globalContCatFaltantesNube++;
