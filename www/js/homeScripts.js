@@ -45,6 +45,8 @@ function envia(donde){
 					lugar="views/facturacion/historial.html";
 					if(donde=='cloud')
 					lugar="views/cloud/indexCloud.html";
+                    if(donde=='imprimeotro')
+					lugar="indexprint.html";
 					//alert(lugar);
 					if(donde=='empresa')
 					lugar="views/cloud/indexEmpresa.html";

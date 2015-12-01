@@ -190,16 +190,16 @@ function ActivarCategoria(cual,categoria){
 	$('#listaProductos').html('');
 	$('#pager').val('1');
 	var fila=cual.parentNode.parentNode;
-	var miscateg=fila.getElementsByTagName('div');
+	var miscateg=fila.getElementsByTagName('li');
 	//var tam='btn-lg';
 	for(k=0;k<miscateg.length;k++){
 		/*tam='btn-lg';
 		if($(miscateg[k].hasClass( "btn-xs" )))
 			tam='btn-xs';*/
 		if(miscateg[k].id!='listaCategorias' && miscateg[k].id!='contenidoCategorias')
-			miscateg[k].className="categoria esCategoria btn-lg btn-default active ";
+			miscateg[k].className="categoria esCategoria ";
 	}
-	cual.className="categoriaActiva esCategoria btn btn-lg btn-default";
+	cual.className="categoriaActiva esCategoria active";
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(
 	function (tx){
@@ -215,7 +215,11 @@ function ActivarCategoria(cual,categoria){
 						impuestos+='0.12';
 						impuestosid+='1';
 					}
-					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
+					var lineHeight='';
+					if(row.formulado.length>20)
+						lineHeight='line-height:15px;';
+						
+					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
 				//$('.producto').hide();
 				//init2(categoria);
@@ -459,7 +463,7 @@ function init2(categoria){
 		$('#listaCategorias').css('width',((pantAncho)-(2*anchodireccionales)-10)+'px');
 		}
 	$('.producto').each(function(){
-		if($(this).html().length>=10)
+		if($(this).html().length>=20)
 		{
 			$('.producto').css('font-size',parseInt($('.producto').css('height'))*40/100);
 			$('.producto').css('line-height',parseInt($('.producto').css('font-size'))*4/100);
@@ -625,7 +629,7 @@ function formarCategorias(){
 						selected = 'categoriaActiva';
 						categoriaSelected = row.timespan;
 					}
-					$('#contenidoCategorias').append('<div id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);">'+ (row.categoria).substring(0,20) +'</div>');
+					$('#listacat').append('<li id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);"><a>'+ (row.categoria).substring(0,20) +'</a></li>');
 				}
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
@@ -1187,9 +1191,15 @@ function ElegirDenominacion(cual){
 function Init3(){
 	var h=$(window).height();
 	var w=$(window).width();
+	var hd=$(document).height();
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
 	$('#contentdetalle').css("height",(3*h/5));
+<<<<<<< HEAD
+=======
+	var navh=parseInt($('.navbar').css("height"));
+	$('#pay').css("height",(hd-navh));
+>>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
@@ -1205,19 +1215,33 @@ function Init3(){
 	}
 	
 	//$('.producto').css('font-size',(h*2.8/100)+'px');
+<<<<<<< HEAD
 	$('.producto,.categoriaActiva,.categoria').css('width',w/6);
+=======
+	$('.producto,.categoriaActiva,.categoria').each(function(){
+		//console.log($(this));
+		$(this).css('width',w/6);
+	});
+>>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	if(vertical){
-		$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
+		$('.producto').css('height',((h*4.5/100)+15)+'px');
+		//$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}else{
-		$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
+		//$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
+		$('.producto').css('height',((h*5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}
 	
 	//$('#productos').css('height',h);
 	
+<<<<<<< HEAD
 	$('#listaCategorias').css('height',(parseInt($('.categoria').css('height'))+10)+'px');
 	//$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
+=======
+	//$('#listaCategorias').css('height',(parseInt($('.categoria').css('height')))+'px');
+	$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
+>>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	$('.direccionales').css('height',(parseInt($('.categoria').css('height')))+'px');
 	var anchoCategorias=0;
 	$('.categoria,.categoriaActiva').each(function(){
@@ -1225,11 +1249,20 @@ function Init3(){
 	});
 	var anchodireccionales=parseInt($('.direccionales').css('width'));
 	$('#nav_izq,#nav_der').css('width',anchodireccionales);
+<<<<<<< HEAD
 	//$('#listaCategorias').css('width',(w-(2*anchodireccionales)-20)+'px');
 	$('#listaCategorias').css('height',$('.producto').css('height'));
 	//$('#contenidoCategorias').css('width',anchoCategorias+20);
 	
 	if(anchoCategorias<w){
+=======
+	$('#listaCategorias').css('width',(w-(2*anchodireccionales)-20)+'px');
+	//$('#listaCategorias').css('height',$('.producto').css('height'));
+	$('#contenidoCategorias').css('width',anchoCategorias+20);
+	
+	var wp=parseInt($('.productos').css('width'))-40;
+	if(anchoCategorias<wp){
+>>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 		$('.direccionales').css('display','none');
 		//$('#listaCategorias').css('width',w);
 		}
@@ -1472,7 +1505,7 @@ function vertarjetas(){
 		var mihtml='';
 		for(var j in evalJson[k]){
 			var dat=evalJson[k][j];
-			var div='<div class="col-lg-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
+			var div='<div class="col-xs-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
 			$('#lastarjetas').append(div);
 			x++;
 		}

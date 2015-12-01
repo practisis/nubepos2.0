@@ -4,23 +4,36 @@
 
 <head>
   <title>Hello!</title>
-<script type="text/javascript">
-function imprime(){
-  alert('entra');
-  cordova.plugins.zbtprinter.print("AC:3F:A4:1D:7A:5C", "! U1 setvar "device.languages" "line_print"\r\nTEXT 11 0 0 0   ***Print test***\r\nPRINT\r\n",
-    function(success) {
-        alert("Print ok");
-    }, function(fail) {
-        alert(fail);
+  <script type="text/javascript">
+  function printDivrv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+function verprint(){
+  cordova.plugins.printer.isAvailable(
+    function (isAvailable) {
+        alert(isAvailable ? 'Service is available' : 'Service NOT available');
     }
   );
 }
-</script>
+  </script>
 </head>
 
 <body>
 
-<input id="pr" name="pr" type="button" onclick="imprime();" value="Prueba Impresion">
+<div id="printableArea">
+      <h1>HOLA</h1>
+</div>
+
+<input type="button" onclick="printDivrv('printableArea')" value="print a div!" />
+<br><br>
+<input type="button" onclick="verprint()" value="print!" />
 
 </body>
 </html>
