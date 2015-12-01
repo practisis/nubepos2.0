@@ -190,16 +190,16 @@ function ActivarCategoria(cual,categoria){
 	$('#listaProductos').html('');
 	$('#pager').val('1');
 	var fila=cual.parentNode.parentNode;
-	var miscateg=fila.getElementsByTagName('div');
+	var miscateg=fila.getElementsByTagName('li');
 	//var tam='btn-lg';
 	for(k=0;k<miscateg.length;k++){
 		/*tam='btn-lg';
 		if($(miscateg[k].hasClass( "btn-xs" )))
 			tam='btn-xs';*/
 		if(miscateg[k].id!='listaCategorias' && miscateg[k].id!='contenidoCategorias')
-			miscateg[k].className="categoria esCategoria btn-lg btn-default active ";
+			miscateg[k].className="categoria esCategoria ";
 	}
-	cual.className="categoriaActiva esCategoria btn btn-lg btn-default";
+	cual.className="categoriaActiva esCategoria active";
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(
 	function (tx){
@@ -623,7 +623,7 @@ function formarCategorias(){
 						selected = 'categoriaActiva';
 						categoriaSelected = row.timespan;
 					}
-					$('#contenidoCategorias').append('<div id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);">'+ (row.categoria).substring(0,20) +'</div>');
+					$('#listacat').append('<li id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);"><a>'+ (row.categoria).substring(0,20) +'</a></li>');
 				}
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
@@ -1177,10 +1177,12 @@ function ElegirDenominacion(cual){
 function Init3(){
 	var h=$(window).height();
 	var w=$(window).width();
+	var hd=$(document).height();
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
 	$('#contentdetalle').css("height",(3*h/5));
-	$('#pay').css("height",(h-75));
+	var navh=parseInt($('.navbar').css("height"));
+	$('#pay').css("height",(hd-navh));
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
@@ -1201,16 +1203,18 @@ function Init3(){
 		$(this).css('width',w/6);
 	});
 	if(vertical){
-		$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
+		$('.producto').css('height',((h*4.5/100)+15)+'px');
+		//$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}else{
-		$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
+		//$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
+		$('.producto').css('height',((h*6.5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}
 	
 	$('#productos').css('height',h);
 	
-	$('#listaCategorias').css('height',(parseInt($('.categoria').css('height'))+10)+'px');
+	//$('#listaCategorias').css('height',(parseInt($('.categoria').css('height')))+'px');
 	$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
 	$('.direccionales').css('height',(parseInt($('.categoria').css('height')))+'px');
 	var anchoCategorias=0;
@@ -1220,10 +1224,10 @@ function Init3(){
 	var anchodireccionales=parseInt($('.direccionales').css('width'));
 	$('#nav_izq,#nav_der').css('width',anchodireccionales);
 	$('#listaCategorias').css('width',(w-(2*anchodireccionales)-20)+'px');
-	$('#listaCategorias').css('height',$('.producto').css('height'));
+	//$('#listaCategorias').css('height',$('.producto').css('height'));
 	$('#contenidoCategorias').css('width',anchoCategorias+20);
 	
-	var wp=parseInt($('.productos').css('width'));
+	var wp=parseInt($('.productos').css('width'))-40;
 	if(anchoCategorias<wp){
 		$('.direccionales').css('display','none');
 		$('#listaCategorias').css('width',wp);
@@ -1466,7 +1470,7 @@ function vertarjetas(){
 		var mihtml='';
 		for(var j in evalJson[k]){
 			var dat=evalJson[k][j];
-			var div='<div class="col-lg-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
+			var div='<div class="col-xs-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
 			$('#lastarjetas').append(div);
 			x++;
 		}

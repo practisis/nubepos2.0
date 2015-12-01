@@ -45,7 +45,6 @@
 								<td>					
 									
 										<label class="textosApertura" type="1">(# factura) </label>
-										
 										<input step='any' id="inpEstablecimiento3" placeHolder="200" value='001' pattern="[0-9]*" class='form-control' />
 										
 								</td>
@@ -108,7 +107,7 @@
 							</td>
 							<td style='background-color:#DDD;'>
 								<div id='listaCategorias'>
-									<div id='contenidoCategorias'></div>
+									<div id='contenidoCategorias'><ul role="tablist" id='listacat' class='nav nav-tabs'></ul></div>
 								</div>
 							</td>
 							<td align='left'>
@@ -118,8 +117,8 @@
 			<tr>
 				<td>
 				<div id='nav_izq' data-dir="left" class="directionProducts btn btn-primary" style='margin:5px;'><span class='glyphicon glyphicon-menu-left'></span></div></td>
-				<td class='contentListaProductos' id='contentListaProductos'>
-					<div id='listaProductos'></div>
+				<td class='contentListaProductos ' id='contentListaProductos'>
+					<div id='listaProductos' class=''></div>
 				</td>
 				<td><div data-dir="right" class="directionProducts btn btn-primary" style='cursor:pointer; margin:5px;' id='nav_der'><span class='glyphicon glyphicon-menu-right'></span></div></td>
 					<div id='navegadoresh'>
@@ -252,11 +251,11 @@
 	<div class='row'>
 	<div class='buscador col-lg-12 col-md-12 col-xs-5' id='buscador' style='margin-top:10px;'>
 		<div class='row'>
-		<div class='col-lg-2'>
+		<div class='col-xs-3'>
 			<button type='button' onclick='toogleCalc();' id='pad' class='btn btn-primary bnt-lg'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Pad</span></button>
 			<button type='button' onclick='toogleCalc();' id='grid' class='btn btn-primary bnt-lg' style='display:none;'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Grid</span></button>
 		</div>
-		<div class='col-lg-10'>
+		<div class='col-xs-9'>
 			<div class="input-group">
 			<span class="input-group-addon"><span class='glyphicon glyphicon-search'></span></span>
 			<input type='text' id='inputbusc' name='inputbusc' placeholder='Buscar' onkeydown='BuscarSugerencias2(this.value,event);' class='form-control input'  onchange='BuscarSugerencias2(this.value,event);'/>
@@ -459,19 +458,20 @@
 				</tr>
 				<tr>
 					<td colspan='2'>
-						<table cellpadding="0px" cellspacing="0px" height="100%" align='center'>
+						<table cellpadding="0px" cellspacing="0px" height="100%" align='right'>
 							<tr>
-								<td><label style='font-size:11px; color:#404041; font-weight:bold;' id='clientefind'>Consumidor Final</label><br/></td>
+								<td align='left'><label style='font-size:11px; color:#404041; font-weight:bold;' id='clientefind'>Consumidor Final</label><br/></td>
 							</tr>
 							<tr>
 								<td valign="middle" align="center">
-								<div class="input-group" style='float:left;'>
+								<button style='float:right; margin-left:5px;' onclick="BuscarCliente(13);" type='button' class='btn btn-primary btn'>Cambiar Cliente</button>&nbsp;
+								<div class="input-group" style='float:right;'>
 									<div class="input-group-addon">
 									<span class="glyphicon glyphicon-user" style='display:inline;'></span>
 									</div>
 									<input class='form-control' name='busquedacliente' id='busquedacliente' maxlength='13' readonly value='9999999999999'/>	
 								</div>
-								<button style='float:left; margin-left:5px;' onclick="BuscarCliente(13);" type='button' class='btn btn-primary btn'>Cambiar Cliente</button>
+								
 								</td>
 							</tr>
 						</table>
@@ -481,7 +481,7 @@
 				</div>
 				</div>
 				<div class=''>
-				<div class='col-lg-5'>
+				<div class='col-xs-5'>
 					<td style="vertical-align:top; width:120px; height:150px;" colspan='2'>
 						<div class="ventanaformapago" style='overflow-y:auto; overflow-x:hidden;'>
 							<table style="width:95%;" cellspacing="0" cellpadding="0" id='tablaformaspago'>
@@ -489,7 +489,7 @@
 						</div>
 					</td>
 				</div>
-				<div class='col-lg-7'>
+				<div class='col-xs-7'>
 						<div class='tipopago'>
 							<div class='touchpago' id='touchefectivo'>
 								
@@ -571,18 +571,6 @@
 								<input type='number' onchange='valorchequechange();' class='form-control input cheque' id='valorcheque2' name='valorcheque2' value='0.00' onclick='this.select();'/>
 								</div>
 								</td></tr>
-								<tr><td>
-								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
-								<span class="input-group-addon" id="basic-addon1" style='width:20%;'> Cheque No.</span>
-								<input type='text' id='chequeno3' name='chequeno3' onchange='$("#")' class='form-control input' value='' placeholder='0000' onclick='this.select();'/>
-								</div></td>
-								<td>
-								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
-								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
-								<input type='number' onchange='valorchequechange();' class='form-control input cheque' id='valorcheque3' name='valorcheque3' value='0.00' onclick='this.select();'/>
-								</div>
-								</td>
-								</tr>
 								</table>
 							</div>
 							<div class="touchpago" id='touchcxc'  style='display:none;'>

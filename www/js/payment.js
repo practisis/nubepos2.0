@@ -1832,8 +1832,8 @@ function CambiarMetodo(cual){
 	var nombre=$('#payment'+cual).attr('paymentMethod');
 	var index=$('#payment'+cual).attr('idPaymentMethod');
 	console.log(cual);
-	$('.textoformapago').css('color','#58595B');
-	$('#forma_'+index).css('color','#FFF');
+	//$('.textoformapago').css('color','#58595B');
+	//$('#forma_'+index).css('color','#FFF');
 	if(cual=='Efectivo'&&$('#touchefectivo').css('display')=='none'){
 		$('.touchpago').hide();$('#touchefectivo').slideDown();}
 	if(cual=='Tarjetas'&&$('#touchtarjetas').css('display')=='none'){$('.touchpago').hide();$('#touchtarjetas').slideDown();}
