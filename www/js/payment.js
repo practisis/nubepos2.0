@@ -1831,7 +1831,7 @@ function BuscarCliente(e){
 function CambiarMetodo(cual){
 	var nombre=$('#payment'+cual).attr('paymentMethod');
 	var index=$('#payment'+cual).attr('idPaymentMethod');
-	console.log(cual);
+	//console.log(cual);
 	//$('.textoformapago').css('color','#58595B');
 	//$('#forma_'+index).css('color','#FFF');
 	if(cual=='Efectivo'&&$('#touchefectivo').css('display')=='none'){
@@ -1870,7 +1870,7 @@ function CambiarMetodo(cual){
 			}
 			
 	}*/
-	$('#payment'+cual).select();
+	//$('#payment'+cual).select();
 }
 
 $('#cedula').parent().append('<div id="newCliente" > </div>');

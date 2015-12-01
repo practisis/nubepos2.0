@@ -216,7 +216,11 @@ function ActivarCategoria(cual,categoria){
 						impuestos+='0.12';
 						impuestosid+='1';
 					}
-					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
+					var lineHeight='';
+					if(row.formulado.length>20)
+						lineHeight='line-height:15px;';
+						
+					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
 				//$('.producto').hide();
 				//init2(categoria);
@@ -457,7 +461,7 @@ function init2(categoria){
 		$('#listaCategorias').css('width',((pantAncho)-(2*anchodireccionales)-10)+'px');
 		}
 	$('.producto').each(function(){
-		if($(this).html().length>=10)
+		if($(this).html().length>=20)
 		{
 			$('.producto').css('font-size',parseInt($('.producto').css('height'))*40/100);
 			$('.producto').css('line-height',parseInt($('.producto').css('font-size'))*4/100);
@@ -1199,7 +1203,7 @@ function Init3(){
 	
 	//$('.producto').css('font-size',(h*2.8/100)+'px');
 	$('.producto,.categoriaActiva,.categoria').each(function(){
-		console.log($(this));
+		//console.log($(this));
 		$(this).css('width',w/6);
 	});
 	if(vertical){
@@ -1208,7 +1212,7 @@ function Init3(){
 		//$('#listaProductos').css('height',"100%");
 	}else{
 		//$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
-		$('.producto').css('height',((h*6.5/100)+15)+'px');
+		$('.producto').css('height',((h*5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}
 	
