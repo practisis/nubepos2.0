@@ -6,10 +6,6 @@
         db.transaction(iniciaDB, errorCB, successCB);
         //IngresaCategorias();
         console.log(db);
-
-        document.addEventListener('deviceready', function () {
-              alert('hola');
-        }, false);
     }
 
     // Populate the database
@@ -475,9 +471,9 @@ function imprimervprueba(){
 
 function verificaimpnuevo(){
   alert('entra');
-  cordova.plugins.printer.isAvailable(
+  window.plugin.printer.isAvailable(
     function (isAvailable) {
-        alert(isAvailable ? 'Service is available' : 'Service NOT available');
+      alert(isAvailable ? 'Service is available' : 'Service not available');
     }
   );
   alert('sale');
