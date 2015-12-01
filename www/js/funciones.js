@@ -204,6 +204,7 @@ function ActivarCategoria(cual,categoria){
 	db.transaction(
 	function (tx){
 		tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 ORDER BY formulado asc',[],function(tx,res){
+			console.log(res);
 			if(res.rows.length>0){
 				//alert('prods');
 				for(m=0;m<res.rows.length;m++){
@@ -223,19 +224,16 @@ function ActivarCategoria(cual,categoria){
 				}
 				//$('.producto').hide();
 				//init2(categoria);
-				//Init3();
+				Init3();
 				$('#listaProductos').fadeIn();
 				//para mostrar productos por pagina
-				//showProducts(categoria);
-			}else{
-				//alert('no hay prods');
-				$('#listaProductos').html('Debes crear productos');
+				showProducts(categoria);
 			}
 		});				
 	},errorCB,successCB);
 	$('.producto').hide();
 	//$('.categoria_producto_'+ categoria).show();
-	//Init3();
+	Init3();
 	showProducts(categoria);
 	}
 	
@@ -634,15 +632,6 @@ function formarCategorias(){
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
 				ActivarCategoria(objcategoria,categoriaSelected);
-			}else{
-				$('#contenidoCategorias').html('<h3>No hay Categorias debes Crearlas en la pestaña de productos</h3>');
-				$('#listaProductos').html('No Tienes Productos por favor ingresa productos para que puedas continuar facturando!!!')
-				setTimeout(function() {
-					$('#productosIndex').effect('highlight');
-				}, 3000)
-				setTimeout(function() {
-					$('#productosIndex').effect('highlight');
-				}, 3300);
 			}
 		});				
 	},errorCB,successCB);
@@ -953,8 +942,8 @@ function AclararSugerencia(celda,focus){
 }
 
 function PlaySound(id) {
-  var thissound=document.getElementById("beep"+id);
-  thissound.play();
+ /* var thissound=document.getElementById("beep"+id);
+  thissound.play();*/
 }
 
 function DetalleArriba(){
@@ -976,7 +965,8 @@ function DetalleAbajo(){
 	//setTimeout(function(){DetalleAbajo()},200);
 }
 function AntesDePagar(){
-	$('#paymentModule').modal('show');
+	//$('#paymentModule').modal('show');
+	$('#paymentModule').slideDown();
 	BuscarCliente(13);
 	//$("#cuadroClientes").css('display','none');
 	pagar();
@@ -1195,11 +1185,8 @@ function Init3(){
 	if(h/w>=0.725) vertical=true;
 	else vertical=false;
 	$('#contentdetalle').css("height",(3*h/5));
-<<<<<<< HEAD
-=======
 	var navh=parseInt($('.navbar').css("height"));
 	$('#pay').css("height",(hd-navh));
->>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	if(w<600||h<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
@@ -1215,14 +1202,10 @@ function Init3(){
 	}
 	
 	//$('.producto').css('font-size',(h*2.8/100)+'px');
-<<<<<<< HEAD
-	$('.producto,.categoriaActiva,.categoria').css('width',w/6);
-=======
 	$('.producto,.categoriaActiva,.categoria').each(function(){
 		//console.log($(this));
 		$(this).css('width',w/6);
 	});
->>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	if(vertical){
 		$('.producto').css('height',((h*4.5/100)+15)+'px');
 		//$('.producto,.categoriaActiva,.categoria').css('height',((h*4.5/100)+15)+'px');
@@ -1233,15 +1216,10 @@ function Init3(){
 		//$('#listaProductos').css('height',"100%");
 	}
 	
-	//$('#productos').css('height',h);
+	$('#productos').css('height',h);
 	
-<<<<<<< HEAD
-	$('#listaCategorias').css('height',(parseInt($('.categoria').css('height'))+10)+'px');
-	//$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
-=======
 	//$('#listaCategorias').css('height',(parseInt($('.categoria').css('height')))+'px');
 	$('#listaProductos').css('height',(parseInt($('.productos').css('height'))-80-parseInt($('#listaCategorias').css('height')))+'px');
->>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 	$('.direccionales').css('height',(parseInt($('.categoria').css('height')))+'px');
 	var anchoCategorias=0;
 	$('.categoria,.categoriaActiva').each(function(){
@@ -1249,33 +1227,23 @@ function Init3(){
 	});
 	var anchodireccionales=parseInt($('.direccionales').css('width'));
 	$('#nav_izq,#nav_der').css('width',anchodireccionales);
-<<<<<<< HEAD
-	//$('#listaCategorias').css('width',(w-(2*anchodireccionales)-20)+'px');
-	$('#listaCategorias').css('height',$('.producto').css('height'));
-	//$('#contenidoCategorias').css('width',anchoCategorias+20);
-	
-	if(anchoCategorias<w){
-=======
 	$('#listaCategorias').css('width',(w-(2*anchodireccionales)-20)+'px');
 	//$('#listaCategorias').css('height',$('.producto').css('height'));
 	$('#contenidoCategorias').css('width',anchoCategorias+20);
 	
 	var wp=parseInt($('.productos').css('width'))-40;
 	if(anchoCategorias<wp){
->>>>>>> d995e34704dd2ca58d4025b4d35c41199b25e98c
 		$('.direccionales').css('display','none');
-		//$('#listaCategorias').css('width',w);
+		$('#listaCategorias').css('width',wp);
 		}
 	else{
 		$('.direccionales').css('display','block');
-		//$('#listaCategorias').css('width',((w)-(2*anchodireccionales)-10)+'px');
+		$('#listaCategorias').css('width',((wp)-(2*anchodireccionales)-10)+'px');
 		}
 	//alert('init');
 }
 $(document).ready(function(){
 	Ready();
-	ColocarFormasPago();
-	formarCategorias();
 });
 function Ready(){
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -1288,7 +1256,8 @@ function Ready(){
 			}
 		});				
 	},errorCB,successCB);
-	
+	ColocarFormasPago();
+	formarCategorias();
 	
 	$('.numero').on('click',function(){
 		PlaySound(1);
