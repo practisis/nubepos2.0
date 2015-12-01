@@ -469,12 +469,13 @@ function imprimervprueba(){
 
 }
 
-function verificaimpnuevo(){
-  alert('entra');
-  window.plugin.printer.isAvailable(
-    function (isAvailable) {
-      alert(isAvailable ? 'Service is available' : 'Service not available');
-    }
-  );
-  alert('sale');
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
 }
