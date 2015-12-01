@@ -471,7 +471,7 @@ function imprimervprueba(){
 
 function verificaimpnuevo(){
   alert('entra');
-  window.plugins.printer.isAvailable(
+  window.plugin.printer.isAvailable(
     function (isAvailable) {
       alert(isAvailable ? 'Service is available' : 'Service not available');
     }
