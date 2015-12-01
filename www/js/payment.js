@@ -1837,8 +1837,20 @@ function CambiarMetodo(cual){
 	if(cual=='Efectivo'&&$('#touchefectivo').css('display')=='none'){
 		$('.touchpago').hide();$('#touchefectivo').slideDown();}
 	if(cual=='Tarjetas'&&$('#touchtarjetas').css('display')=='none'){$('.touchpago').hide();$('#touchtarjetas').slideDown();}
-	if(cual=='Cheques'&&$('#touchcheques').css('display')=='none'){$('.touchpago').hide();$('#touchcheques').slideDown();}
-	if(cual=='CxC'&&$('#touchcxc').css('display')=='none'){$('.touchpago').hide();$('#touchcxc').slideDown();}
+	if(cual=='Cheques'&&$('#touchcheques').css('display')=='none'){
+		$('.touchpago').hide();$('#touchcheques').slideDown();
+		if(parseFloat($('#valorcheque1').val())==0){
+			$('#valorcheque1').val(parseFloat($('#changeFromPurchase').html()).toFixed(2));
+			valorchequechange();
+		}
+	}
+	if(cual=='CxC'&&$('#touchcxc').css('display')=='none'){
+		$('.touchpago').hide();$('#touchcxc').slideDown();
+		if(parseFloat($('#valorcxc').val())==0){
+			$('#valorcxc').val(parseFloat($('#changeFromPurchase').html()).toFixed(2));
+			valorcxcchange();
+		}
+	}
 	$('.columna1 div').each(function(){
 		$(this).attr('class','paymentCategories');
 		$(this).css('backgroundColor','');

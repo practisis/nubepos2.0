@@ -505,7 +505,7 @@ function agregarCompra(item,origen){
 	var subtotalIvaCompra = 0;
 	
 	//verificar cantidades
-	if($.trim($('.cantidad').html()) != '0'){
+	if(parseInt($.trim($('.cantidad').html())) != 0){
 		productoCantidad = $.trim($('.cantidad').html());
 	}
 	//impuestos start
@@ -632,6 +632,8 @@ function formarCategorias(){
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
 				ActivarCategoria(objcategoria,categoriaSelected);
+			}else{
+				$("#menuproductos").html("<b>Ingrese Productos o Sincronice</b>");
 			}
 		});				
 	},errorCB,successCB);
@@ -679,6 +681,12 @@ function pagar(){
 	var subtotalIva = $('#subtotalIva').val();
 	var descuento = $('#descuentoFactura').val();
     var total = $('#totalmiFactura').val();
+	total=parseFloat(total);
+	$('#justo').html(total.toFixed(2));
+	$('#justo').attr('data-value',-1*total.toFixed(2));
+	$('#redondeado').html(Math.round(total).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));
+	$('#changeFromPurchase').html(Math.round(total).toFixed(2));
 
 	var impuestos = '';
 
@@ -903,9 +911,11 @@ function BuscarSugerencias(filtro,e){
 			$('#tableresults').html('');
 			var json = $('#jsonProductos').html();
 			var mijson = eval(''+json+'');
+			
 			for(var j in mijson){
 				for(var k in mijson[j]){
 					for(i = 0; i < mijson[j][k].length; i++){
+						
 							var item = mijson[j][k][i];
 							var suger='';
 							if(item.formulado_nombre.toLowerCase().indexOf(filtro.toLowerCase())>-1)
@@ -966,9 +976,11 @@ function DetalleAbajo(){
 }
 function AntesDePagar(){
 	//$('#paymentModule').modal('show');
+	changePaymentCategory('1','Efectivo');
 	$('#paymentModule').slideDown();
 	BuscarCliente(13);
 	//$("#cuadroClientes").css('display','none');
+	noCliente();
 	pagar();
 	if($('#idCliente').val!=''){
 	}else{
@@ -1259,6 +1271,241 @@ function Ready(){
 	ColocarFormasPago();
 	formarCategorias();
 	
+	
+	/*Josue*/
+    var currentCantidad;
+    var cantidadMultiplicar;
+    var vecesEnCantidad=0;
+    function AgregarProductoCustom(valorProducto){
+        
+        $('.cantidad').html('0.00')
+        $("#createHereCustomProduct").html('\
+            <div id="elProductoCustom" style="display:none;background-color:null; border:1px solid null" id="-1" data-precio="'+valorProducto+'" data-impuestos="" data-impuestosindexes="" data-formulado="Producto NubePOS" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_-1">Producto Custom</div>\
+            <script>$("#elProductoCustom").click();</script>\
+            ');
+        lenProducts=($('.productDetails').length-1);
+        $('.productDetails').each(function(index){
+            if(lenProducts==index){
+                v=($(this).val());
+                expProduct=v.split("|");
+                e1=expProduct[0];
+                e2=expProduct[1];
+                cantidad=expProduct[2];
+                e4=expProduct[3];
+                e5=expProduct[4];
+                e6=expProduct[5];
+                e7=expProduct[6];
+                
+                $(this).parent().html('<input type="hidden" class="productDetails" value="'+e1+'|'+e2+'|'+currentCantidad+'|'+e4+'|'+e5+'|'+e6+'|+'+e7+'">'+currentCantidad);
+            }
+        });
+        
+        //alert("Agregar" + valorProducto);
+        cantidadMultiplicar=0;
+        currentCantidad=0;
+    }
+    $('.numero').on('click',function(){
+        PlaySound(1);
+        var accion = $.trim($(this).attr('cual'));
+        cantidad=$.trim($('.cantidad').html());
+
+
+        if(accion=='.')        return; 
+
+        if(cantidad=='0'){
+            $('.cantidad').html('0.00'); 
+            cantidad='0.00';    
+        } 
+        console.log(accion);
+        expAction=cantidad.split(".");
+        
+        if(accion=='+'){
+            $("#inputbusc").focus();
+            return;
+        }
+
+        if(accion=='-'){
+
+            vecesEnCantidad++;
+            
+            if(vecesEnCantidad==2){
+                accion='go';
+                
+            }else{
+                
+                currentCantidad=$('.cantidad').html();
+                $('.cantidad').html('0.00');
+                return;    
+            }
+            
+        }
+
+
+        if(accion=='go'){
+            if(vecesEnCantidad==0){
+                
+                cantidadMultiplicar=$('.cantidad').html();
+                currentCantidad=cantidadMultiplicar;
+                AgregarProductoCustom(cantidadMultiplicar);
+                //alert("here");
+            }else{
+                cantidadMultiplicar=$('.cantidad').html();
+                valorProducto=cantidadMultiplicar * currentCantidad;
+                AgregarProductoCustom(valorProducto);
+
+                vecesEnCantidad=0;    
+            }
+            
+            return;
+        }
+    
+
+
+        if(accion=='d'){
+
+            if(expAction[0].length > 1 && expAction[1]=='00' ){
+                leftPart=expAction[0].substring(0,expAction[0].length-1);
+                leftPart2=expAction[0].substring(expAction[0].length-1,expAction[0].length);
+                $('.cantidad').html(leftPart+'.'+leftPart2+'0');
+                return;
+            }else{
+                if(expAction[0].length == 1 && expAction[1]=='00' ){
+                    leftPart=expAction[0].substring(0,expAction[0].length-1);
+                    leftPart2=expAction[0].substring(expAction[0].length-1,expAction[0].length);
+                    $('.cantidad').html('0.'+leftPart2+''+0);
+                    return;
+                }
+
+                if(expAction[0] == '0' && expAction[1]!='00' ){
+                        rightPart=expAction[1].substring(0,1);
+                        $('.cantidad').html('0.0'+rightPart);
+                }
+
+                if(expAction[0] != '0' && expAction[1]!='00' ){
+                        leftPart=expAction[0].substring(0,expAction[0].length-1);
+                        leftPart2=expAction[0].substring(expAction[0].length-1,expAction[0].length);
+                        rightPart=expAction[1].substring(0,1);
+                        $('.cantidad').html(leftPart + '.'+  leftPart2 +'' + rightPart);
+                }
+
+                
+            }
+
+            if(cantidad=='0.00'){
+                /*no borrar nada*/
+            }else{
+                if(expAction[1].substring(1,2)!='0' && expAction[1].substring(0,1)=='0' && expAction[0]=='0' ){
+                    /*0.0N*/
+                    goRight=expAction[1].substring(0,1);
+                    $('.cantidad').html('0.00');
+                }else{
+                    /* 0.NE*/
+                    if(expAction[1].substring(1,2)!='0' && expAction[1].substring(0,1)!='0' && expAction[0]=='0' ){
+                        lastNumber=expAction[1].substring(0,1);
+                        newRight='0'+lastNumber;
+                        $('.cantidad').html('0.'+newRight);    
+                    }else{
+                        if(expAction[1].substring(1,2)!='0'  && expAction[0]!='0' ){
+                            lenLeft=expAction[0].length;
+                            if(lenLeft==1){
+                                lastNumberLeft=expAction[0].substring(0,1);
+                                lastNumberRight=expAction[1].substring(0,1);
+                                newRight=lastNumberLeft+''+lastNumberRight;
+                                newLeft='0';
+                                newCantidad=newLeft+'.'+newRight;
+                                $('.cantidad').html(newCantidad);    
+                            }else{
+                                lastNumberLeft=expAction[0].substring(lenLeft-1,lenLeft);
+                                lastNumberRight=expAction[1].substring(0,1);
+                                newRight=lastNumberLeft+''+lastNumberRight;
+                                newLeft=expAction[0].substring(0,expAction[0].length-1);
+                                $('.cantidad').html(newLeft + "."+newRight);    
+
+                            }
+                        }else{
+
+                        }
+                    }
+                }
+            }
+            return;
+        }
+
+        if(cantidad=='0.00'){ /*0.00*/
+            if(accion=='00'){
+                $('.cantidad').html('0.'+accion);
+            }else{
+                $('.cantidad').html('0.0'+accion);    
+            }
+            
+        }else{
+            if(expAction[1].substring(0,1)=='0' && expAction[0]=='0'){  /*0.0N*/
+                lastNumber=expAction[1].substring(1,2);
+                if(accion=='00'){
+                    $('.cantidad').html(lastNumber+'.'+accion);
+                }else{
+                    $('.cantidad').html('0.'+lastNumber+''+accion);    
+                }
+                
+            }else{
+                if(expAction[0].substring(0,1)=='0' && expAction[1]!='00' ){ /*0.NE*/
+                    lastNumber=expAction[1].substring(0,1);
+                    lastNumber2=expAction[1].substring(1,2);
+                    newNumber=lastNumber+'.'+lastNumber2 + '' +accion;
+                    if(accion=='00'){
+                        newNumber=lastNumber+''+lastNumber2 + '.' +accion;
+                        $('.cantidad').html(newNumber);
+                    }else{
+                        $('.cantidad').html(newNumber);
+                    }
+                    
+                }else{
+                    exp1=expAction[0];
+                    exp2=expAction[1];
+                    lastNumber=expAction[1].substring(0,1);
+                    rightNew=exp2.substring(1,exp2.length) + '' +accion;
+                    newLeft=exp1 + "" + lastNumber;
+
+                    if(accion=='00' && expAction[1]=='00'){
+                        $('.cantidad').html(expAction[0] + '00.00');
+                    }else{
+                        $('.cantidad').html(newLeft + '.'+rightNew);
+                    }
+                    
+                }
+            }
+        }
+        
+
+
+/*
+        if(accion == 'p'){
+            if($('.cantidad').html().indexOf('.') == -1){
+                if($('.cantidad').html() == '0'){
+                    $('.cantidad').append('.');
+                    }
+                else{
+                    $('.cantidad').append('.');
+                    }
+                }
+            return false;
+            }
+        else if($.isNumeric(accion) === true){
+            if($('.cantidad').html()=='0')
+                    $('.cantidad').html(accion);
+            else
+                    $('.cantidad').append(accion);
+            return false;
+            }
+            
+        var fetchHTML = $.trim($('.cantidad').html());
+        $('.cantidad').html(fetchHTML.substring(0,(fetchHTML.length-1)));
+        if($('.cantidad').html()=='')
+            $('.cantidad').html('0');
+        */
+        });
+
+	/*
 	$('.numero').on('click',function(){
 		PlaySound(1);
 		var accion = $.trim($(this).attr('cual'));
@@ -1287,6 +1534,7 @@ function Ready(){
 		if($('.cantidad').html()=='')
 			$('.cantidad').html('0');
 		});
+		*/
 		
 		$('.producto').on('click',function(){
 			PlaySound(2);
@@ -1536,12 +1784,16 @@ function valorcardchange(){
 }
 
 function valorchequechange(){
+	//console.log('Anachwque');
 	var suma=0;
 	$('.cheque').each(function(){
-		suma+=parseFloat($(this).val());
+		console.log("Ana"+$(this).val());
+		if($(this).val()!=null)
+			suma+=parseFloat($(this).val());
 	});
+	console.log(suma);
 	$('#paymentCheques').val(suma.toFixed(2));
-	changePaymentCategory('3','Cheques'); return false;
+	changePaymentCategory('3','Cheques');
 }
 
 function valorcxcchange(){
