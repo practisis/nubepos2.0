@@ -46,6 +46,8 @@ function envia(donde){
 					if(donde=='cloud')
 					lugar="views/cloud/indexCloud.html";
 					//alert(lugar);
+					if(donde=='empresa')
+					lugar="views/cloud/indexEmpresa.html";
 					if(!lugar) lugar="404.html";
 					
 					$('#main').load(lugar,function(){
