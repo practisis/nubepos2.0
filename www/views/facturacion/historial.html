@@ -7,7 +7,7 @@
 		var d = today.getDate();
 		return y+"-"+m+"-"+d;
 	}
-	
+
 	function saberFecha(fecha){
 	var today = new Date(fecha);
 		var m = today.getMonth()+1; // 0-11
@@ -15,17 +15,17 @@
 		var d = today.getDate();
 		return y+"-"+m+"-"+d;
 	}
-	
+
 	function convertirTime(strFecha){
 		var myDate=strFecha; // 2015-11-11 var myDate="26-02-2012";
 		myDate=myDate.split("-");
 		var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0]; // var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
 		return (new Date(newDate).getTime());
 	}
-	
+
 	$("#imprimirDetalle").click(function(){
 		fechaFiltro=parseInt(convertirTime($("#fechadesde").val()));//1447263393685;//"2015-11-11"; ////$("#select").val();
-		
+
 		fechaRealFiltro=saberFecha(fechaFiltro);
 		fechaNow=obtenerFechaHoy();
 		numeroFactura="75"; //$("#select").val();
@@ -34,9 +34,9 @@
 		var sumaSubtotales=0;
 		var sumaIvas=0;
 		var today = new Date().getTime();
-		
+
 		jsonFormaPago=$.parseJSON($("#jsonformaspago").text());
-		
+
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 			db.transaction(function(tx){
 				tx.executeSql('SELECT * FROM FACTURAS',[],function(tx,results){
@@ -46,26 +46,26 @@
 					for (var i=0; i <= results.rows.length-1; i++){
 									var row = results.rows.item(i);
 									var fechaFactura = parseInt(row.fecha);
-									
+
 									if(fechaFactura>=fechaFiltro && fechaFactura<=intToday){
 										contPasa++;
-										
+
 										var Json = row.fetchJson;
 										var formaPago = row.paymentsUsed;
-										
+
 										obj=$.parseJSON(Json);
 										currentTotal=parseFloat(obj.Pagar[0].factura.total);
 										var cash = currentTotal;//row.cash;
 										for(j=0;j<=(jsonFormaPago.FormaPago.length-1);j++){
 											idForma=jsonFormaPago.FormaPago[j].id;
 											nombreForma=jsonFormaPago.FormaPago[j].nombre;
-											
+
 											if(idForma==formaPago){
 												strDetalle+=idForma+'@'+nombreForma+'@'+cash+"|";
 											}
 										}
-										
-										
+
+
 												sumaTotales=sumaTotales+currentTotal;
 										currentSubtotal=parseFloat(obj.Pagar[0].factura.subtotal_iva);
 											sumaSubtotales=sumaSubtotales+currentSubtotal;
@@ -73,7 +73,7 @@
 										iva=parseFloat(expImp[1]);
 											sumaIvas = sumaIvas + iva;
 									}
-							
+
 
 							}
 							if(contPasa){
@@ -84,15 +84,15 @@
 							}else{
 								alert("No existen facturas en este rango de fechas");
 							}
-									
-	
-				
+
+
+
 				});
 									},errorCB,successCB);
-								
-								
+
+
 		console.log('SELECT * FROM FACTURAS WHERE fecha>="'+fechaFiltro+'" AND fecha<="'+today+'"');
-		
+
 	});
 	function SinTildes(word){
   word=word.replace("á","a");
@@ -124,7 +124,7 @@ function imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,subtotales,totales,i
 											exp2=exp[h].split("@");
 											cash=parseFloat(exp2[2]);
 											idCurrent=exp2[0];
-											
+
 											if(idCurrent==idForma){
 												sumaCurrent=sumaCurrent+cash;
 											}
@@ -132,12 +132,12 @@ function imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,subtotales,totales,i
 										cont=cont+40;
 										espacio=340+cont;
 										strImprimir+="TEXT+7+0+20+"+espacio+"+"+nombreForma+"+$"+parseFloat(sumaCurrent).toFixed(2)+"+"+BR;
-										
-										
-										
+
+
+
 									}
 									console.log(strImprimir);
-									
+
 numeroFactura=0;
 nombreCliente="josue";
 rucCliente='TEXTO DUMMY JOSUE';
@@ -205,7 +205,7 @@ valor="0 @0 ";
 							<td  style='vertical-align:middle;'>
                                 <button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Filtrar</button>
 							</td>
-								
+
 						</tr>
 					</table>
 				</td>
@@ -220,7 +220,7 @@ valor="0 @0 ";
 							<td  style='vertical-align:middle;'>
 								  <button class="btn btn-primary"  style="width:200px;margin-right:15px;" id="imprimirDetalle" type="button" >Imprimir Cierre de Caja</button>
 							</td>
-								
+
 							<td  style='vertical-align:middle;'>
                                 <b>TOTAL$</b> <span id="totalencabezado"></span>
 							</td>
@@ -247,7 +247,7 @@ valor="0 @0 ";
 					<input id='totalpags' style='display:none;'/>
 				</td>
 			</tr>
-		</table>		
+		</table>
 </div>
 
 <script type="text/javascript">
@@ -310,7 +310,7 @@ function getSearch(){
 			$('#paginacion').append("<li onclick='CambiarPagina(-2);'><span class='enabled' id='adelante'>&raquo;</span></li>");
 		});
 	},errorCB,successCB);
-	
+
 	//var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc LIMIT '+desde+',15;';
     var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY id desc;';
 	//console.log(miquery);
@@ -346,7 +346,7 @@ function getSearch(){
         var con = 0;
         JSON.parse($('#jsonformaspago').html(), function (k, v) {
           if(v['id'] != undefined){
-            //console.log(v['id']+'**'+v['nombre']);
+            console.log(v['id']+'**'+v['nombre']);
             //var dba = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         	//db.transaction(function(txa){
             var totalfaux = 0;
@@ -356,7 +356,7 @@ function getSearch(){
                     var datosfacta=JSON.parse(rowa.fetchJson);
 			        var totalfa = parseFloat(datosfacta.Pagar[0].factura.total);
                     totalfaux += totalfa;
-			        //console.log(rowa.total);
+			        console.log(rowa.total);
                     }
                     con++;
                     inhtmla+='<tr><td style="text-align: right;">'+v['nombre']+'$</td><td style="text-align:right;">'+totalfaux.toFixed(2)+'</td></tr>';
@@ -405,7 +405,7 @@ function CambiarPagina(arg){
 		page=arg;
 		getSearch();
 	}
-	
+
 }
 
 $(document).keyup(function(event){
