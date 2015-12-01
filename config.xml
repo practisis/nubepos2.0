@@ -45,7 +45,7 @@
 	<gap:plugin name="cordova-plugin-customurlscheme" source="npm">
 	  <param name="URL_SCHEME" value="nubeposv" />
 	</gap:plugin>
-    <gap:plugin name="de.appplant.cordova.plugin.printer" />
+    <gap:plugin name="de.appplant.cordova.plugin.printer" version="0.7.1" source="pgb" />
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
