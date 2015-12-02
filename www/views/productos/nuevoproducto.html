@@ -131,7 +131,7 @@
 			-->
 		
 			<div class="row">
-			<div class="col-xs-6"	>
+			<div class="col-xs-6">
 				<br><br>
 					<table>
 							<tr>
@@ -482,10 +482,11 @@ function ActualizarProducto(){
 				$('#idcategoria').val(results.insertId);
 				idcategoria=$('#idcategoria').val();
 				db.transaction(function(tx){
-				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE id_local='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and id_local!='+idproducto+');',[],function(tx,results){
+				console.log('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and timespan!='+idproducto+');');
+				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan='+idproducto+' AND NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE (formulado like "'+nombrep+'" or codigo like "'+codigop+'") and timespan!="'+idproducto+'");',[],function(tx,results){
 				console.log("prod:"+idproducto);
-
-                    if(costo != costoreal && costo != ''){
+						alert('');
+                    /*if(costo != costoreal && costo != ''){
                       tx.executeSql('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto,[],function(tx,resultsc){
 					    console.log('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto);
 					  });
@@ -499,31 +500,31 @@ function ActualizarProducto(){
                       tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex,[],function(tx,resultscar){
                 	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex);
                 	  });
-                    }
+                    }*/
 
-				VerDatosProducto(idproducto);
+				//VerDatosProducto(idproducto);
 				$('#jsalert').html("Datos Actualizados con éxito.");
 				showalert("Datos Actualizados con éxito.");
 				setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
 				setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);
-				$("#contentAll").find("input").val(" ");
+				//$("#contentAll").find("input").val(" ");
 				showalert("Producto " + nombrep + " Actualizado con éxito");
 				editarProductoID=0;
-				envia("nuevoproducto");
+				//envia("nuevoproducto");
 				});
 				},errorCB,successCB);
 				});
 			},errorCB,successCB);
 		}else{
+			console.log("Ani"+micolor);
 			idcategoria=$('#idcategoria').val();
             console.log('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan="'+idproducto + '"');
 			db.transaction(function(tx){
 				tx.executeSql('UPDATE PRODUCTOS SET formulado="'+nombrep+'",codigo="'+codigop+'",precio='+preciop+',categoriaid="'+currentTimespanCategory+'",cargaiva='+iva+',productofinal='+prfinal+',materiaprima='+matprima+',ppq='+costo+',color='+micolor+' WHERE timespan="'+idproducto + '"',[],function(tx,results){
-
-				VerDatosProducto(idproducto);
+				console.log(results);
+				//VerDatosProducto(idproducto);
                 showalert("Datos Actualizados con éxito.");
-
-                    if(costo != costoreal && costo != ''){
+                   /* if(costo != costoreal && costo != ''){
                       tx.executeSql('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto,[],function(tx,resultsc){
 					    console.log('UPDATE CARDEX SET precio_unidad='+costo+',ppq_real='+costo+' where id_formulado = '+idproducto);
 					  });
@@ -537,10 +538,10 @@ function ActualizarProducto(){
                       tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex,[],function(tx,resultscar){
                 	    console.log('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+idproducto+','+cantidadin+',"Ingreso al Cardex",'+costoin+','+fecha+','+costoin+',0,'+timeSpanCardex);
                 	  });
-                    }
-					$("#contentAll").find("input").val(" ");
-					showalert("Producto <b>" + nombrep + "</b> Actualizado con éxito");
-					envia("nuevoproducto");
+                    }*/
+					//$("#contentAll").find("input").val(" ");
+					//showalert("Producto <b>" + nombrep + "</b> Actualizado con éxito");
+					//envia("nuevoproducto");
 					editarProductoID=0;
 				});
 				},errorCB,successCB);

@@ -79,7 +79,7 @@
         
         
         //tx.executeSql('DROP TABLE IF EXISTS CATEGORIAS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIAS (id integer primary key AUTOINCREMENT, categoria text, activo integer, existe integer , timespan integer )');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS CATEGORIAS (id integer primary key AUTOINCREMENT, categoria text, activo integer, existe integer , timespan text )');
         tx.executeSql('SELECT COUNT(id) as cuantos FROM CATEGORIAS',[],function(tx,res){
             var existen=res.rows.item(0).cuantos;
             if(existen==0)
@@ -219,7 +219,7 @@
     function VerDatosProducto(id){
     var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
     db.transaction(function(tx){
-    tx.executeSql('SELECT p.*,c.categoria as categ FROM PRODUCTOS p, CATEGORIAS c WHERE p.id_local='+id+' and p.categoriaid=c.id;',[],function(tx,results){
+    tx.executeSql('SELECT p.*,c.categoria as categ FROM PRODUCTOS p, CATEGORIAS c WHERE p.timespan='+id+' and p.categoriaid=c.timespan;',[],function(tx,results){
         var row=results.rows.item(0);
         $('#idproducto').val(row.id_local);
         $('#titulonuevopr').html("Editar Producto");
