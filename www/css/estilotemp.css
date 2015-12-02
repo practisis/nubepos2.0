@@ -823,7 +823,7 @@ margin-top:10px;
     width: 300px; height: 30px;
   }
   .cuadrototal{
-    width:300px;
+    /*width:300px;*/
     margin-left: auto;
     margin-right: auto;
     font-size: 14px;
@@ -932,7 +932,7 @@ margin-top:10px;
     width: 130px; height: 30px;
   }
   .cuadrototal{
-    width:150px;
+    /*width:150px;*/
     /*margin-left: -28px;*/
     margin-left: auto;
     margin-right: auto;

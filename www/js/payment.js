@@ -2212,11 +2212,11 @@ function mostrarClientes(){
 								<div>\
 									<table style="cursor:pointer;position: relative; margin: 0px auto;" cellspacing="5px">\
 										<tr>\
+											<td onclick="noCliente(1);" style="vertical-align:top;">\
+												<button tabindex="8" class="btn btn-default">Cancelar</button> \
+											</td>\
 											<td style="vertical-align: top;">\
 												<button tabindex="7" class="btn btn-primary" onclick="jsonNuevoCliente()">Guardar</button> \
-											</td>\
-											<td onclick="noCliente(1);" style="vertical-align:top;">\
-												<button tabindex="8" class="btn btn-danger">Cancelar</button> \
 											</td>\
 										</tr>\
 									</table>\

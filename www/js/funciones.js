@@ -41,6 +41,7 @@ var altolistaprod=0;
 var pantAlto=$('#content').height();
 var pantAncho=$('#content').width();
 var vertical=false;
+var misdenominaciones=[0.01,0.05,0.10,0.25,0.50,1,5,10,20,100];
 	
 function init(){
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
@@ -559,10 +560,20 @@ function agregarCompra(item,origen){
 	//alert(subtotalSinIva+'/'+subtotalSinIvaCompra);
 	$('#totalmiFactura').val(sumTotal);
 	$('#total').html('$'+ parseFloat(sumTotal).toFixed(2))
-	$('#justo').html(total.toFixed(2));
-	$('#justo').attr('data-value',-1*total.toFixed(2));
-	$('#redondeado').html(Math.round(total).toFixed(2));
-	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));
+	$('#justo').html(sumTotal.toFixed(2));
+	$('#justo').attr('data-value',-1*sumTotal.toFixed(2));
+	$('#redondeado').html(Math.ceil(sumTotal).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.ceil(sumTotal).toFixed(2));
+	var alta=0;
+	for( var t in misdenominaciones){
+		if(misdenominaciones[t]>sumTotal)
+		{
+			alta=misdenominaciones[t];
+			break;
+		}
+	}
+	$('#altaden').html(alta.toFixed(2));
+	$('#altaden').attr('data-value',-1*alta.toFixed(2));
 	$('#subtotalSinIva').val(parseFloat(subtotalSinIva) + parseFloat(subtotalSinIvaCompra));
 	$('#subtotalIva').val(parseFloat(subtotalIva) + parseFloat(subtotalIvaCompra));
 	$('.cantidad').html('0');
@@ -682,10 +693,10 @@ function pagar(){
 	var descuento = $('#descuentoFactura').val();
     var total = $('#totalmiFactura').val();
 	total=parseFloat(total);
-	$('#justo').html(total.toFixed(2));
+	/*$('#justo').html(total.toFixed(2));
 	$('#justo').attr('data-value',-1*total.toFixed(2));
 	$('#redondeado').html(Math.round(total).toFixed(2));
-	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));*/
 	$('#changeFromPurchase').html(Math.round(total).toFixed(2));
 
 	var impuestos = '';
@@ -980,7 +991,7 @@ function AntesDePagar(){
 	$('#paymentModule').slideDown();
 	BuscarCliente(13);
 	//$("#cuadroClientes").css('display','none');
-	noCliente();
+	$("#cuadroClientes,#opaco").css("display","none");
 	pagar();
 	if($('#idCliente').val!=''){
 	}else{
@@ -1227,7 +1238,8 @@ function Init3(){
 		$('.producto').css('height',((h*5/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}
-	
+	$('.den').css('height',2*parseFloat($('.producto').css('height')));
+	$('.den').css('width',2*parseFloat($('.producto').css('height')));
 	$('#productos').css('height',h);
 	
 	//$('#listaCategorias').css('height',(parseInt($('.categoria').css('height')))+'px');
@@ -1703,7 +1715,7 @@ function subirefectivo(boton){
 	if(valor>0)
 		newvalor=valor+cuantohay;
 	else{
-		if(valor==-1)
+		if(valor==-0)
 			newvalor=0;
 		else
 			newvalor=-1*valor;
@@ -1735,14 +1747,22 @@ function elegirTarjeta(id){
 	$('.card').attr('class',clase);
 	clase=clase.replace('btn-default','btn-success');
 	$('#card_'+id).attr('class',clase);
+	
 	var suma=0;
 	$('.card').each(function(){
 		suma+=parseFloat($(this).attr('data-value'));
 	});
 	
-	if(suma==0){
-		//$('#valortarjeta').val(parseFloat($('#invoiceTotal').html()));
-		$('#card_'+id).attr('data-value',$('#invoiceTotal').html());
+	var pagado=parseFloat($('#invoicePaid').html());
+	var mitot=parseFloat($('#invoiceTotal').html());
+	if(mitot-pagado-suma<0)
+		suma=0;
+	else
+		suma=mitot-pagado-suma;
+	
+	if(suma>0){
+		$('#valortarjeta').val(suma.toFixed(2));
+		$('#card_'+id).attr('data-value',suma.toFixed(2));
 	}
 	
 	$('#valortarjeta').val(parseFloat($('#card_'+id).attr('data-value')).toFixed(2));
@@ -1758,21 +1778,23 @@ function elegirTarjeta(id){
 	$('.card').each(function(){
 		suma+=parseFloat($(this).attr('data-value'));
 	});
-
-	$('#paymentTarjetas').val(suma.toFixed(2));
-	changePaymentCategory('2','Tarjetas'); return false;
+	
+	$('#paymentTarjetas').val((suma).toFixed(2));
+	changePaymentCategory('2','Tarjetas');
 }
 
 function valorcardchange(){
 	$('.card').each(function(){
 		if($(this).hasClass('btn-success')){
+			var elid=$(this).attr('data-id');
 			if(parseFloat($('#valortarjeta').val())>0){
-				var elid=$(this).attr('data-id');
 				$('#card_'+elid).attr('data-value',$('#valortarjeta').val());
 				$('#cardv_'+elid).html(' ('+$('#valortarjeta').val()+')');
 			}
-			else
-				$('#cardv_'+id).html(''); 
+			else{
+				$('#cardv_'+elid).html('');
+				$('#card_'+elid).attr('data-value','0');
+			}
 		}
 	});
 	var suma=0;
@@ -1780,7 +1802,7 @@ function valorcardchange(){
 		suma+=parseFloat($(this).attr('data-value'));
 	});
 	$('#paymentTarjetas').val(suma.toFixed(2));
-	changePaymentCategory('2','Tarjetas'); return false;
+	changePaymentCategory('2','Tarjetas');
 }
 
 function valorchequechange(){
