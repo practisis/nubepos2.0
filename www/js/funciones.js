@@ -1210,7 +1210,7 @@ function Init3(){
 	$('#contentdetalle').css("height",(3*h/5));
 	var navh=parseInt($('.navbar').css("height"));
 	$('#pay').css("height",(hd-navh));
-	if(w<600||h<600){
+	if(w<600){
 		$('.btn-lg').each(function(){
 			var actual=$(this).attr('class');
 			var nueva=actual.replace("btn-lg","btn-sm");
