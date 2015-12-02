@@ -6,7 +6,8 @@
 					<div class='col-lg-10'>
 						Fecha:
 						<div class="input-group"> 
-						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/></div>
+						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/>
+						<input type='text' class='form-control' id='hasta' style='display:none;'/></div>
 					</div>
 					<div class='col-lg-2' style='text-align:right;'>
 						<button class='btn btn-primary' type='button' style='margin-top:20px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
@@ -151,10 +152,15 @@ $(document).ready(function(){
   //obtener datos para el dashboard
   /*"SELECT COUNT(*) AS number_rows FROM facturacion join locales on facturacion.id_locales = locales.id WHERE ".$plazafact." and (fecha >=? AND fecha <=?) AND anulada = FALSE".$localFact." and facturacion.id not in (select f.id from facturacion f,pagos p where p.idfactura=f.idreal and p.idformapago in(7,12) and f.id_locales=p.id_locales)"*/
   
+  $('#desde').change(function(){
+		$('#hasta').val($(this).val());
+  });
+  
 });
 
 
 function ObtenerDatosDashboard(){
+	$('#ventascategoria,#productosten').html('');
 	var fdesde=$('#desde').val();
 	fdesde=fdesde.replace("-","/");
 	fdesde=new Date(fdesde);
@@ -165,9 +171,10 @@ function ObtenerDatosDashboard(){
 	var db = window.openDatabase("Database","1.0","PractisisMobile", 200000);
 	db.transaction(
 		function (tx){
+			console.log('SELECT COUNT(*) AS number_rows FROM facturas WHERE fecha >='+fdesde.getTime()+' AND fecha <='+fhasta.getTime()+'');
 			tx.executeSql('SELECT COUNT(*) AS number_rows FROM facturas WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
 			function(tx,res){
-				console.log(res.rows.item(0).number_rows);
+				console.log('trans'+res.rows.item(0).number_rows);
 				$('#transacciones').html(res.rows.item(0).number_rows);
 			});				
 	},errorCB,successCB);
@@ -291,7 +298,7 @@ function ObtenerDatosDashboard(){
 				//console.log(JSON.parse(cadenamorris));
 				$('#chartventas').html('');
 				
-				new Morris.Area({
+				/*new Morris.Area({
 				  element: 'chartventas',
 				  data:JSON.parse(cadenamorris),
 				  xkey: 'x',
@@ -299,7 +306,7 @@ function ObtenerDatosDashboard(){
 				  labels: ['Ventas US$'],
 				  parseTime: true,
 				  lineColors: ['#E94B3B']
-				});
+				});*/
 				
 				/*Datos del presupuesto*/
 				
