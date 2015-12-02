@@ -1240,6 +1240,7 @@ function Init3(){
 	}
 	$('.den').css('height',2*parseFloat($('.producto').css('height')));
 	$('.den').css('width',2*parseFloat($('.producto').css('height')));
+	$('.den').css('font-size','14px');
 	$('#productos').css('height',h);
 	
 	//$('#listaCategorias').css('height',(parseInt($('.categoria').css('height')))+'px');
