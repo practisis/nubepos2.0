@@ -1272,7 +1272,7 @@ function Init3(){
 		//$('#listaProductos').css('height',"100%");
 	}else{
 		//$('.producto,.categoriaActiva,.categoria').css('height',((h*6.5/100)+15)+'px');
-		$('.producto').css('height',((h*5/100)+15)+'px');
+		$('.producto').css('height',((h*6/100)+15)+'px');
 		//$('#listaProductos').css('height',"100%");
 	}
 	$('.den').css('height',2*parseFloat($('.producto').css('height')));
