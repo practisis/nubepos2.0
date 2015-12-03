@@ -474,7 +474,7 @@
 						</div>
 						</div>
 					</div>
-				<div class='row' style='background-color:#DDD;'>
+				<div class='row' style='background-color:#DDD; padding-top:20px; padding-bottom:20px;'>
 					
 						<!--<button type='button' class='btn btn-danger bnt-sm' style='position:absolute; top:25px; right:12px; cursor:pointer;' onclick='$("#paymentModule").modal("hide");'><span class='glyphicon glyphicon-remove-circle' ></span></button>-->
 						
@@ -508,7 +508,7 @@
 				<div class='col-xs-5'>
 					<td style="vertical-align:top; width:120px; height:150px;" colspan='2'>
 						<div class="ventanaformapago" style='overflow-y:auto; overflow-x:hidden;'>
-							<table style="width:95%;" cellspacing="0" cellpadding="0" id='tablaformaspago'>
+							<table style="width:100%;" cellspacing="0" cellpadding="0" id='tablaformaspago'>
 							</table>
 						</div>
 					</td>
@@ -516,8 +516,8 @@
 				<div class='col-xs-7'>
 						<div class='tipopago panel'>
 							<div class='touchpago' id='touchefectivo'>
-								
-								<div class='' style='margin-bottom:3px; text-align:left;'>
+								<span>Elije tu pago en efectivo o escribe le monto en la casilla correspondiente</span>
+								<div class='' style='margin-bottom:3px; margin-top:15px; text-align:left;'>
 								<!---<div class='col-lg-4'>
 								<button onclick='subirefectivo(this);' class='btn btn-lg btn-primary' data-value='100' type='button'>100</button>
 								</div>
@@ -554,20 +554,28 @@
 								<div class='col-lg-4'>
 								<button onclick='subirefectivo(this);' class='btn btn-lg btn-danger' data-value='-1' type='button'>Borrar</button>
 								</div>--->
+							
 								<div class='' style='text-align:left; display:inline;'>
-								<button onclick='subirefectivo(this);' id='altaden' class='btn btn-lg btn-default den' data-value='' type='button'></button>
+								<button onclick='subirefectivo(this);' id='justo' class='btn btn-lg btn-primary den' data-value='' type='button'>
 								</div>
 								<div class='' style='text-align:left; display:inline;'>
-								<button onclick='subirefectivo(this);' id='redondeado' class='btn btn-lg btn-default den' data-value='' type='button'></button>
+								<button onclick='subirefectivo(this);' id='redondeado' class='btn btn-lg btn-primary den' data-value='' type='button'></button>
 								</div>
-								<div class='' style='text-align:left; display:inline;'>
-								<button onclick='subirefectivo(this);' id='justo' class='btn btn-lg btn-default den' data-value='' type='button'>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='altaden' class='btn btn-lg btn-primary den' data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='prox10' class='btn btn-lg btn-primary den' data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='prox20' class='btn btn-lg btn-primary den' data-value='' type='button'></button>
 								</div>
 								</div>
 								
 							</div>
 							<div class="touchpago col-xs-12" id='touchtarjetas' style='display:none;'>
-									<div id='lastarjetas'>
+								<span>Elije la tarjeta con la que vas a pagar</span>
+									<div id='lastarjetas' style='margin-top:15px;'>
 								    </div>
 								<div class='col-lg-12 col-md-12 col-xs-12' style='padding:0px;'>
 								<div class="input-group" style='margin-top:5px; margin-bottom:5px;'>
@@ -577,7 +585,8 @@
 								</div>
 							</div>
 							<div class="touchpago" id='touchcheques'  style='display:none;'>
-								<table width='100%'>
+								<span>Ingresa el monto del cheque</span>
+								<table width='100%' style='margin-top:15px;'>
 								<tr><td>
 								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
 								<span class="input-group-addon" id="basic-addon1" style='width:20%;'> Cheque No.</span>
@@ -594,7 +603,8 @@
 								</table>
 							</div>
 							<div class="touchpago" id='touchcxc'  style='display:none;'>
-								<table width='100%'><tr><td>
+								<span>Ingresa el monto que se va a cancelar</span>
+								<table width='100%' style='margin-top:15px;'><tr><td>
 								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
 								<span class="input-group-addon" id="basic-addon1" style='width:20%;' >Valor US</span>
 								<input type='number' onchange='valorcxcchange();' class='form-control input input-lg' id='valorcxc' name='valorcxc' value='0.00' onclick='this.select();'/>
@@ -614,7 +624,7 @@
 				</div>
 				<div>
 					<div class='col-xs-12'>
-						<div class='row' style='background-color:#E0DEDE;'>
+						<div class='row' style='background-color:#DDD; padding-top:20px; padding-bottom:20px;'>
 						<div class='col-lg-5 col-md-5 col-xs-5'></div>
 						<div class='col-lg-3 col-md-3 col-xs-3'>
 						<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px" width='100%'>

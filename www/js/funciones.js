@@ -218,10 +218,10 @@ function ActivarCategoria(cual,categoria){
 						impuestosid+='1';
 					}
 					var lineHeight='';
-					if(row.formulado.length>20)
-						lineHeight='line-height:15px;';
+					if(row.formulado.length>15)
+						lineHeight='line-height:20px;';
 						
-					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+'" id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
+					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+' text-transform:capitalize; " id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
 				//$('.producto').hide();
 				//init2(categoria);
@@ -574,6 +574,42 @@ function agregarCompra(item,origen){
 	}
 	$('#altaden').html(alta.toFixed(2));
 	$('#altaden').attr('data-value',-1*alta.toFixed(2));
+	if(alta!=sumTotal&&alta!=Math.ceil(sumTotal)&&alta!=0)
+		$('#altaden').parent().css('display','inline');
+	else
+		$('#altaden').parent().css('display','none');
+	
+	var prox10=0;
+	var iter=1;
+	var p10=iter*10;
+	while(p10<sumTotal){
+		iter++;
+		p10=iter*10;
+	}
+	$('#prox10').html(p10.toFixed(2));
+	$('#prox10').attr('data-value',-1*p10.toFixed(2));
+	//console.log(p10+'/'+alta);
+	if(p10>0&&p10!=alta)
+		$('#prox10').parent().css('display','inline');
+	else
+		$('#prox10').parent().css('display','none');
+	
+	var prox20=0;
+	var iter=1;
+	var p20=iter*20;
+	while(p20<sumTotal){
+		iter++;
+		p20=iter*20;
+	}
+	$('#prox20').html(p20.toFixed(2));
+	$('#prox20').attr('data-value',-1*p20.toFixed(2));
+	if(p20>0&&p20!=p10)
+		$('#prox20').parent().css('display','inline');
+	else
+		$('#prox20').parent().css('display','none');
+	
+	
+	
 	$('#subtotalSinIva').val(parseFloat(subtotalSinIva) + parseFloat(subtotalSinIvaCompra));
 	$('#subtotalIva').val(parseFloat(subtotalIva) + parseFloat(subtotalIvaCompra));
 	$('.cantidad').html('0');
@@ -697,7 +733,8 @@ function pagar(){
 	$('#justo').attr('data-value',-1*total.toFixed(2));
 	$('#redondeado').html(Math.round(total).toFixed(2));
 	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));*/
-	$('#changeFromPurchase').html(Math.round(total).toFixed(2));
+	$('#changeFromPurchase').html(total.toFixed(2));
+	$('#invoiceDebt').html('FALTANTE');
 
 	var impuestos = '';
 
@@ -1031,7 +1068,7 @@ function ColocarFormasPago(){
 				mihtml+= '<div id="paymentCategory-'+evalJson[k][j].id+'" class="paymentCategories" onclick="changePaymentCategory(\''+evalJson[k][j].id+'\',\''+evalJson[k][j].imagen+'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
 				mihtml+= '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
 			    mihtml+= '<tr style="cursor:pointer;">';
-				mihtml+= '<td style="width:10%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B; padding-left:10px;"><span class="glyphicon glyphicon-ok-circle"></span></td>';
+				mihtml+= '<td style="width:10%; height:100% text-align: right; font-size: 12px; font-weight:400; padding-left:10px;"><span class="glyphicon glyphicon-ok-circle"></span></td>';
 				mihtml+= '<td class="textoformapago" id="forma_'+evalJson[k][j].id+'">';
 				mihtml+=evalJson[k][j].nombre;
 				mihtml+= '</td>';
@@ -1041,9 +1078,9 @@ function ColocarFormasPago(){
 				mihtml+= '</td>';
 				mihtml+= '<td class="columna2">';
 				mihtml+= '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
-				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onchange="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" onkeypress="return soloNumerost(event);"/>';
+				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="this.select(); CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onchange="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" onkeypress="return soloNumerost(event);"/>';
 				mihtml+= '</div>';
-				mihtml+= '</td>';
+				mihtml+= '</td><td width="5%"><button class="btn" type="button" onclick="ResetPagos('+evalJson[k][j].id+');"><span class="glyphicon glyphicon-trash"></span></button></td>';
 				mihtml+= '</tr>';
 				x++;
 		}
@@ -1735,7 +1772,7 @@ function vertarjetas(){
 		var mihtml='';
 		for(var j in evalJson[k]){
 			var dat=evalJson[k][j];
-			var div='<div class="col-xs-3"><button data-value="0.00" type="button" class="btn btn-default btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" id="cardv_'+dat.id+'"></span></button></div>';
+			var div='<div class="col-xs-3"><button data-value="0.00" type="button" class="btn btn-primary btn-lg card" id="card_'+dat.id+'" data-id="'+dat.id+'" onclick="elegirTarjeta('+dat.id+');"><span>'+dat.nombre+'</span><span style="position:absolute; right:5px; top:3px; font-size:10px;" class="cardv" id="cardv_'+dat.id+'"></span></button></div>';
 			$('#lastarjetas').append(div);
 			x++;
 		}
@@ -1744,26 +1781,40 @@ function vertarjetas(){
 
 function elegirTarjeta(id){
 	var clase=$('.card').attr('class');
-	clase=clase.replace('btn-success','btn-default');
+	clase=clase.replace('btn-success','btn-primary');
 	$('.card').attr('class',clase);
-	clase=clase.replace('btn-default','btn-success');
+	clase=clase.replace('btn-primary','btn-success');
 	$('#card_'+id).attr('class',clase);
+	
+	if($('#cardv_'+id).html()!=''){
+		$('#cardv_'+id).html('');
+		$('#card_'+id).attr('data-value','0');
+		var clase=$('#card_'+id).attr('class');
+		clase=clase.replace('btn-success','btn-primary');
+		$('#card_'+id).attr('class',clase);
+	}
+		
 	
 	var suma=0;
 	$('.card').each(function(){
-		suma+=parseFloat($(this).attr('data-value'));
+		if($(this).attr('id')!='card_'+id)
+			suma+=parseFloat($(this).attr('data-value'));
 	});
 	
+	console.log('antes'+suma);
+	var valorfalta=0;
 	var pagado=parseFloat($('#invoicePaid').html());
 	var mitot=parseFloat($('#invoiceTotal').html());
-	if(mitot-pagado-suma<0)
-		suma=0;
+	console.log("falta:"+(mitot-pagado-suma));
+	if((mitot-pagado)<0)
+		valorfalta=0;
 	else
-		suma=mitot-pagado-suma;
+		valorfalta=mitot-pagado;
 	
-	if(suma>0){
-		$('#valortarjeta').val(suma.toFixed(2));
-		$('#card_'+id).attr('data-value',suma.toFixed(2));
+	console.log("falta:"+mitot+'/'+pagado+'/'+valorfalta);
+	if(valorfalta>0){
+		$('#valortarjeta').val(valorfalta.toFixed(2));
+		$('#card_'+id).attr('data-value',valorfalta.toFixed(2));
 	}
 	
 	$('#valortarjeta').val(parseFloat($('#card_'+id).attr('data-value')).toFixed(2));
@@ -1823,11 +1874,33 @@ function valorcxcchange(){
 	var valorcxc=parseFloat($('#valorcxc').val());
 	if(valorcxc>0){
 		$('#paymentCxC').val(valorcxc.toFixed(2));
-	}
-	changePaymentCategory('4','CxC'); return false;
+	}else
+		$('#paymentCxC').val(0);
+	
+	changePaymentCategory('4','CxC');
 }
 
 function toogleCalc(){
 	$('#pad,#grid').toggle();
 	$('#menuproductos,#numpad').toggle('fast');
+}
+
+function ResetPagos(cual){
+	if(cual==1){
+		$('#paymentEfectivo').val('0.00');
+		$('#paymentEfectivo').change();
+		//CambiarMetodo('Efectivo');
+	}else if(cual==2){
+		console.log('anacard');
+		$('.cardv').html('');
+		$('.card').attr('data-value','0');
+		$('#valortarjeta').val('0.00');
+		valorcardchange();
+	}else if(cual==3){
+		$('#valorcheque1').val('0.00');
+		valorchequechange();
+	}else if(cual==4){
+		$('#valorcxc').val('0.00');
+		valorcxcchange();
+	}
 }

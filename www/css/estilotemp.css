@@ -430,7 +430,7 @@ margin-top:10px;
     /*background: -ms-linear-gradient(top, #00a5ab 0%,#087877 100%); /* IE10+ */
     /*background: linear-gradient(to bottom, #00a5ab 0%,#087877 100%); /* W3C */
     /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a5ab', endColorstr='#087877',GradientType=0 ); /* IE6-9 */
-    color: #ffffff;
+    color: #202021;
  }
     
 .payButton{
@@ -524,7 +524,8 @@ margin-top:10px;
     }
     
 .paymentCategories{
-    background-color: #D2D2D2;
+    background-color:#2e6da4;
+	color:white;
     }
     
 .botontotal{
@@ -619,7 +620,7 @@ margin-top:10px;
 	font-weight:400;
 	text-align:left;
 	padding-left:5px;
-	color:#58595B;
+	/*color:#58595B;*/
   }
   .buttonsPayment{
     width:65px;
