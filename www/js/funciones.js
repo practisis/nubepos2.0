@@ -217,9 +217,17 @@ function ActivarCategoria(cual,categoria){
 						impuestos+='0.12';
 						impuestosid+='1';
 					}
+					if(row.servicio==1){
+						if(row.cargaiva==1){
+							impuestos+='@';
+							impuestosid+='@';
+						}
+						impuestos+='0.10';
+						impuestosid+='2';
+					}
 					var lineHeight='';
 					if(row.formulado.length>15)
-						lineHeight='line-height:20px;';
+						lineHeight='line-height:18px;';
 						
 					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+' text-transform:capitalize; " id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
 				}
@@ -523,13 +531,13 @@ function agregarCompra(item,origen){
 				
 				if($('#impuestoFactura-'+ value).length == 0){
 					var impuestoDetalles = $('#impuesto-'+ value).val().split('|');
-					taxTotal = ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) * parseFloat(impuestoDetalles[2]));
+					taxTotal += ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) * parseFloat(impuestoDetalles[2]));
 					$('#factura').append('<input type="hidden" id="impuestoFactura-'+ value +'" class="esImpuesto" data-id="'+ impuestoDetalles[0] +'" data-nombre="'+ impuestoDetalles[1] +'" data-valor="'+ impuestoDetalles[2] +'" value="'+ taxTotal +'"/>');
 					}
 				else{
 					var impuestoDetalles = $('#impuesto-'+ value).val().split('|');
 					var currentTax = $('#impuestoFactura-'+ value).val();
-					taxTotal = ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) * parseFloat(impuestoDetalles[2]));
+					taxTotal += ((parseFloat(productoCantidad) * parseFloat(productoPrecio)) * parseFloat(impuestoDetalles[2]));
 					$('#impuestoFactura-'+ value).val(parseFloat(currentTax) + parseFloat(taxTotal));
 					}
 				});
@@ -1078,7 +1086,7 @@ function ColocarFormasPago(){
 				mihtml+= '</td>';
 				mihtml+= '<td class="columna2">';
 				mihtml+= '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
-				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="this.select(); CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onchange="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" onkeypress="return soloNumerost(event);"/>';
+				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onchange="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" onkeypress="return soloNumerost(event);"/>';
 				mihtml+= '</div>';
 				mihtml+= '</td><td width="5%"><button class="btn" type="button" onclick="ResetPagos('+evalJson[k][j].id+');"><span class="glyphicon glyphicon-trash"></span></button></td>';
 				mihtml+= '</tr>';
