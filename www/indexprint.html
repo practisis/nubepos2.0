@@ -16,13 +16,20 @@
      document.body.innerHTML = originalContents;
 }
 function verprint(){
-  window.plugin.printer.isAvailable(
-    function (isAvailable) {
-      alert(isAvailable ? 'Service is available' : 'Service not available');
-    }
-  );
+  var gadget = new cloudprint.Gadget();
+    gadget.setPrintButton(
+    cloudprint.Gadget.createDefaultPrintButton("print_button_container")); // div id to contain the button
+    //gadget.setPrintDocument("[document mimetype]", "[document title]", "[document content]", "[encoding] (optional)");
+    gadget.setPrintDocument("url", "My Document", "http://www.practisis.net/NUBE%20V2/www/indexprint.html");
+}
+function inpr(){
+var type = "text/html"
+var title = "test.html";
+var fileContent = "<html>Phonegap Print Plugin</html>";
+window.PrintPlugin.print(fileContent,function(){console.log('success')},function(){console.log('fail')},"",type,title);
 }
   </script>
+<script src="https://www.google.com/cloudprint/client/cpgadget.js"></script>
 </head>
 
 <body>
@@ -34,6 +41,8 @@ function verprint(){
 <input type="button" onclick="printDivrv('printableArea')" value="print a div!" />
 <br><br>
 <input type="button" onclick="verprint()" value="print!" />
-
+<br><br>
+<div id="print_button_container"></div>
+<input type="button" onclick="inpr();" value="prints" />
 </body>
 </html>
