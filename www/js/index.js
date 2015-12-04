@@ -1,11 +1,17 @@
     onDeviceReady();
    function onDeviceReady(){
         envia('dashboard');
-        //alert("listo");
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
         db.transaction(iniciaDB, errorCB, successCB);
-        //IngresaCategorias();
         console.log(db);
+
+        alert("device Ready");
+         var element = document.getElementById('deviceProperties');
+        element.innerHTML = 'Device Model: '    + device.model    + '<br />' +
+                        'Device Cordova: '  + device.cordova  + '<br />' +
+                        'Device Platform: ' + device.platform + '<br />' +
+                        'Device UUID: '     + device.uuid     + '<br />' +
+                        'Device Version: '  + device.version  + '<br />';
     }
 
     // Populate the database
