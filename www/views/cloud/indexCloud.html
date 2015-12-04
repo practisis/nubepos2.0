@@ -1,7 +1,8 @@
 
 <script>
+		var loopSicnronizador;
 		var empresa = localStorage.getItem('empresa');
-		if(empresa){
+	
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 				db.transaction(function(tx){
 			tx.executeSql('SELECT nombreempresa FROM empresa',[],function(tx,results){
@@ -10,13 +11,22 @@
 									var row = results.rows.item(i);
 									var nombreempresa = row.nombreempresa;
 								}
+									if(nombreempresa){
+										$(".putEmp").html(""+nombreempresa+ "<small>("+empresa+")</small>");
+										$("#yaConectado").fadeIn();
+										$("#contentLogin").css("display" , "none");
+										$("#texto15Dias").css("display" , "none");
+										$("#demoGratis").css("display" , "none");
+										$("#fadeRow").css("display" , "none");
+										clearInterval(loopSicnronizador);
+										loopSicnronizador=setTimeout(function(){
+											
+											recibeConsultaApi(empresa,nombreempresa)
+										},15000);
+									}else{
 
-								$(".putEmp").html(""+nombreempresa+ "<small>("+empresa+")</small>");
-			$("#yaConectado").fadeIn();
-			$("#contentLogin").css("display" , "none");
-			$("#texto15Dias").css("display" , "none");
-			$("#demoGratis").css("display" , "none");
-			$("#fadeRow").css("display" , "none");
+										nuevaCuenta();
+									}	
 
 			},errorCB ,successCB);
 		});
@@ -26,25 +36,27 @@
 				y=Math.floor((Math.random() * 100) + 1);
 				$('#progress2 div').width(y + "%");
 			},2000);*/
-		}else{
-			nuevaCuenta();
-		}
+		
 </script>
-<br/> <br/>
-<div id="yaConectado" style="display:none;">
-<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
-		padding-bottom: 35px;
-		color: #fff;
-		border-radius: 4px 4px 0 0;
-		background-position: center top;font-size: 40px;    padding: 15px;
-		border-bottom: 1px solid #e5e5e5;
-		min-height: 16.42857143px;">
-			  NubePOS Conectado <br/> <label class="putEmp"></label>
-			  <small><br/>Sincronizando...</small>
-			  <center><a href="https://www.practisis.net/login.php" target="_blank" ><input class="btn btn-md btn-primary btn-center" type="button"  value="Abrir punto de venta en la nube" /> </a></center>
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="yaConectado" style="display:none;width:100%;padding:0px;margin:0px;">
+				<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
+					padding-bottom: 35px;
+					color: #fff;
+					border-radius: 4px 4px 0 0;
+					background-position: center top;font-size: 40px;    padding: 15px;
+					border-bottom: 1px solid #e5e5e5;
+					min-height: 16.42857143px;">
+			  		NubePOS Conectado <br/> <label class="putEmp"></label>
+			  		<small><br/>Sincronizando...</small>
+			  		<center><a href="https://www.practisis.net/login.php" target="_blank" ><input class="btn btn-md btn-primary btn-center" type="button"  value="Abrir punto de venta en la nube" /> </a></center>
 			</div>
 			
-</div>
+			</div>
+		</div>
+	</div>
+
 <div class="row" id="contentStepSincro" style="display:none;" >
 		<div class="col-md-3" ></div>
 		<div class="col-md-6" >
@@ -68,15 +80,12 @@
 		</div>
 		<div class="col-md-3" ></div>
 	</div>
-<br/><br/>
-	
+
 	<div id="putHereIframes" style="display:none;"> </div>
-	<div class="row" style="margin:0 auto;display:block;" id="fadeRow" >
+	<div class="row" style="display:block;" id="fadeRow" >
 		<div class="col-md-3" >
 		</div>
-		
 		<div class="col-md-6">
-			<label id="texto15Dias">Puedes conectarte a una cuenta NubePOS <br/> para ver tus datos en la nube y manejar invetarios</label>
 		<div class="modal-content text-center" id="contentLogin" style="min-height: 263px;">
 			<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
 		padding-bottom: 35px;
@@ -97,7 +106,7 @@
 			 
 			  <form method="post" class="contact-form form-validate4" id="myloginform" novalidate="novalidate">
 				<div class="form-group">
-				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="fabricio123@practisis.com" autocomplete="off" aria-required="true">
+				  <input class="form-control input-lg" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="josue@misocioweb.com" autocomplete="off" aria-required="true">
 				</div>
 				<div class="form-group">
 				  <input type="password" id="pass2" name="mipass" value="123456" class="form-control input-lg" placeholder="Password" required="" autocomplete="off" aria-required="true">
@@ -126,32 +135,37 @@
 	  <script>
 	  	
 			function mostrarSignIn(){
+				$(".putHeightRows").css("height" , $(window).height() + "px");
 				$("#demoGratis").css("display" , "none");
 				$("#fadeRow").fadeIn();
 			
 			}
 			
 			function nuevaCuenta(){
+				$(".putHeightRows").css("height" , $(window).height() + "px");
 				$("#fadeRow").css("display" , "none");
-				$("#demoGratis").fadeIn();
+				$("#demoGratis").fadeIn("fast",function(){
+					$("#animaRegister").animate({ top : "50px" });
+				});
 			}
 	  </script>
 	  <!-- Registro -->
-	  <div class="row" style="margin:0 auto;display:none;" id="demoGratis" >
+	  <div class="row" style="display:none;" id="demoGratis" >
 		<div class="col-md-3" >
 		</div>
 		
-		<div class="col-md-6">
-		<div class="modal-content text-center" style="min-height: 263px;">
-			<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
-		padding-bottom: 35px;
-		color: #fff;
-		border-radius: 4px 4px 0 0;
-		background-position: center top;font-size: 40px;    padding: 15px;
-		border-bottom: 1px solid #e5e5e5;
-		min-height: 16.42857143px;">
-			  NubePOS
-			</div>
+		<div class="col-md-6" class="putHeightRows" style="position:relative;min-height: 800px;overflow:hidden;">
+			<label id="texto15Dias">Puedes conectarte a una cuenta NubePOS <br/> para ver tus datos en la nube y manejar invetarios</label>
+			<div class="modal-content text-center" id="animaRegister" style="min-height: 263px;width:100%;position:absolute;left:0px;top:-1200px;">
+				<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
+					padding-bottom: 35px;
+					color: #fff;
+					border-radius: 4px 4px 0 0;
+					background-position: center top;font-size: 40px;    padding: 15px;
+					border-bottom: 1px solid #e5e5e5;
+					min-height: 16.42857143px;">
+				  NubePOS
+				</div>
 			<div class="modal-body" style="min-height: 266px;">
 			 <div id="divdatoslogin" style="overflow:auto;">
 			  <h3 style="-webkit-margin-before: 1em;
@@ -217,6 +231,7 @@
 		</div>
 		
 	  </div> <!--End row -->
+	  <br/><br/><br/><br/><br/><br/><br/><br/>
 	  <!-- STEP 1 -->
 	  <div id="JSONproductosLocal" style="color:red;display:none;"></div>
 	  <div id="JSONproductosNube"  style="color:blue;display:none;" ></div>
@@ -706,7 +721,7 @@
 							tx.executeSql("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?;",[idNube,timeSpan],function(tx,results){
 								
 							});
-							alert("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?" + idNube + " <> " + timeSpan);
+							console.log("UPDATE PRODUCTOS SET categoriaid=? WHERE categoriaid=?" + idNube + " <> " + timeSpan);
 						},errorCB ,successCB);	
 					console.log("actualizar timespan abajo>>" + catLocal.categoria +  ">>" + idNube);
 				}
@@ -799,10 +814,17 @@
 		 for(j=0; j<= (objLocal.JsonClientes.length-1); j++){
 			element=objLocal.JsonClientes[j];
 			currentClientLocal=element.timespan;
+			currentClientLocal.cedula
+			if(currentClientLocal.cedula == '9999999999999'){
+				alert(currentClientLocal.cedula);
+				currentClientLocal=-1	;
+			} 
+
 			var matchClient=false;
 			var  matchClientCedula=false;
 			for( k=0;k<=(objNube.Clientes.length -1); k++){
 				currentClientNube = objNube.Clientes[k].timespan;
+
 				if(currentClientLocal == currentClientNube){
 					//alert( currentClientNube + "<>" + currentClientNube);
 					matchClient=true;
@@ -813,7 +835,7 @@
 				
 				arrayFaltanteClienteLocal[arrayFaltanteClienteLocal.length] = currentClientLocal;
 				console.log(arrayFaltanteClienteLocal);
-				console.log("falta el cliente>>" + element.nombre);
+				alert("falta el cliente>>" + element.nombre);
 			}
 		 }
 		 
@@ -963,11 +985,16 @@
 		/*SINCRONIZAR TABLA PRESUPUESTOS*/
 
 		function sincronizaPresupuesto(){
+			
 				$.post('http://practisis.net/practipos2/ajax/apiSincronizador/apiSincronizaNubeposPresupuesto.php',{
 							 empresa : empresa
 						}).done(function(data){
 							console.log(data);
+							
 							json=$.parseJSON(data);
+							if(json.Presupuesto[0].error){
+								console.log("no presupuesto");
+							}
 							var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 							db.transaction(function(tx){
 							tx.executeSql("DELETE FROM PRESUPUESTO",[],function(tx,results){
@@ -987,6 +1014,8 @@
 									},errorCB,successCB);
 
 							}
+							
+							envia("cloud");
 						});
 
 			//envia("cloud");	
@@ -1073,6 +1102,7 @@
 					JSONproductosNube=arraydatos.productos;
 					JSONcategoriasNube=arraydatos.categorias;
 					JSONclientesNube=arraydatos.clientes;
+					//alert(JSONclientesNube);
 					$("#JSONclientesNube").html(JSONclientesNube);
 					console.log(arraydatos);
 					$("#JSONCategoriasNube").html(JSONcategoriasNube);
@@ -1123,6 +1153,7 @@
 		
 		
 		function muestraJSONLOCALCategorias (){
+
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 				db.transaction(function(tx){
 			tx.executeSql('SELECT * FROM CATEGORIAS',[],function(tx,results){
@@ -1677,4 +1708,6 @@
 				//alert( newEmpresa + "<>" + newEmail + "<>" + newPass + "<>" + newConfirm );
 
 			}
+			$(".putHeightRows").css("height" , $(window).height() + "px");
+				
 	</script>
