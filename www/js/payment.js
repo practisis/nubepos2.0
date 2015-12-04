@@ -2109,6 +2109,7 @@ function jsonNuevoCliente()
 					console.log("Cliente Actualizado!");
 					$('#idCliente').val(res.rows.item(0).id);
 					$("#clientefind").html(nombreP);
+					$("#busquedacliente").html(cedula);
 					$("#newCliente,#opaco").fadeOut();
 				});	
 			}else{
@@ -2117,6 +2118,7 @@ function jsonNuevoCliente()
 					console.log(res3.insertId);
 					$('#idCliente').val(res3.insertId);
 					$("#clientefind").html(nombreP);
+					$("#busquedacliente").html(cedula);
 					$("#newCliente,#opaco").fadeOut();
 				});	
 			}

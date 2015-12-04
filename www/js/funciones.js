@@ -732,6 +732,23 @@ function slider(direccion){
 	}
 	
 function pagar(){
+	
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function (tx){
+			tx.executeSql('SELECT MAX(id)+1 as max FROM FACTURAS',[],
+			function(tx,res){
+				var coun=res.rows.item(0).max.toString().length;
+				var nfact=res.rows.item(0).max.toString();
+				var ceros='';
+				var ceroscount=0;
+				while(ceroscount<(9-coun)){
+					ceros+='0';
+					ceroscount++;
+				}
+				$('#invoiceNr').html('001-001-'+ceros+nfact);
+			});
+		});
+	
 	var subtotalSinIva = $('#subtotalSinIva').val();
 	var subtotalIva = $('#subtotalIva').val();
 	var descuento = $('#descuentoFactura').val();
