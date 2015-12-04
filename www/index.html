@@ -1,6 +1,7 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
+			<script type="text/javascript" src="cordova.js"></script>
 <!--			<base href="http://demos.jquerymobile.com/1.4.2/navbar/">-->
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
@@ -207,5 +208,11 @@
 
 
 
-
+<script>
+	document.addEventListener("deviceready", function(){
+		var uuid = device.uuid;
+		alert(uuid);
+	});
+	</script>
+	
 </html>
