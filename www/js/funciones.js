@@ -185,6 +185,7 @@ $(window).bind("orientationchange", function(event){
 	}*/
 	
 function ActivarCategoria(cual,categoria){
+	console.log(categoria);
 	$('#category').val(categoria);
 	$('#controller').val(1);
 	$('.directionProducts').css('display','none');
@@ -204,6 +205,7 @@ function ActivarCategoria(cual,categoria){
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(
 	function (tx){
+		console.log('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 ORDER BY formulado asc');
 		tx.executeSql('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 ORDER BY formulado asc',[],function(tx,res){
 			console.log(res);
 			if(res.rows.length>0){
@@ -673,7 +675,7 @@ function formarCategorias(){
 	var objcategoria='';
 	db.transaction(
 	function (tx){
-		tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY id asc',[],function(tx,res){
+		tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY categoria asc',[],function(tx,res){
 			if(res.rows.length>0){
 				for(m=0;m<res.rows.length;m++){
 					selected = 'categoria';
@@ -682,7 +684,8 @@ function formarCategorias(){
 						selected = 'categoriaActiva';
 						categoriaSelected = row.timespan;
 					}
-					$('#listacat').append('<li id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+ row.timespan +'); PlaySound(5);"><a>'+ (row.categoria).substring(0,20) +'</a></li>');
+					console.log("idc:"+row.timespan);
+					$('#listacat').append('<li id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+"'"+ row.timespan +"'"+'); PlaySound(5);"><a>'+ (row.categoria).substring(0,20) +'</a></li>');
 				}
 				objcategoria=$('#categoria_'+categoriaSelected)[0];
 				console.log(objcategoria);
