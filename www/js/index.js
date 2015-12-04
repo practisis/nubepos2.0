@@ -5,7 +5,7 @@
         db.transaction(iniciaDB, errorCB, successCB);
         console.log(db);
 
-        alert("device Ready");
+        alert("device Ready>>" + device.model );
          var element = document.getElementById('deviceProperties');
         element.innerHTML = 'Device Model: '    + device.model    + '<br />' +
                         'Device Cordova: '  + device.cordova  + '<br />' +
