@@ -5,18 +5,17 @@
         db.transaction(iniciaDB, errorCB, successCB);
         console.log(db);
 
-        alert("device Ready>>" + device.model );
+     /*   alert("device Ready>>" + device.model );
          var element = document.getElementById('deviceProperties');
         element.innerHTML = 'Device Model: '    + device.model    + '<br />' +
                         'Device Cordova: '  + device.cordova  + '<br />' +
                         'Device Platform: ' + device.platform + '<br />' +
                         'Device UUID: '     + device.uuid     + '<br />' +
-                        'Device Version: '  + device.version  + '<br />';
+                        'Device Version: '  + device.version  + '<br />';*/
     }
 
     // Populate the database
     //
-    em
     function iniciaDB(tx){
         //console.log("Ana");
         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
