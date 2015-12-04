@@ -226,7 +226,7 @@ function ActivarCategoria(cual,categoria){
 						impuestosid+='2';
 					}
 					var lineHeight='';
-					if(row.formulado.length>15)
+					if(row.formulado.length>12)
 						lineHeight='line-height:18px;';
 						
 					$('#listaProductos').append('<div style="background-color:'+row.color+'; border:1px solid '+row.color+'; '+lineHeight+' text-transform:capitalize; " id="'+ row.timespan+'" data-precio="'+ row.precio +'" data-impuestos="'+impuestos +'" data-impuestosindexes="'+impuestosid +'" data-formulado="'+ row.formulado +'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_'+row.categoriaid +'">'+ row.formulado +'</div>');
@@ -732,7 +732,6 @@ function slider(direccion){
 	}
 	
 function pagar(){
-	
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function (tx){
 			tx.executeSql('SELECT MAX(id)+1 as max FROM FACTURAS',[],
