@@ -1353,7 +1353,7 @@ function Ready(){
     var currentCantidad;
     var cantidadMultiplicar;
     var vecesEnCantidad=0;
-    function AgregarProductoCustom(valorProducto){
+    function AgregarProductoCustom(cantitadRequest , valorProducto){
         
         $('.cantidad').html('0.00')
         $("#createHereCustomProduct").html('\
@@ -1396,9 +1396,105 @@ function Ready(){
         console.log(accion);
         expAction=cantidad.split(".");
         
-        if(accion=='+'){
-            $("#inputbusc").focus();
-            return;
+		function saberProducto(id){
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx){
+				tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS WHERE id_local='+id+';',[],function(tx,res){
+					var existen=res.rows.item(0).cuantos;
+					if(existen==0){
+						alert('no existe ese producto');
+						$('.cantidad').html('0.00');
+					}else{
+						$('.cantidad').html('0.00');
+						//alert('hola')
+						tx.executeSql('SELECT * FROM PRODUCTOS WHERE id_local='+id+';',[],function(tx,result){
+							//alert(result);
+							for (var i=0; i <= result.rows.length-1; i++){
+								var row = result.rows.item(i);
+								var productoNombre = row.formulado;
+								var productoCantidad = 1;
+								var cargaiva = row.cargaiva;
+								var productoImpuestosIndexes = cargaiva;
+								if(cargaiva == 1){
+									var productoImpuestos = 0.12;
+								}
+								else{
+									var productoImpuestos = 0;
+								}
+								var productoPrecio = row.precio;
+								var total = ((parseFloat(productoPrecio) * parseFloat(productoImpuestos))+parseFloat(productoPrecio));
+								console.log(productoPrecio);
+								var productoID = row.id_local;
+								//console.log(formulado);
+								var taxTotal = 1;
+								var sumTotal;
+								 $('.cantidad').html('0.00')
+									$("#createHereCustomProduct").html('\
+										<div id="elProductoCustom" style="display:none;background-color:null; border:1px solid null" id="-1" data-precio="'+total+'" data-impuestos="" data-impuestosindexes="" data-formulado="'+productoNombre+'" onclick="agregarCompra(this); return false;" class="producto btn btn-lg btn-primary categoria_producto_-1">'+productoNombre+'</div>\
+										<script>$("#elProductoCustom").click();</script>\
+									');
+							}
+						},errorCB,successCB);
+						
+					}
+				},errorCB,successCB);
+			});
+		}
+		
+       if(accion=='+'){
+            // $("#inputbusc").focus();
+            // return;
+			var codigoBusqueda = $('.cantidad').html();
+			var entero = codigoBusqueda.replace(".","");
+			var primerDigito = entero.substring(0,1);
+			var segundoDigito = entero.substring(1,2);
+			var tercerDigito = entero.substring(2,3);
+			var esConfirm = false;
+			if(entero.length == 3){
+				if(primerDigito == 0 && segundoDigito == 0){
+					sumaDigitos = tercerDigito;
+					if(confirm('su codigo es : ' + sumaDigitos+'?')){
+						codigoBusqueda = tercerDigito;
+						esConfirm = true;
+						saberProducto(codigoBusqueda);
+						//agregarCompra(codigoBusqueda);
+						$('.cantidad').html('');
+					}
+				}
+				
+				if(primerDigito == 0 && segundoDigito != 0){
+					sumaDigitos = (segundoDigito+''+tercerDigito);
+					if(confirm('su codigo es : ' + sumaDigitos+'?')){
+						codigoBusqueda = sumaDigitos;
+						esConfirm = true;
+						saberProducto(codigoBusqueda);
+						//agregarCompra(codigoBusqueda);
+						$('.cantidad').html('');
+					}
+				}
+				if(primerDigito != 0){
+					sumaDigitos = entero;
+					if(confirm('su codigo es : ' + sumaDigitos+'?')){
+						codigoBusqueda = sumaDigitos;
+						esConfirm = true;
+						saberProducto(codigoBusqueda);
+						//agregarCompra(codigoBusqueda);
+						$('.cantidad').html('');
+					}
+				}
+				//alert(sumaDigitos);
+				
+			}
+			$('.cantidad').html('0.00');
+			if(esConfirm == false){
+				sumaDigitos = entero;
+				saberProducto(sumaDigitos);
+				$('.cantidad').html('');
+				//alert(sumaDigitos);
+				//agregarCompra(sumaDigitos);
+				
+			}
+			$('.cantidad').html('0.00');
         }
 
         if(accion=='-'){
@@ -1422,13 +1518,13 @@ function Ready(){
             if(vecesEnCantidad==0){
                 
                 cantidadMultiplicar=$('.cantidad').html();
-                currentCantidad=cantidadMultiplicar;
-                AgregarProductoCustom(cantidadMultiplicar);
+                currentCantidad=1;
+                AgregarProductoCustom(1,cantidadMultiplicar);
                 //alert("here");
             }else{
                 cantidadMultiplicar=$('.cantidad').html();
                 valorProducto=cantidadMultiplicar * currentCantidad;
-                AgregarProductoCustom(valorProducto);
+                AgregarProductoCustom(valorProducto , valorProducto);
 
                 vecesEnCantidad=0;    
             }
