@@ -7,9 +7,6 @@
 }
 </style>
 	<div  class="row" >
-		<div class='col-lg-12' style='text-align:right;'>
-			<button type='button' class='btn btn-danger btn-lg' onclick="envia('nuevoproducto');">Nuevo</button>
-		</div>
 		<div class="col-lg-12">
 			<div class="row">
 				<div class="col-sm-12" >
@@ -26,7 +23,7 @@
 				<div class="col-sm-12" align="center">
 					<div class="row"> 
 									
-						<div class="col-md-4" align="left" >
+						<div class="col-md-2" align="left" >
 						
 							<div role="group" class="btn-group">
 								   <div id="includeDropCategory" style=""></div>
@@ -34,12 +31,15 @@
 								  </div>
 						</div>
 						<div class="col-md-8" align="left">
-							<div class="input-group" style="width:70%;">
+							<div class="input-group" style="width:100%;">
 								<input  type="text" class="form-control" placeholder="Escriba un producto..." id="searchKeyword" onkeyUp="if(event.keyCode==13) {return false; }else{searchProduct($(this))}">
 								<span class="input-group-btn">
 									<button class="btn btn-default" type="button" onclick="searchProduct($('#searchKeyword')); ">Buscar</button>
 								</span>
 							</div><!-- /input-group -->
+						</div>
+						<div class='col-md-2'>
+							<button type='button' class='btn btn-danger' onclick="envia('nuevoproducto');">Nuevo Producto</button>
 						</div>
 						
 						
@@ -51,8 +51,8 @@
 				
 				<div class="col-sm-2" >
 					<select id='listacategorias' style='font-size:15px;display:none;'>
-									<option value='0'>Todas las categorias</option>
-								</select>
+						<option value='0'>Todas las categorias</option>
+					</select>
 				</div>
 				
 			</div> <!-- END Row Header Search.. -->
@@ -77,12 +77,12 @@
 				
 			</div>
 					
-			<div class="row"> <!-- Row footer.. -->
-				<div class="col-sm-12" align="center">
+			<!--<div class="row"> <!-- Row footer.. -->
+				<!---<div class="col-sm-12" align="center">
 					<ul class="pagination paginacion-lg" id='paginacion'>
 					</ul>
 				</div>
-			</div>
+			</div>--->
 					
 			<hr color="gray"/>
 			
@@ -91,8 +91,23 @@
 		</div> <!-- END Col-LG-12. -->
 		
 	</div> <!-- END ROW.. -->
-	<div class="row">
-		
+	<div class="modal fade" tabindex="-1" role="dialog" id='modaleliminar'>
+		<input type='hidden' style='display:none;' id='timeproduct'/>
+		<div class="modal-dialog modal-xs">
+			<div class="modal-content">
+				<div class="modal-header">
+					Eliminar Producto
+				</div>
+				<div class='modal-body'>
+					Está seguro que desea eliminar el producto <b><span id='nombreelim'></span></b> ?
+					<div style='margin-top:20px;'>
+						<button class='btn btn-lg btn-danger' onclick='EliminarProduct();'>SI</button>
+						<button class='btn btn-lg btn-danger' onclick='$("#timeproduct").val(""); $("#nombreelim").html(""); $("#modaleliminar").modal("hide");'>NO</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 <style>
 .pricing-table {
     margin: 000px auto;
@@ -112,7 +127,7 @@
     padding: 20px;
 	width:100%;
     /*width: 180px;*/ /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */      
-    float: left;
+    float: left;px
     position: relative;
 }
 
@@ -139,7 +154,7 @@
     font-size: 20px;
     font-weight: normal;
     padding: 20px;
-    margin: -20px -20px 50px -20px;
+    margin: -20px -20px 0px -20px;
     background-color: #eee;
     background-image: linear-gradient(#fff, #eee);
 }
@@ -158,21 +173,6 @@
 
 .pricing-table .plan:nth-child(4) h3 {
     border-radius: 0 5px 0 0;       
-}   
-
-.pricing-table h3 span {
-    display: block;
-    font: bold 25px/100px Georgia, Serif;
-    color: #777;
-    background: url('img/cafe.jpg');
-	bacground-size:cover;
-	overflow:hidden;
-    border: 5px solid #fff;
-    height: 100px;
-    width: 100px;
-    margin: 10px auto -65px;
-    border-radius: 100px;
-    box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
 }
 
 /* --------------- */
@@ -261,8 +261,7 @@
   zoom:1
 }
 </style>
-		</div>
-	</div>
+
 
 <script type="text/javascript">
 editarProductoID=0;
@@ -287,11 +286,12 @@ function ListarCategorias(){
 	tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY id asc;',[],function(tx,results){
 		//console.log(results.rows.length);
 		var inhtml='';var inhtml2="";
-		inhtml2+=' <li><a href="javascript:void(0)"  categoria="" onclick="showCategory($(this))" idDB="0">Todas</a></li>';
+		inhtml2+=' <li><a href="javascript:void(0)" class="opcioncat" categoria="Seleccione una categoria" onclick="showCategory($(this))" idDB="0" timespan="0">Todas</a></li>';
+		
 		for (var i=0; i < results.rows.length; i++){
 			var row=results.rows.item(i);
 			inhtml+='<option value="'+row.id+'">'+row.categoria+'</option>';
-			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" class="categoriasPrecargadas" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+' </a></li>';
+			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" class="categoriasPrecargadas" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+'</a></li>';
 		}
 		
 		 LlenarComboCat(inhtml,inhtml2);
@@ -307,11 +307,11 @@ function LlenarComboCat(options,options2){
 	$('#listacategorias').append(options);
 	$("#includeDropCategory").html('\
 	\
-									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
-									Seleccione una Categoría\
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-selec="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
+									<span id="catsel">Seleccione una categoria</span>\
 									<span class="caret"></span>\
 								  </button>\
-								  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4"  >\
+								  <ul class="dropdown-menu" id="listacombocat" aria-labelledby="dropdownMenu4">\
 								  '+options2+'\
 								  </ul>\
 								</div>\
@@ -413,19 +413,24 @@ function getSearch(){
 						 </div>\
 					</div>\
 				';*/
-				categoria=$('.categoriasPrecargadas[timespan="'+row.categoriaid+'"]').text();
+				var back='';
+				if(row.color!='')
+					back='background-color:'+row.color;
+					
+				categoria=$('.categoriasPrecargadas[timespan='+row.categoriaid+']').text();
 				inhtml+='\
-				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'" > <div class="pricing-table" class="clear" style=" ">\
+				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'"> <div class="pricing-table" class="clear" style=" ">\
 					<div class="plan">\
-						<h3 style="">'+row.formulado+'<span><img src="img/cafe.jpg" height="170" style="margin-left:-25px;"/></span></h3>\
-						<a class="signup" href="javascript:void(0);" onclick="editProduct(\''+row.timespan+'\')" >Editar</a>   <a class="signupdelete" href="javascript:void(0);" style="background-color:red;" onclick="eliminarProduct(\''+row.timespan+'\')" >Borrar</a>        \
-						<ul>\
+						<h3 style="">'+row.formulado+'</h3>';
+						<!---<div class="panel mini-box" style="text-align:center;"><span class="box-icon bg-info" style="margin-left:40%; '+back+'" >'+row.formulado[0].toUpperCase()+'</span></div>\--->
+						inhtml+='<div><ul>\
 							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
 							<li><b>Categoría</b> '+categoria+'</li>\
 							<li><b>Carga IVA</b> '+checkiva2+'</li>\
 						</ul> \
-					</div>\
-				</div></div>\
+						</div>';
+						inhtml+='<button class="button btn btn-default btn-lg" onclick="VerificarEliminar('+row.timespan+",'"+row.formulado+"'"+');">Borrar</button>&nbsp;<button class="button btn btn-lg btn-primary"	onclick="editProduct(\''+row.timespan+'\')" >Editar</button>					\
+					\</div></div></div>\
 				';
 			
 			/*<td style="text-align:center"><input disabled type="checkbox" '+checkprfinal+'/></td><td style="text-align:center"><input disabled type="checkbox" '+checkmatprima+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id+');"></span></td></tr>';*/
@@ -473,32 +478,111 @@ function searchProduct(t){
 	$('div[clase="listProduct"]').css("display" , "none");
 	if(buscar==''){ $('div[clase="listProduct"]').css("display" , "block"); return;}
 	
-	$('div[clase="listProduct"][formulado*="'+buscar+'"]').fadeIn("fast");
-	if(!$('div[clase="listProduct"][formulado*="'+buscar+'"]').length) $('div[clase="listProduct"]').css("display" , "none");
-	console.log('div[clase="listProduct"][formulado*="'+buscar+'"]');
+	var todosLista=$('div[clase="listProduct"]');
+	//console.log(todosLista);
+	
+	var timespanc=$('#catsel').attr('data-selec');
+				
+	for(var t in todosLista){
+		var elprod=todosLista[t];
+		//console.log($(elprod));
+		//console.log($(elprod).attr('formulado'));
+		var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+		if($('#catsel').attr('data-selec')=='0'){
+			if(dataform.toLowerCase().indexOf(buscar)>=0){
+				$(elprod).fadeIn('fast');
+			}
+		}else{
+				var lacat=$(elprod).attr('timespanCat');
+				if(dataform.toLowerCase().indexOf(buscar)>=0&&lacat==timespanc)
+				{
+					$(elprod).fadeIn('fast');
+				}
+		}	
+	}
+	
+	/*$('div[clase="listProduct"][formulado*="'+buscar+'"]i').fadeIn("fast");
+	if(!$('div[clase="listProduct"][formulado*="'+buscar+'"]i').length) $('div[clase="listProduct"]').css("display" , "none");
+	console.log('div[clase="listProduct"][formulado*="'+buscar+'"]');*/
 	
 }
 
 function showCategory(t){
 	categoria=t.attr("categoria");
 	timespan=t.attr("timespan");
+	var filtro=$('#searchKeyword').val().toLowerCase();
 	$('div[clase="listProduct"]').css("display" , "none");
-	if(categoria=='')$('div[clase="listProduct"]').css("display" , "block");
-	console.log('div[clase="listProduct"][timespan="'+timespan+'"]');
-	$('div[clase="listProduct"][timespanCat="'+timespan+'"]').fadeIn("fast");
+	$('#catsel').html($(t).attr('categoria'));
+	$('#catsel').attr('data-selec',timespan);
+	if(categoria=='Seleccione una categoria'){
+		if(filtro==''){
+			$('div[clase="listProduct"]').css("display" , "block");
+		}else{
+			var todosLista=$('div[clase="listProduct"]');
+			for(var t in todosLista){
+				var elprod=todosLista[t];
+				console.log($(elprod).attr('formulado'));
+				var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+				var lacat=$(elprod).attr('timespanCat');
+				if(dataform.toLowerCase().indexOf(filtro)>=0)
+				{
+					$(elprod).fadeIn('fast');
+				}
+			}
+		}
+	}else{
+		var todosLista=$('div[clase="listProduct"]');
+		for(var t in todosLista){
+			var elprod=todosLista[t];
+			console.log($(elprod).attr('formulado'));
+			var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+			var lacat=$(elprod).attr('timespanCat');
+			if(dataform.toLowerCase().indexOf(filtro)>=0&&lacat==timespan)
+			{
+				$(elprod).fadeIn('fast');
+			}
+		}
+	}
 }
 
-function eliminarProduct(timeSpan){
-	
+function eliminarProduct(){
+	var timeSpan=$('#timeproduct').val();
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(function(tx){
 	tx.executeSql(' DELETE FROM PRODUCTOS WHERE timespan="'+timeSpan+'" ',[],function(tx,results){
 		envia("listaproductos");
-		
-		
 	});
 	},errorCB,successCB);
 	
 	
+}
+
+function VerificarEliminar(timeSpan,nombre){
+	$('#timeproduct').val(timeSpan);
+	$('#nombreelim').html(nombre);
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT fetchJson FROM FACTURAS',[],function(tx,results){
+		//console.log(results);
+		var esta=false;
+		for(var m=0;m<results.rows.length;m++){
+			//console.log('Ana');
+			var itemfact=results.rows.item(m);
+			var mijsonf=JSON.parse(itemfact.fetchJson);
+			var misprod=mijsonf.Pagar[0].producto;
+			for(var k in misprod){
+				var p=misprod[k];
+				if(p.id_producto==timeSpan){
+					console.log('encontrado en facturacion');
+					showalert("El producto no puede ser eliminado, ya que se encuentra facturado.");
+					esta=true;
+					break;
+				}
+			}
+		}
+		if(esta==false)
+			$('#modaleliminar').modal('show');
+	});
+	},errorCB,successCB);
 }
 </script>

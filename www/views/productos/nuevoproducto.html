@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <div id="mainDiv" class="row" style="padding-bottom:150px;">
 	<div class="col-sm-12" align="left" id="contentAll">
-		<h2 id='titulonuevopr'>Datos Producto</h2>
+		<h2 style='text-align:center;' id='titulonuevopr'>Datos Producto</h2>
 		<hr/>
 		<div class="row">
 			<div class="col-xs-6"	>
@@ -37,20 +37,22 @@
 			</div>
 			<div class="col-xs-6">
 				<h4> Precio Neto (sin imp.)  </h4>
-				<input style="width:90%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event);"/>
+				<input style="width:100%;" class="form-control" type="number" autofocus=""  placeholder="Precio sin imp " name='precioproducto' id='precioproducto' onkeypress="return soloNumerosprecio(event);"/>
 				<label style="color:red;display:none;" class="errorLabel3">Ingrese un precio válido</label>
 			</div>
 		</div>
 
 		
 
-		<div class="row" style='padding-top:15px;'>
+		<div class="row">
+			<div style='margin:15px; padding:20px; border:1px solid #CCC;'>
+			<div class='row'>
 			<div class="col-xs-6">
 				<div class="col-sm-6" align="left">
-				<h4> ¿Carga IVA? </h4> <input type="checkbox"  id='coniva' name="my-checkbox" style="height:30px;" checked>
+				<h4> ¿Carga IVA? </h4> <input type="checkbox"  id='coniva' name="my-checkbox" checked>
 				</div>
 				<div class="col-sm-6" align="left">
-				<h4> ¿Carga Servicio? </h4><input type="checkbox"  id='conservicio' name="my-checkbox" style="height:30px;" checked>
+				<h4> ¿Carga Servicio? </h4><input type="checkbox"  id='conservicio' name="my-checkbox"  checked>
 				</div>
 					<!--	<h4>Código de Barras</h4>
 			<div class="app">
@@ -75,7 +77,9 @@
 				</div>
 			</div>
 			</div>
-			<div class='row'  style='padding-top:15px;'>
+			</div>
+			<div class='row'>
+				<div style='padding:15px;'>
 				<div class='col-xs-10'>
 				<div>
 				<h4>Color</h4>
@@ -90,10 +94,13 @@
 				</div>
 				</div>
 				</div>
+				<div class='col-xs-2' style='text-align:right; padding-top:35px;'><button  class='btn btn-primary btn-lg' onclick='GuardaProducto();'>Guardar</button></div>
 				<input style="display:none;" class="form-control input-sm" autofocus="" placeholder="Color" name='colorproducto' id='colorproducto' type='text' value=''/>
+				</div>
+				<!--
 				<div class='col-lg-2 col-xs-2'>
 					Subir Imagen <iframe id="ElFrame" src="http://practisis.net/nubeposboot/www/uploadPicture.php" style="width:120px; height:100px;border:none;overflow:hidden;"></iframe>				
-				</div>
+				</div>-->
 			</div>
 <!--
 				<h4>Costo </h4>
@@ -125,13 +132,13 @@
 				<br/><br/>
 			-->
 		
-			<div class="row">
+			<!--<div class="row">
 			<div class="col-xs-10">
 			</div>
 			<div class="col-xs-2">
 			<button id='guardar' class="btn btn-primary btn" type='button' style="width:170px;height:50px;font-size:18px;" onclick='GuardaProducto();'><span class="glyphicon glyphicon-floppy-saved"></span>&nbsp;&nbsp;Guardar</button>
 			</div>
-		</div>
+			</div>--->
 
       <!--  <div class="row" style="">
 			<div class="col-md-5" >
@@ -217,7 +224,7 @@ var datoscateg='';
 			for (var i=0; i < results.rows.length; i++){
 				var row=results.rows.item(i);
 				$("#nombreproducto").val(row.formulado);
-				$("#titulonuevopr").html("Editar <i>" + row.formulado + "</i>");
+				$("#titulonuevopr").html("Datos Producto " + row.formulado + "");
 				str=row.codigo;
 					codigop='';
 				if(str.indexOf('ocode')!=-1) codigop=''; else codigop=str;
@@ -363,7 +370,7 @@ function GuardaProducto(){
 				if(!idInsert) timeSpanCat=currentTimeSpanCat;
 					$('#idcategoria').val(results.timeSpanCat);
 					
-					console.log("categ:"+results.timeSpanCat);
+					//console.log("categ:"+results.timeSpanCat);
 					//idcategoria=$('#idcategoria').val();
 						console.log('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'","'+timeSpanCat+'",'+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
 					db.transaction(function(tx){
@@ -378,7 +385,7 @@ function GuardaProducto(){
 						editarProductoID=0;
 						envia("nuevoproducto");
 					});*/
-
+					showalert("Producto <b>" + nombrep + "</b> Creado con éxito.");
 					});
 					},errorCB,successCB);
 					});
