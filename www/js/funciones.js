@@ -1399,7 +1399,7 @@ function Ready(){
 		function saberProducto(id){
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 			db.transaction(function(tx){
-				tx.executeSql('SELECT COUNT(id_local) as cuantos FROM PRODUCTOS WHERE id_local='+id+';',[],function(tx,res){
+				tx.executeSql('SELECT COUNT(codigo) as cuantos FROM PRODUCTOS WHERE codigo='+id+';',[],function(tx,res){
 					var existen=res.rows.item(0).cuantos;
 					if(existen==0){
 						alert('no existe ese producto');
@@ -1407,7 +1407,7 @@ function Ready(){
 					}else{
 						$('.cantidad').html('0.00');
 						//alert('hola')
-						tx.executeSql('SELECT * FROM PRODUCTOS WHERE id_local='+id+';',[],function(tx,result){
+						tx.executeSql('SELECT * FROM PRODUCTOS WHERE codigo='+id+';',[],function(tx,result){
 							//alert(result);
 							for (var i=0; i <= result.rows.length-1; i++){
 								var row = result.rows.item(i);
