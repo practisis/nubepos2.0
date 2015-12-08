@@ -930,6 +930,10 @@ function borrarCompra(item){
 	$('#total').html('$'+ parseFloat(sumTotal).toFixed(2))
 	$('#subtotalSinIva').val(parseFloat(subtotalSinIva) - parseFloat(subtotalSinIvaCompra));
 	$('#subtotalIva').val(parseFloat(subtotalIva) - parseFloat(subtotalIvaCompra));
+	$('#justo').html(sumTotal.toFixed(2));
+	$('#justo').attr('data-value',-1*sumTotal.toFixed(2));
+	$('#redondeado').html(Math.ceil(sumTotal).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.ceil(sumTotal).toFixed(2));
 	$('.product_del').on('click',function(){
 			PlaySound(4);
 	});

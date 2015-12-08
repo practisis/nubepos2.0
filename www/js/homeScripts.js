@@ -23,9 +23,34 @@ function loginPractisis(){
 		});
 	}
 
+	
+	function updateOnlineStatus(msg) {
+					var status = document.getElementById("status");
+					var condition = navigator.onLine ? "ONLINE" : "OFFLINE";
+					var state = document.getElementById("state");
+					var log = document.getElementById("log");
+					$('#conexion').val(condition);
+					
+					var conexionInternet = $('#conexion').val();
+					console.log(conexionInternet)
+					if(conexionInternet == 'ONLINE' ){
+						$('#cloudIndex').css('display','block');
+						$('#cloudIndexOff').css('display','none');
+					}else if(conexionInternet == 'OFFLINE' ){
+						$('#cloudIndex').css('display','none');
+						$('#cloudIndexOff').css('display','block');
+					}
+				}
+				function loaded() {
+					updateOnlineStatus("load");
+					//setInterval(updateOnlineStatus, 3000);
+					document.body.addEventListener("offline", function () { updateOnlineStatus("offline") }, false);
+					document.body.addEventListener("online", function () { updateOnlineStatus("online") }, false);
+				}
+				
 function envia(donde){
 					var lugar='';
-				
+					$('#cargandoTabs').css('display','block');
 					if(donde=='dashboard')
 					lugar="views/dashboard/dashboard.html";
 					if(donde=='puntodeventa')
@@ -51,17 +76,15 @@ function envia(donde){
 					if(donde=='empresa')
 					lugar="views/cloud/indexEmpresa.html";
 					if(!lugar) lugar="404.html";
-					
-					$('#main').load(lugar,function(){
-					//$(".modal-backdrop").fadeOut();
-						//$("#fade").fadeOut("fast");
-						//alert("here");
-						
-						$("#simple-menu").click();
-						
+					setTimeout(function() {
+						$('#cargandoTabs').css('display','none');
+						$('#correoMal').fadeOut('slow');
+						$('#main').load(lugar,function(){
+						$("#simple-menu").click();						
 						DOMOnTap();
-					});
-					
+						loaded();
+						});
+					}, 1000);
 					//$("#menuClickeable").click();
 					//$('#myModal').delay(1500).modal('hide');
 					/*$('#content').load(lugar,function(){

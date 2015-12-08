@@ -16,11 +16,8 @@
 		<div class="row" style="">
 			<div class="col-sm-12" >
 				<div class="input-group">
-						<!--<input type="text" class="form-control" placeholder="Search for..."> -->
-<input style="" class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su código" name='codigoproducto' id='codigoproducto'>
-						<span class="input-group-btn"> <button class="btn btn-default" type="button"><span class='fa fa-barcode'></span></button> </span></div> 
-
-				<!--<input style="width:90%;" class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su código" name='codigoproducto' id='codigoproducto'>-->
+					<input style="" class="form-control" type="text" autofocus=""  placeholder="Ingrese aquí su código" name='codigoproducto' id='codigoproducto' onkeyup="this.value = this.value.replace (/[^0-9]/, ''); "/>
+					<span class="input-group-btn"> <button class="btn btn-default" type="button"><span class='fa fa-barcode'></span></button> </span></div> 
 			</div>
 		</div>
 
@@ -317,7 +314,6 @@ function verbusquedacateg(){
 }
 
 function GuardaProducto(){
-
     var timeSpanCat=getTimeSpan();
     var timeSpanCardex=getTimeSpan();
     var timeSpanFormulado=getTimeSpan();
