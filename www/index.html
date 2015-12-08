@@ -29,15 +29,14 @@
 			<!-- Pages includes libraries -->
 			<script src="js/raphael-min.js"></script>
 			<script src="js/morris.min.js"></script>
-			<script src="js/bootstrap.min.js"></script>
-		
+			<script src="js/bootstrap.min.js"></script>	
 			<link href="css/fonts.css" rel="stylesheet" type="text/css">
 			<link href="css/formated.css" rel="stylesheet" type="text/css">
 			<!-- needs images, font... therefore can not be part of ui.css -->
 			<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 			<link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
 			<link rel="stylesheet" href="css/estilotemp.css">
-			<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+			<script type="text/javascript" src="js/jsapi"></script>
 			<style>
 			.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
 			.nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
@@ -89,16 +88,17 @@
 				  <ul class="nav navbar-nav">
 					<li onclick="envia('dashboard')"><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-line-chart'></span>&nbsp;Resúmen<span class="sr-only">(current)</span></a></li>
 					 <li onclick="envia('puntodeventa')"><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-shopping-cart'></span>&nbsp;Punto de Venta<span class="sr-only">(current)</span></a></li>
-					<li onclick="envia('historial')" role="presentation"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-list'></span>&nbsp;Ventas</a></li>
+					<li onclick="envia('historial')" role="presentation"><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-dollar'></span>&nbsp;Ventas</a></li>
 					   <li onclick="envia('listaproductos')" id='productosIndex'><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-barcode'></span>&nbsp;Productos</a></li>
-					<li onclick="envia('cloud')" id='cloudIndex'><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-cloud'></span>&nbsp;Cloud</a></li>
+					<li onclick="envia('cloud')" id='cloudIndex'><a href="javascript:void(0);"><span style='display:inline;' class='fa fa-cloud'></span>&nbsp;Cloud</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style='display:inline;' class='glyphicon glyphicon-print'></span>&nbsp;Config <span class="caret"></span></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span style='display:inline;' class='fa fa-cog'></span>&nbsp;Config <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                        <!--<li><a href="centvia://?udn=Impresion&utt=NubePOS&cru=nubeposv%3a%2f%2f&cruf=nubeposv%3a%2f%2f&c_=!+0+200+200+540+1%0d%0aTEXT+4+0+20+10+Prueba+de+Impresion%0d%0aTEXT+7+0+20+60+NubePOS%0d%0aENDML%0d%0aCONCAT+250+300%0d%0aENDCONCAT%0d%0a%0d%0aPRINT%0d%0a" target="_blank"><span style='display:inline;' class='glyphicon glyphicon-print'></span>&nbsp;Config</a></li>-->
 					   <li onclick="envia('empresa')"><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-print'></span>&nbsp;Config</a></li>
+					   <li><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-user'></span>&nbsp;Mis Datos</a></li>
             		   <li onclick="envia('imprimeotro');" ><a href="javascript:void(0);"><span style='display:inline;' class='glyphicon glyphicon-user'></span>&nbsp;V</a></li>
                       </ul>
                     </li>
