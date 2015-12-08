@@ -23,14 +23,13 @@
 				<div class="col-sm-12" align="center">
 					<div class="row"> 
 									
-						<div class="col-md-2" align="left" >
-						
+						<div class="col-md-3" align="left" >
 							<div role="group" class="btn-group">
 								   <div id="includeDropCategory" style=""></div>
 									
-								  </div>
+							</div>
 						</div>
-						<div class="col-md-8" align="left">
+						<div class="col-md-7" align="left">
 							<div class="input-group" style="width:100%;">
 								<input  type="text" class="form-control" placeholder="Escriba un producto..." id="searchKeyword" onkeyUp="if(event.keyCode==13) {return false; }else{searchProduct($(this))}">
 								<span class="input-group-btn">
@@ -307,8 +306,8 @@ function LlenarComboCat(options,options2){
 	$('#listacategorias').append(options);
 	$("#includeDropCategory").html('\
 	\
-									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-selec="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
-									<span id="catsel">Seleccione una categoria</span>\
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
+									<span id="catsel" data-selec="0">Seleccione una categoria</span>\
 									<span class="caret"></span>\
 								  </button>\
 								  <ul class="dropdown-menu" id="listacombocat" aria-labelledby="dropdownMenu4">\
@@ -476,8 +475,6 @@ function EditarProducto(idpr){
 function searchProduct(t){
 	buscar=$.trim(t.val());
 	$('div[clase="listProduct"]').css("display" , "none");
-	if(buscar==''){ $('div[clase="listProduct"]').css("display" , "block"); return;}
-	
 	var todosLista=$('div[clase="listProduct"]');
 	//console.log(todosLista);
 	

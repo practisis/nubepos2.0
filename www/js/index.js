@@ -274,12 +274,20 @@
                 var row = results.rows.item(i);
                 //console.log(row);
                 $('#idfactura').val(row.id);
+                $('#cliente').val(row.clientName);
                 $('#numerofactura').html('Factura N° 00000000'+row.id);
+				if(row.anulada=='1'||row.anulada==1){
+					$('#btnanularf').css('display','none');
+				}
                 var timefecha=new Date(row.fecha);
                 var mes=timefecha.getMonth()+1;
+				var dia=timefecha.getDate();
                 if(mes.toString().length<2)
                     mes="0"+mes.toString();
-                var fechaformat=timefecha.getDate()+"/"+mes+"/"+timefecha.getFullYear()+" "+timefecha.getHours()+":"+timefecha.getMinutes()+":"+timefecha.getSeconds();
+				 if(dia.toString().length<2)
+                    dia="0"+dia.toString();
+				
+                var fechaformat=dia+"-"+mes+"-"+timefecha.getFullYear()+" "+timefecha.getHours()+":"+timefecha.getMinutes()+":"+timefecha.getSeconds();
                 //console.log(row);
                 $('#fecha').val(fechaformat);
 				
@@ -294,21 +302,25 @@
                 }
                 $('#cuerpodetalle').html(intabla);
 				var formaDePago = row.paymentsUsed;
+				var totalpagof=0;
 				console.log('Forma de pago es :'+formaDePago);
 				if(formaDePago == 1){
 					$('#detaFormPago').html('Efectivo');
 					$('#detaFormPagoValor').html(parseFloat(row.cash).toFixed(2));
+					totalpagof+=parseFloat(row.cash);
 				}
 				if(formaDePago == 2){
 					var datocard=row.cards.split('|');
 					$('#detaFormPago').html('Tarjeta');
 					$('#detaFormPagoValor').html(datocard[2].substring(0,datocard[2].length - 1));
+					totalpagof+=parseFloat(parseFloat(datocard[2].substring(0,datocard[2].length - 1)));
 				}
 				if(formaDePago == 3){
 				var datocheque=row.cheques.split('|');
 				//alert(datocheque[2].substring(0,datocheque[2].length - 1));
 					$('#detaFormPago').html('Cheques');
 					$('#detaFormPagoValor').html(datocheque[2].substring(0,datocheque[2].length - 1));
+					totalpagof+=parseFloat(datocheque[2].substring(0,datocheque[2].length - 1));
 				}
 				
 				if(formaDePago != 1 && formaDePago != 2 && formaDePago != 3){
@@ -336,6 +348,12 @@
 						}
 					}
                 }
+				
+				var tot=parseFloat($('#total').html());
+				if((tot-totalpagof)<0){
+					$('#tabladetformaspago').append('<tr><td><b>Vuelto</b></td><td>'+(-1*(tot-totalpagof)).toFixed(2)+'</td></tr>');
+				}
+				
                 if(row.anulada==1){
                     $('#factanulada').fadeIn();
                 }

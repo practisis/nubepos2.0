@@ -1,7 +1,7 @@
 <div id="mainDiv" style="margin: 0px; padding: 0px; width:100%; height: 800px; background-color: #ffffff; font-size:14px; color:#404041;">
 	<table class='table'>
 		<tr>
-			<td >
+			<td>
 				<h3 id='numerofactura'></h3>
 				<input type='hidden' style='display:none;' id='idfactura'/>
 			</td>
@@ -13,10 +13,10 @@
 		</tr>
 		<tr>
 			<td>
-			<div class='input-group'><span class='input-group-addon'><b>Cliente</b> </span><input type='text' name='cliente' disabled='disabled' value="Ana Punguil" class='form-control' id='cliente'/></div>
+			<div class='input-group'><span class='input-group-addon'><b>Cliente</b> </span><input type='text' name='cliente' disabled='disabled' value="" class='form-control' id='cliente'/></div>
 			</td>
 			<td>
-			<div class='input-group'><span class='input-group-addon'><b>Fecha</b> </span><input type='text' name='fecha' disabled='disabled' value="2015-02-25" class='form-control' id='fecha'/></div>
+			<div class='input-group'><span class='input-group-addon'><b>Fecha</b> </span><input type='text' name='fecha' disabled='disabled' value="" class='form-control' id='fecha'/></div>
 			</td>
 		</tr>
 		<tr>
@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td>
-				<table class='table' style='width:300px !important;border:1;'>
+				<table class='table' style='width:300px !important;border:1;' id='tabladetformaspago'>
 					<tr>
 						<th>
 							Forma de Pago 
@@ -74,7 +74,7 @@
 		<tr>
 			<td colspan='2' style='text-align:center;'>
 			<!--<button class='btn btn-primary btn-sm' onclick='MostrarFormasPago();'>Cambiar Forma Pago</button>-->
-			<button class='btn btn-danger btn-sm' onclick='AnularFactura();'>Anular Factura</button>
+			<button class='btn btn-danger btn-sm' id='btnanularf' onclick='AnularFactura();'>Anular Factura</button>
 			</td>
 		</tr>
 	</table>
