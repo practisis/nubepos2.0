@@ -370,7 +370,7 @@ function GuardaProducto(){
 					//idcategoria=$('#idcategoria').val();
 						console.log('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'","'+timeSpanCat+'",'+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
 					db.transaction(function(tx){
-					tx.executeSql('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'","'+timeSpanCat+'",'+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+					tx.executeSql('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio,estado) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'","'+timeSpanCat+'",'+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' ,1 WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
 					console.log("prod:"+results.insertId);
 
                     /*tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){
@@ -392,7 +392,7 @@ function GuardaProducto(){
 				//alert("Id cat null >> " + currentTimeSpanCat );
 				db.transaction(function(tx){
 				timeSpan=getTimeSpan();
-				tx.executeSql('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
+				tx.executeSql('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio,estado) SELECT "'+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' , 1 WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");',[],function(tx,results){
                 console.log('INSERT INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,ppq,color,servicio) SELECT '+nombrep+'","'+codigop+'","'+preciop+'",'+currentTimeSpanCat+','+iva+','+prfinal+','+matprima+',"'+timeSpanFormulado+'",'+costo+','+micolor+','+serv+' WHERE NOT EXISTS(SELECT 1 FROM PRODUCTOS WHERE formulado like "'+nombrep+'" or codigo like "'+codigop+'");');
                 //console.log("prod:"+results.insertId);
                    /* tx.executeSql('INSERT INTO CARDEX (id_formulado,cantidad,descripcion,precio_unidad,fecha,ppq_real,iva,timespan) SELECT '+timeSpanFormulado+','+canti+',"Ingreso al cardex",'+costo+','+fecha+','+costo+','+iva+','+timeSpanCardex,[],function(tx,resultsc){

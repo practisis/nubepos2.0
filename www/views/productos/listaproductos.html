@@ -364,7 +364,7 @@ function getSearch(){
 			//alert(timespanCat + ">>" + formulado + "==" +cat );
 		}
 	});
-	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan ',[],function(tx,results){
+	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan where p.estado = 1',[],function(tx,results){
 		//console.log(results);
 		var inhtml='';
 		if(results.rows.length==0) alerta("Sin productos");
@@ -546,7 +546,7 @@ function eliminarProduct(){
 	var timeSpan=$('#timeproduct').val();
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(function(tx){
-	tx.executeSql(' DELETE FROM PRODUCTOS WHERE timespan="'+timeSpan+'" ',[],function(tx,results){
+	tx.executeSql(' UPDATE PRODUCTOS SET estado = 0 WHERE timespan="'+timeSpan+'" ',[],function(tx,results){
 		envia("listaproductos");
 	});
 	},errorCB,successCB);

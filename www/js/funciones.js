@@ -493,6 +493,7 @@ function init2(categoria){
 }
 
 function agregarCompra(item,origen){
+	$('#descuentoFactura').val(0);
 	$('#resultBuscador').fadeOut('slow');
 	//variables facturacion
 	var subtotalSinIva = $('#subtotalSinIva').val();
@@ -760,7 +761,14 @@ function pagar(){
 	$('#justo').attr('data-value',-1*total.toFixed(2));
 	$('#redondeado').html(Math.round(total).toFixed(2));
 	$('#redondeado').attr('data-value',-1*Math.round(total).toFixed(2));*/
-	$('#changeFromPurchase').html(total.toFixed(2));
+	var discount = parseFloat($('#descuentoFactura').val());
+	console.log(discount);
+	if(discount == 0){
+		$('#changeFromPurchase').html((total).toFixed(2));
+	}else{
+		$('#changeFromPurchase').html((total-discount).toFixed(2));
+	}
+	$('#changeFromPurchase').html((total-discount).toFixed(2));
 	$('#invoiceDebt').html('FALTANTE');
 
 	var impuestos = '';
@@ -821,37 +829,54 @@ function pagar(){
 }
 	
 function addDiscount(){
-	var discount=$('#addDiscount').val();
+	var discount = parseFloat($('#addDiscount').val());
+	var totalmiFactura = parseFloat($('#totalmiFactura').val());
 	if($('.productDetails').length > 0){
-		var getTotal = $('#total').val();
-		if(parseFloat(discount) > parseFloat(getTotal)){
-			discount = parseFloat($('#total').val());
-			$('#addDiscount').val(parseFloat(getTotal).toFixed(2));
-			}
+		if(discount <= totalmiFactura){
+			var getTotal = $('#total').val();
+			if(parseFloat(discount) > parseFloat(getTotal)){
+				discount = parseFloat($('#total').val());
+				$('#addDiscount').val(parseFloat(getTotal).toFixed(2));
+				}
+				
+			if(discount == ''){
+				discount = 0;
+				$('#addDiscount').val('0.00');
+				}
+				
+			if(parseFloat(discount) < 0){
+				discount = 0;
+				$('#addDiscount').val('0.00');
+				}
 			
-		if(discount == ''){
-			discount = 0;
-			$('#addDiscount').val('0.00');
-			}
-			
-		if(parseFloat(discount) < 0){
-			discount = 0;
-			$('#addDiscount').val('0.00');
-			}
-		
-		var totales = 0;
-		$('.totales').each(function(){
-			totales += parseFloat($(this).val());
-			});
+			var totales = 0;
+			$('.totales').each(function(){
+				totales += parseFloat($(this).val());
+				});
 
-		$('#discountAdded').fadeIn();
-		//$('#totalmiFactura').val(parseFloat(totales) + parseFloat(discount));
-		$('#totalmiFactura').val(parseFloat(totales));
-		$('#total').html('$'+ (parseFloat(totales) - parseFloat(discount)).toFixed(2));
-		$('#descuentoFactura').val(discount);
-		
-		$('#popupDiscount').modal("hide");
-}}
+			$('#discountAdded').fadeIn();
+			//$('#totalmiFactura').val(parseFloat(totales) + parseFloat(discount));
+			$('#totalmiFactura').val(parseFloat(totales));
+			$('#total').html('$'+ (parseFloat(totales) - parseFloat(discount)).toFixed(2));
+			$('#descuentoFactura').val(discount);
+			
+			$('#popupDiscount').modal("hide");
+			var sumTotal = 0;
+			$('.totales').each(function(){
+				sumTotal += parseFloat($.trim($(this).val()));
+			});
+			console.log((parseFloat(totales) - parseFloat(discount)).toFixed(2));
+			$('#justo').html((parseFloat(totales) - parseFloat(discount)).toFixed(2));
+			$('#justo').attr('data-value',-1*(parseFloat(totales) - parseFloat(discount)).toFixed(2));
+			$('#redondeado').html(Math.ceil((parseFloat(totales) - parseFloat(discount))).toFixed(2));
+			$('#changeFromPurchase').html((parseFloat(totales) - parseFloat(discount)).toFixed(2)+'hola');
+			$('#redondeado').attr('data-value',-1*Math.ceil((parseFloat(totales) - parseFloat(discount))).toFixed(2));
+			
+		}else{
+			$('#msjDescuentoError').html('El descuento no puede ser mayor a '+ totalmiFactura.toFixed(2));
+		}
+	}
+}
 	function verScan(){
 		$('#popupScan').fadeIn(function(){
 			$('#popupScaner').animate({

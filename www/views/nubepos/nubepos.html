@@ -387,6 +387,7 @@
 	<div class="modal-dialog modal-lg">
 	<div class='modal-content text-center'>
 		<div class='modal-header'><button type='button' style='color:#404041; margin-right:5px;' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>x</span></button><h2>DESCUENTO</h2></div>
+		<span id='msjDescuentoError'></span>
 		<div class="modal-body divdescuento" style='color:#404041; position:relative;'>
 			<div id="discountAdded" style="display: none; text-align: center; color: green">OK!</div>
 			<div class="input-group" style='width:80%; margin-left:auto; margin-right:auto;'>
@@ -446,7 +447,7 @@
 	<div id="factura">
 		<input type="hidden" id="subtotalSinIva" value="0"/>
 		<input type="hidden" id="subtotalIva" value="0"/>
-		<input type="hidden" id="descuentoFactura" value="0"/>
+		<input type="text" id="descuentoFactura" value="0"/>
 		<input type="hidden" id="totalmiFactura" value="0"/>
 	</div>
 	<div id="controller">
