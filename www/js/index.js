@@ -293,6 +293,10 @@
 				
                 var datosfact=JSON.parse(row.fetchJson);
                 var totalf=parseFloat(datosfact.Pagar[0].factura.total).toFixed(2);
+				var descAplicado=parseFloat(datosfact.Pagar[0].factura.descuento).toFixed(2);
+				console.log('Descuento : '+descAplicado);
+				
+				
                 $('#total').html(totalf);
                 $('#invoiceTotal').html(totalf)
                 var intabla='';
@@ -353,6 +357,11 @@
 				if((tot-totalpagof)<0){
 					$('#tabladetformaspago').append('<tr><td><b>Vuelto</b></td><td>'+(-1*(tot-totalpagof)).toFixed(2)+'</td></tr>');
 				}
+				
+				if((descAplicado)>0){
+					$('#tabladetformaspago').append('<tr><td><b>Descuento</b></td><td>'+descAplicado+'</td></tr>');
+				}
+				
 				
                 if(row.anulada==1){
                     $('#factanulada').fadeIn();

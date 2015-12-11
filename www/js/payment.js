@@ -382,6 +382,7 @@ function performInternalPurchase(){
 	
 function performPurchase(restaurant){
 	//$('#printFactura').show();
+	$('#btn_descuento').html('DESC');
 	pagar();
 	if($('#idCliente').val()!=''&&$('#idCliente').val()>0){
 		var table;

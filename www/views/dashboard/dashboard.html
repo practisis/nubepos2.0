@@ -192,7 +192,7 @@ function ObtenerDatosDashboard(){
 					var mifact=JSON.parse(res.rows.item(n).fact);	
 					//productos para ranking
 					var misproductos=mifact.Pagar[0].producto;
-					//console.log(misproductos);
+					console.log(misproductos+'productos vendidos');
 					for(var s in misproductos){
 						var totprod=misproductos[s].precio_orig*misproductos[s].cant_prod;
 						misubtotal+=totprod;
@@ -245,10 +245,15 @@ function ObtenerDatosDashboard(){
 					datap.addColumn('number', 'Ventas');
 					//var lineasrank='';
 					//if(productosvector.length>0){
+						var c = 0;
 						for(var pro in productosvector){
-							//console.log(pro);
+							console.log(pro+'los productos');
 							/*lineasrank+='<tr><td>'+productosvector[pro].nombre+'</td><td>'+parseFloat(productosvector[pro].cantidad).toFixed(2)+'</td><td>'+parseFloat(productosvector[pro].venta).toFixed(2)+'</td></tr>';*/
 							datap.addRow([productosvector[pro].nombre,parseFloat(productosvector[pro].venta)]);
+							c++;
+							if(c == 10){
+								break;
+							}
 						}
 						//$('#tablarank tbody').html(lineasrank);
 					//}

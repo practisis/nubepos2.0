@@ -1,3 +1,4 @@
+
 <style>
 .fa-edit{
 	color:#23ae89;
@@ -70,7 +71,7 @@
 					<div class="row" align="center" > <!-- Row Table of products.. -->
 				
 					<div class="col-sm-12">
-						<div id="detailDiv" style="font-size:15px;" class="table-responsive"></div>
+						<div id="detailDiv" style="font-size:15px;height:550px;overflow-y:scroll;" class="table-responsive"></div>
 						<input id='totalpags' style='display:none;'/>
 					</div>
 				
@@ -156,6 +157,7 @@
     margin: -20px -20px 0px -20px;
     background-color: #eee;
     background-image: linear-gradient(#fff, #eee);
+	height:80px;
 }
 
 .pricing-table #most-popular h3 {
@@ -298,7 +300,7 @@ function ListarCategorias(){
 		
 		
 	});
-	},errorCB,successCB);
+	});
 }
 
 
@@ -349,7 +351,7 @@ function getSearch(){
 			}
 			$('#paginacion').append("<li onclick='CambiarPagina(-2);'><span class='enabled' id='adelante'>&raquo;</span></li>");
 		});
-	},errorCB,successCB);
+	});
 	
 	
 	db.transaction(function(tx){
@@ -364,23 +366,52 @@ function getSearch(){
 			//alert(timespanCat + ">>" + formulado + "==" +cat );
 		}
 	});
-	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan where p.estado = 1',[],function(tx,results){
+	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan where p.estado = 1 order by p.formulado ASC',[],function(tx,results){
 		//console.log(results);
 		var inhtml='';
-		if(results.rows.length==0) alerta("Sin productos");
+		if(results.rows.length==0){
+			alert("Sin productos");
+		} 
 		for (var i=0; i < results.rows.length; i++){
 			var row = results.rows.item(i);
 			var checkiva='';
 			var checkprfinal='';
 			var checkmatprima='';
+			var precioproducto = row.precio;
+			var precioConImpuestos = 0;
+			var cargaiva = row.cargaiva;
 			if(row.cargaiva==1)
 					
-					checkiva2='<span class="glyphicon glyphicon-ok"> </span>'; else checkiva2='<span class="glyphicon glyphicon-remove"> </span>';  
+					checkiva2='<span class="glyphicon glyphicon-ok" style="color:#1E9F75;"> </span>'; else checkiva2='<span class="glyphicon glyphicon-remove" style="color:red;"> </span>';  
 			if(row.productofinal==1)
 					checkprfinal='checked';
 			if(row.materiaprima==1)
 					checkmatprima='checked';
 			var catname='';
+			var servicio = row.servicio;
+			console.log('el servicio es '+servicio);
+			if(servicio==1){
+				checkServ2='<span class="glyphicon glyphicon-ok" style="color:#1E9F75;"> </span>';
+			}else{
+				checkServ2='<span class="glyphicon glyphicon-remove" style="color:red;"> </span>';  
+			} 
+				
+			
+			
+			if(cargaiva == 1 && servicio == 1){
+				precioConImpuestos = (parseFloat(precioproducto * 1.22).toFixed(1));
+			}
+			
+			if(cargaiva == 1 && servicio == 0 || servicio == 'null'){
+				precioConImpuestos = parseFloat((0.12 * precioproducto)+precioproducto).toFixed(1);
+			}
+			if(cargaiva == 0 && servicio == 1){
+				precioConImpuestos = parseFloat((0.1 * precioproducto)+precioproducto).toFixed(1);
+			}
+			if(cargaiva == 0 && servicio == 0 || servicio == 'null'){
+				precioConImpuestos = parseFloat(precioproducto).toFixed(1)
+			}
+			//alert(precioConImpuestos+'imp')
 			/*inhtml+='<tr><td>'+row.formulado+'</td><td>'+row.codigo+'</td><td>'+row.nombrec+'</td><td style="text-align:right">'+parseFloat(row.precio).toFixed(2)+'</td><td style="text-align:center"><input disabled type="checkbox" '+checkiva+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id_local+');"></span></td></tr>';*/
 			
 			/*inhtml+='\
@@ -418,25 +449,27 @@ function getSearch(){
 					
 				categoria=$('.categoriasPrecargadas[timespan='+row.categoriaid+']').text();
 				inhtml+='\
-				<div class="col-md-4 col-xs-6"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'"> <div class="pricing-table" class="clear" style=" ">\
+				<div class="col-xs-3"  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'"> <div class="pricing-table" class="clear" style=" ">\
 					<div class="plan">\
 						<h3 style="">'+row.formulado+'</h3>';
 						<!---<div class="panel mini-box" style="text-align:center;"><span class="box-icon bg-info" style="margin-left:40%; '+back+'" >'+row.formulado[0].toUpperCase()+'</span></div>\--->
 						inhtml+='<div><ul>\
-							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(row.precio).toFixed(2)+') </li>\
+							<li><b>Precio</b><span class="glyphicon glyphicon-usd" style="color:green;font-size:12px;"></span>('+parseFloat(precioConImpuestos)+') </li>\
 							<li><b>Categoría</b> '+categoria+'</li>\
-							<li><b>Carga IVA</b> '+checkiva2+'</li>\
+							<li><b>IVA</b> '+checkiva2+'</li>\
+							<li><b>Servicio</b> '+checkServ2+'</li>\
 						</ul> \
 						</div>';
-						inhtml+='<button class="button btn btn-default btn-lg" onclick="VerificarEliminar('+row.timespan+",'"+row.formulado+"'"+');">Borrar</button>&nbsp;<button class="button btn btn-lg btn-primary"	onclick="editProduct(\''+row.timespan+'\')" >Editar</button>					\
-					\</div></div></div>\
+						inhtml+='<button class="button btn btn-default btn-lg" onclick="VerificarEliminar('+row.id_local+",'"+row.formulado+"'"+');">Borrar</button>&nbsp;<button class="button btn btn-lg btn-primary"	onclick="editProduct(\''+row.timespan+'\')" >Editar</button>					\
+					\</div></div>\
+				</div>\
 				';
 			
 			/*<td style="text-align:center"><input disabled type="checkbox" '+checkprfinal+'/></td><td style="text-align:center"><input disabled type="checkbox" '+checkmatprima+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id+');"></span></td></tr>';*/
 		}
 		LlenarTablaProd(inhtml);
 	});
-	},errorCB,successCB);
+	});
 }
 
 function editProduct(id){
@@ -542,14 +575,14 @@ function showCategory(t){
 	}
 }
 
-function eliminarProduct(){
-	var timeSpan=$('#timeproduct').val();
+function EliminarProduct(){
+	var id_local=$('#timeproduct').val();
 	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db.transaction(function(tx){
-	tx.executeSql(' UPDATE PRODUCTOS SET estado = 0 WHERE timespan="'+timeSpan+'" ',[],function(tx,results){
+	tx.executeSql(' UPDATE PRODUCTOS SET estado = 0 WHERE id_local="'+id_local+'" ',[],function(tx,results){
 		envia("listaproductos");
 	});
-	},errorCB,successCB);
+	});
 	
 	
 }
@@ -580,6 +613,6 @@ function VerificarEliminar(timeSpan,nombre){
 		if(esta==false)
 			$('#modaleliminar').modal('show');
 	});
-	},errorCB,successCB);
+	});
 }
 </script>

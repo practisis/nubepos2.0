@@ -10,234 +10,111 @@ td{
 }
 </style>
 <div class="row" align="center">
-<div class='col-lg-12' style='text-align:right;'>
-			<button type='button' class='btn btn-danger btn-lg' onclick="envia('nuevocliente');">Nuevo</button>
-		</div>
-	<div class="col-md-12" align="center">
-		<h2>Lista de clientes</h2>
-		<hr/>
-		<div class="row">
-			<div class="col-lg-4"></div>
-			<div class="col-lg-4">
-				<div class="input-group">
-				
-				<input type="text" class="form-control" placeholder="Ingrese un nombre...">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Buscar</button>
-				</span>
-				
-				</div><!-- /input-group -->
-			</div><!-- /.col-lg-6 -->
-		</div>
-		<br/><br/>
-		<div class="row" align="center">
-			<input placeholder='busqueda' type="hidden" class='form-control' id="searchKeyword" name="category"/>
-			<div class="col-lg-12">
-			<table style="width:100%;border:0px; " border="0" cellpadding='10px' class='table table-striped'>
-				<!--	
-			<tr>
-				<td style="text-align:center; vertical-align:middle; width: 550px;">
-					<table style="text-align:center;margin-left: 0px; margin-right: auto;" border="0" cellpadding="4px" cellspacing="10px">
-						<tr>
-							<td style='vertical-align:middle;'>
-								<input placeholder='busqueda' type="text" class='form-control' id="searchKeyword" name="category"/>
-							</td>
-							<td  style='vertical-align:middle;'>
-								<button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Buscar</button>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			-->
-			<tr>
-				<td colspan="2">
-					<div id="detailDiv" style="height:auto; padding-top:20px; margin:0px; font-size:15px;"></div>
-				</td>
-			</tr>
-			<!--<tr>
-				<td colspan="2" style='text-align:center;'>
-					<ul class="pagination paginacion-lg" id='paginacion'>
-					</ul>
-					<input id='totalpags' style='display:none;'/>
-				</td>
-			</tr>-->
-		</table>		
-		
-		</div>
+		<div id="detailDiv" style="height:auto; padding-top:20px; margin:0px; font-size:15px;"></div>
+		<div style="display: none;" id="json">{
+	"Pagar": [{
+		"cliente": {
+			"id_cliente": "1",
+			"cedula": "9999999999999",
+			"nombre": "",
+			"telefono": "",
+			"tipoCliente": "undefined",
+			"direccion": "",
+			"listaDePrecio": ""
+		},
+		"producto": [{
+			"id_producto": "1448062713400989",
+			"nombre_producto": "COCA COLA",
+			"cant_prod": "1",
+			"precio_orig": "9",
+			"precio_prod": "9",
+			"impuesto_prod": "0.12",
+			"precio_total": "10.08",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627130748451",
+			"nombre_producto": "COCA COLA LIFE BOTELLA",
+			"cant_prod": "1",
+			"precio_orig": "1.3393",
+			"precio_prod": "1.3393",
+			"impuesto_prod": "0.12",
+			"precio_total": "1.500016",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627122439160",
+			"nombre_producto": "COCA COLA LIGHT BOTELLA",
+			"cant_prod": "1",
+			"precio_orig": "1.3393",
+			"precio_prod": "1.3393",
+			"impuesto_prod": "0.12",
+			"precio_total": "1.500016",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627141221371",
+			"nombre_producto": "FIORAVANTI",
+			"cant_prod": "1",
+			"precio_orig": "5.5",
+			"precio_prod": "5.5",
+			"impuesto_prod": "0.12",
+			"precio_total": "6.16",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627136881252",
+			"nombre_producto": "FANTA",
+			"cant_prod": "1",
+			"precio_orig": "7",
+			"precio_prod": "7",
+			"impuesto_prod": "0.12",
+			"precio_total": "7.84",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627125392230",
+			"nombre_producto": "COCA COLA ZERO BOTELLA",
+			"cant_prod": "1",
+			"precio_orig": "1.3393",
+			"precio_prod": "1.3393",
+			"impuesto_prod": "0.12",
+			"precio_total": "1.500016",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627128086954",
+			"nombre_producto": "SPRITE",
+			"cant_prod": "1",
+			"precio_orig": "1.2295081967213",
+			"precio_prod": "1.2295081967213",
+			"impuesto_prod": "0.12",
+			"precio_total": "1.377049180327856",
+			"precio_descuento_justificacion": ""
+		}, {
+			"id_producto": "14480627144863723",
+			"nombre_producto": "SPRITE ZERO BOTELLA",
+			"cant_prod": "1",
+			"precio_orig": "1.33928571428571",
+			"precio_prod": "1.33928571428571",
+			"impuesto_prod": "0.12",
+			"precio_total": "1.4999999999999951",
+			"precio_descuento_justificacion": ""
+		}],
+		"factura": {
+			"subtotal_sin_iva": "0",
+			"subtotal_iva": "28.08669391100701",
+			"impuestos": "IVA/3.3704032693208408/1/0.12",
+			"descuento": "0",
+			"total": "31.46"
+		}
+	}]
+}</div>
 	</div>
-	<!--
-<div id="mainDiv" style="display:none;margin: 0px; padding: 0px; width:100%; height: 800px; background-color: #ffffff; font-size:14px; color:#404041;">
-		<table style="width:100%;" border="0" cellpadding='10px' class='table table-striped'>
-			<tr><td colspan='3'><h3>Lista de Clientes</h3></td></tr>			
-			<tr>
-				<td style="text-align:center; vertical-align:middle; width: 550px;">
-					<table style="text-align:center;margin-left: 0px; margin-right: auto;" border="0" cellpadding="4px" cellspacing="10px">
-						<tr>
-							<td style='vertical-align:middle;'>
-								<input placeholder='busqueda' type="text" class='form-control' id="searchKeyword" name="category"/>
-							</td>
-							<td  style='vertical-align:middle;'>
-								<button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Buscar</button>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div id="detailDiv" style="height:650px; padding-top:20px; margin:0px; font-size:15px;"></div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" style='text-align:center;'>
-					<ul class="pagination paginacion-lg" id='paginacion'>
-					</ul>
-					<input id='totalpags' style='display:none;'/>
-				</td>
-			</tr>
-		</table>		
-</div>
--->
 <script type="text/javascript">
 var page=0;
 getSearch();
 
-function getSearch(){
-	var filtro=$('#searchKeyword').val();
-	var desde=15*page;
-	var queryextra=' id is not NULL';
-	if(filtro!='')
-		queryextra+=' and (nombre like "%'+filtro+'%" or cedula like "%'+filtro+'%")';
-		
-	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-	db.transaction(function(tx){
-		tx.executeSql('SELECT * FROM CLIENTES WHERE '+queryextra+' ORDER BY nombre asc',[],function(tx,result){
-			$('#paginacion').html('');
-			var npags=Math.ceil(result.rows.length/15);
-			$('#totalpags').val(npags);
-			$('#paginacion').append("<li onclick='CambiarPagina(-1);'><span class='enabled' id='atras'>&laquo;</span></li>");
-			for(var j=0;j<npags;j++){
-				var act='';
-				if(page==j)
-					act='active';
-				$('#paginacion').append("<li class='"+act+"' onclick='CambiarPagina("+parseInt(j)+");'><span class='enabled'>"+parseInt(j+1)+"</span></li>");
-			}
-			$('#paginacion').append("<li onclick='CambiarPagina(-2);'><span class='enabled' id='adelante'>&raquo;</span></li>");
-		});
-	},errorCB,successCB);
-	
-	
-	db.transaction(function(tx){
-	tx.executeSql('SELECT * FROM CLIENTES WHERE '+queryextra+' ORDER BY nombre asc LIMIT '+desde+',15;',[],function(tx,results){
-		//console.log(results);
-		var inhtml='';
-		var inhtml2='';
-			inhtml2='\
-<div class="row">\
-  <div class="col-md-3"><b>Nombre</b></div>\
-  <div class="col-md-2"><b>Cédula</b></div>\
-  <div class="col-md-2"><b>Telefono</b></div>\
-  <div class="col-md-2"><b>Email</b></div>\
-  <div class="col-md-2"></b>Dirección</b></div>\
-</div><hr/>\
-			';
-		for (var i=0; i < results.rows.length; i++){
-			var row = results.rows.item(i);
-			var func="EditarCliente("+row.id+");";
-			if(row.cedula=='9999999999999')
-				func='';
-			inhtml+='<tr><td><img src="img/avatar.png" width="50" /></td><td>'+row.nombre+'</td><td>'+row.cedula+'</td><td>'+row.telefono+'</td><td>'+row.direccion+'</td><td>'+row.email+'</td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="'+func+'"></span></td></tr>';
-		
-			/*inhtml2+='\
-				\
-					<div class="col-md-6">\
-				<div style="cursor:default;" class="panel panel-primary" iddb="0" categoria="undefined" codedb="Coca01" formulado="Coca cola" clase="listProduct">				\
-					<div class="panel-heading">				\
-						<h4 class="panel-title" style="color:white;">'+row.nombre+' <span class="fa fa-edit" onclick="editClient('+row.id+')"></span> </h4>	\
-					</div>\
-					<div class="panel-body">	\
-						<div class="row" align="center"> 	\
-							<div class="col-sm-12">	\
-								<img src="img/avatar.png" style="box-shadow:1px 1px 1px gray;" width="80">	\
-							</div>			\
-							<div class="col-sm-12">\
-								<h4><small><span class="glyphicon glyphicon-credit-card"></span>Cédula</small><br>'+row.cedula+'</h4>			\
-							</div>					\
-							<div class="col-sm-12">		\
-								<h4><small><span class="glyphicon glyphicon-phone"></span>Teléfono</small><br>'+row.telefono+'</h4>								\
-							</div>\
-							<div class="col-sm-12">\
-								<h4><span class="glyphicon glyphicon-pushpin"></span><small >Dirección</small><br>'+row.direccion+'</h4>\
-							</div>	\
-							<div class="col-sm-12">\
-								<h4><span class="glyphicon glyphicon-envelope"></span><small>Email</small><br>'+row.email+'</h4>\
-							</div>	\
-							<div class="col-sm-12">		\
-								<h3>	  </h3>					\
-							</div>	\
-						</div>\
-					</div>	\
-				</div>\
-				</div>\
-			\
-			';*/
-			inhtml2+='\
-<div class="row">\
-  <div class="col-md-3">'+row.nombre+'</div>\
-  <div class="col-md-2">'+row.cedula+'</div>\
-  <div class="col-md-2">'+row.telefono+'</div>\
-  <div class="col-md-2">'+row.email+'</div>\
-  <div class="col-md-2">'+row.direccion+'</div>\
-   <div class="col-md-1"></b><span class="fa fa-edit" onclick="editClient('+row.id+')"></span></b></div>\
-</div><hr/>\
-			';
-		}
-		LlenarTablaClientes(inhtml,"<div class='row' > "+inhtml2 + "</div>");
-	});
-	},errorCB,successCB);
-}
-
-function LlenarTablaClientes(datos,datos2){
-	//$('#detailDiv').html("<table align='center' class='table'><tr><td></td><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th><th>Email</th><th><span class='fa fa-cog'></span></th>"+datos+"</table>");
-	
-	$('#detailDiv').html(datos2);
-}
-
-function CambiarPagina(arg){
-	//console.log($('#totalpags').val());
-	if(arg==-1){
-		if((page-1)>=0){
-			page--;
-			getSearch();
-		}
-	}else if(arg==-2){
-		//console.log($('#totalpags').val());
-		if((page+1)<parseInt($('#totalpags').val())){
-			page++;
-			getSearch();
-		}
-	}else{
-		page=arg;
-		getSearch();
+	function getSearch(){
+			var fetchJson = $('#json').html();
+			var datosProductos = JSON.parse(fetchJson);
+			var productos = datosProductos.Pagar[0].factura;
+			//console.log(productos+'valores')
+			var totalf=parseFloat(datosProductos.Pagar[0].factura.descuento).toFixed(2);
+			$('#detailDiv').html(totalf);
 	}
-	
-}
-
-$(document).keyup(function(event){
-	if(event.keyCode === 13){
-		getSearch();
-		}
-});
-
-function EditarCliente(idcliente){
-	$('#content').load("views/clientes/nuevocliente.html",function(){
-		VerDatosCliente(idcliente);
-	});
-}
-
-function editClient(id){
-	editarClientesID=id;
-	envia("nuevocliente");
-}
 </script>
