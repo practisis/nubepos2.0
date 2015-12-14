@@ -1,15 +1,16 @@
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
 	<div class='row'>
 		<div class='col-lg-12'>
-			<div class="panel mini-box" style='padding:10px; min-height:60px;'>
+			<div class="panel mini-box">
 				<div class='row'>
 					<div class='col-lg-10 col-md-10 col-xs-10'>
-						<div class="input-group" style='width:100%;'> 
-						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde' readonly />
+						Fecha:
+						<div class="input-group"> 
+						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/>
 						<input type='text' class='form-control' id='hasta' style='display:none;'/></div>
 					</div>
 					<div class='col-lg-2 col-md-2 col-xs-2' style='text-align:right;'>
-						<button class='btn btn-primary' type='button' style='margin-top:0px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
+						<button class='btn btn-primary' type='button' style='margin-top:20px;' onclick='ObtenerDatosDashboard();'>FILTRAR</button>
 					</div>
 				</div>
 			</div>
@@ -120,7 +121,7 @@ $(document).ready(function(){
 		showAnim: 'slideDown',
 		showOtherMonths: true,
 		dateFormat: 'yy-mm-dd',
-		dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+		dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
  });
  //colocar fechas
   var ahora=new Date();
@@ -192,7 +193,7 @@ function ObtenerDatosDashboard(){
 					var mifact=JSON.parse(res.rows.item(n).fact);	
 					//productos para ranking
 					var misproductos=mifact.Pagar[0].producto;
-					console.log(misproductos+'productos vendidos');
+					//console.log(misproductos);
 					for(var s in misproductos){
 						var totprod=misproductos[s].precio_orig*misproductos[s].cant_prod;
 						misubtotal+=totprod;
@@ -245,15 +246,10 @@ function ObtenerDatosDashboard(){
 					datap.addColumn('number', 'Ventas');
 					//var lineasrank='';
 					//if(productosvector.length>0){
-						var c = 0;
 						for(var pro in productosvector){
-							console.log(pro+'los productos');
+							//console.log(pro);
 							/*lineasrank+='<tr><td>'+productosvector[pro].nombre+'</td><td>'+parseFloat(productosvector[pro].cantidad).toFixed(2)+'</td><td>'+parseFloat(productosvector[pro].venta).toFixed(2)+'</td></tr>';*/
 							datap.addRow([productosvector[pro].nombre,parseFloat(productosvector[pro].venta)]);
-							c++;
-							if(c == 10){
-								break;
-							}
 						}
 						//$('#tablarank tbody').html(lineasrank);
 					//}
