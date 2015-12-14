@@ -48,50 +48,7 @@ function loginPractisis(){
 					document.body.addEventListener("online", function () { updateOnlineStatus("online") }, false);
 				}
 				
-function envia(donde){
-					var lugar='';
-					$('#cargandoTabs').css('display','block');
-					if(donde=='dashboard')
-					lugar="views/dashboard/dashboard.html";
-					if(donde=='puntodeventa')
-					lugar="views/nubepos/nubepos.html";
-					
-					if(donde=='listaproductos')
-					lugar="views/productos/listaproductos.html";
-					if(donde=='nuevoproducto')
-					lugar="views/productos/nuevoproducto.html";
-                    if(donde=='inventario')
-					lugar="views/productos/inventarioproductos.html";
-					if(donde=='listadeclientes'){
-						lugar="views/clientes/listaclientes.html"; 
-					}if(donde=='nuevocliente')
-					lugar="views/clientes/nuevocliente.html";
-					if(donde=='historial')
-					lugar="views/facturacion/historial.html";
-					if(donde=='cloud')
-					lugar="views/cloud/indexCloud.html";
-                    if(donde=='imprimeotro')
-					lugar="indexprint.html";
-					//alert(lugar);
-					if(donde=='empresa')
-					lugar="views/cloud/indexEmpresa.html";
-					if(!lugar) lugar="404.html";
-					setTimeout(function() {
-						$('#cargandoTabs').css('display','none');
-						$('#correoMal').fadeOut('slow');
-						$('#main').load(lugar,function(){
-						$("#simple-menu").click();						
-						DOMOnTap();
-						loaded();
-						});
-					}, 1000);
-					//$("#menuClickeable").click();
-					//$('#myModal').delay(1500).modal('hide');
-					/*$('#content').load(lugar,function(){
-						$('#myModal').fadeOut('fast');
-						DOMOnTap();
-					})*/;
-				}
+
 				
 				
 				
