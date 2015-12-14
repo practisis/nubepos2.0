@@ -256,25 +256,13 @@
 				precioConImpuestos = parseFloat(precioproducto).toFixed(1)
 			}
 			$('#precioConImpuestos').val(precioConImpuestos);
-			intOrFloat(event,precioHis);
+			
 		});
 		
 		//$('.soloFloat').on('blur',function(event,value){
 	    //alert($(this).val());
 			//intOrFloat(event,$(this).val());
 		//});
-		function intOrFloat(e,value){
-			if(value.indexOf(',') !== -1 && (e.keyCode == 190 || e.keyCode == 110)){
-				e.preventDefault();
-			}
-
-			if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 46 || e.keyCode == 190 || e.keyCode == 110 || e.keyCode == 13){
-				return;
-			}
-			else{
-				e.preventDefault();
-			}
-		}
 	});
 	$('#coniva').on('switchChange.bootstrapSwitch',function(event,state){
 		jsonimpuestosventa();
@@ -761,5 +749,16 @@
 		}
 		
 	}
+	function intOrFloat(e,value){
+			if(value.indexOf(',') !== -1 && (e.keyCode == 190 || e.keyCode == 110)){
+				e.preventDefault();
+			}
 
+			if((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105) || e.keyCode == 8 || e.keyCode == 9 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 46 || e.keyCode == 190 || e.keyCode == 110 || e.keyCode == 13){
+				return;
+			}
+			else{
+				e.preventDefault();
+			}
+		}
 </script>
