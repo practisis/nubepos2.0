@@ -6,7 +6,8 @@
 					<div class='col-lg-10 col-md-10 col-xs-10'>
 						Fecha:
 						<div class="input-group"> 
-						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span><input type='text' class='form-control' id='desde'/>
+						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span>
+						<input type='text' class='form-control' id='desde'/>
 						<input type='text' class='form-control' id='hasta' style='display:none;'/></div>
 					</div>
 					<div class='col-lg-2 col-md-2 col-xs-2' style='text-align:right;'>
@@ -117,12 +118,7 @@
 <div id='jsoncats'></div>
 <script>
 $(document).ready(function(){
- $('#desde,#hasta').datepicker({
-		showAnim: 'slideDown',
-		showOtherMonths: true,
-		dateFormat: 'yy-mm-dd',
-		dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
- });
+ $('#desde,#hasta').datepicker();
  //colocar fechas
   var ahora=new Date();
 			
