@@ -347,7 +347,8 @@
 						
 						else if (estadoIva == 0 && estadoServicio == 0){
 							precioConImpuestos = parseFloat(precioproducto).toFixed(1)
-						}
+						} 
+						
 					$('#precioConImpuestos').val(precioConImpuestos);
 					$("#nombreproducto").val(row.formulado);
 					$("#titulonuevopr").html("Datos Producto " + row.formulado + "");
