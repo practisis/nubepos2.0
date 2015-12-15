@@ -36,6 +36,30 @@
 				.col-sm-offset-1{
 						margin:0px;
 				}
+				#myDash {
+					bottom: 0;
+					display: none;
+					left: 0;
+					outline: 0 none;
+					overflow: hidden;
+					position: fixed;
+					right: 0;
+					top: 0;
+					z-index: 20000;
+					background-color: rgba(255, 255, 255, 0.8);
+				}
+				.infoDash{
+					border:3px solid #1EA076;
+					-webkit-border-top-left-radius: 10px;
+					-webkit-border-bottom-right-radius: 10px;
+					-moz-border-radius-topleft: 10px;
+					-moz-border-radius-bottomright: 10px;
+					border-top-left-radius: 10px;
+					border-bottom-right-radius: 10px;
+					min-height:170px !important;
+					padding:0px !important;
+					margin:0px !important;
+				}
 			</style>
 		</head>
 		<body>
@@ -117,6 +141,153 @@
 				</tr>
 			</table>
 		</div>
+		<div  id="myDash" class='panel-default'>
+			<div class='row'>
+				<div class='col-xs-12' style='min-height:35px;'></div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="margin:2px; font-family:Roboto; font-size:13px;" class="panel panel-default" id="producto">
+						<div style="text-align:center;" class="panel-body">
+							<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+								<span style='display:inline;' class='fa fa-line-chart'></span>&nbsp;Resúmen<span class="sr-only">(current)</span>
+							</div><br/>
+							<div style="color:#000;font-size:15px;text-align:left;">
+								En esta seccion puedes visualizar la informacion detallada de tu negocio.
+							</div><br>
+							<div class="row">
+								<div class="col-xs-6">
+									<span class="boton-rojo">He leido.</span>
+								</div>
+								<div class="col-xs-6" style="text-align:right;">
+									<input type="checkbox" id='dash' class='saberCheck'/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="margin:2px; font-family:Roboto; font-size:13px;" class="panel panel-default" id="producto">
+						<div style="text-align:center;" class="panel-body">
+							<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+								<span style='display:inline;' class='fa fa-shopping-cart'></span>&nbsp;Ventas<span class="sr-only">(current)</span>
+							</div><br/>
+							<div style="color:#000;font-size:15px;text-align:left;">
+								En esta seccion puedes facturar los productos ingresados en tu NubePOS.
+							</div><br>
+							<div class="row">
+								<div class="col-xs-6">
+									<span class="boton-rojo">He leido.</span>
+								</div>
+								<div class="col-xs-6" style="text-align:right;">
+									<input type="checkbox" id='vent'  class='saberCheck'/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'></div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-12' style='min-height:25px;'></div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="text-align:center;" class="panel-body">
+						<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+							<span style='display:inline;' class='fa fa-money'></span>&nbsp;Historial
+						</div><br/>
+						<div style="color:#000;font-size:15px;text-align:left;">
+							En esta seccion puedes visualizar las facturas emitidas de tu negocio.
+						</div><br>
+						<div class="row">
+							<div class="col-xs-6">
+								<span class="boton-rojo">He leido.</span>
+							</div>
+							<div class="col-xs-6" style="text-align:right;">
+								<input type="checkbox" id='his' class='saberCheck'/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="text-align:center;" class="panel-body">
+						<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+							<span style='display:inline;' class='fa fa-list-alt'></span>&nbsp;Productos
+						</div><br/>
+						<div style="color:#000;font-size:15px;text-align:left;">
+							En esta seccion puedes crear modificar eliminar todos los productos que estan ingresados
+						</div><br>
+						<div class="row">
+							<div class="col-xs-6">
+								<span class="boton-rojo">He leido.</span>
+							</div>
+							<div class="col-xs-6" style="text-align:right;">
+								<input type="checkbox" id='prod' class='saberCheck'/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'></div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-12' style='min-height:25px;'></div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="text-align:center;" class="panel-body">
+						<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+							<span style='display:inline;' class='fa fa-cloud'></span>&nbsp;Cloud
+						</div><br/>
+						<div style="color:#000;font-size:15px;text-align:left;">
+							En esta seccion puedes conectarte a tu cuenta NubePOS en la Web.
+						</div><br>
+						<div class="row">
+							<div class="col-xs-6">
+								<span class="boton-rojo">He leido.</span>
+							</div>
+							<div class="col-xs-6" style="text-align:right;">
+								<input type="checkbox" id='clou' class='saberCheck'/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'></div>
+				<div class='col-xs-3 infoDash'>
+					<div style="text-align:center;" class="panel-body">
+						<div style="font-size:13px;background-color:#EBEBEB;padding-top:10px;padding-bottom:10px;">
+							<span style='display:inline;' class='fa fa-cog'></span>&nbsp;Config <span class="caret"></span>
+						</div><br/>
+						<div style="color:#000;font-size:15px;text-align:left;">
+							En esta seccion puedes modificar la informacionreservada para tu negocio
+						</div><br>
+						<div class="row">
+							<div class="col-xs-6">
+								<span class="boton-rojo">He leido.</span>
+							</div>
+							<div class="col-xs-6" style="text-align:right;">
+								<input type="checkbox" id='conf' class='saberCheck' />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-2'>
+					
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-xs-12'>
+					<center>
+						<button type="button" class="btn btn-primary" onclick='final()'>Terminar</button>
+					</center>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript" src="barcodescanner.js"></script>
 		<script type="text/javascript" src="js/jsscan.js"></script>
 		<script type="text/javascript" src="js/jsscanprod.js"></script>
@@ -126,6 +297,18 @@
 		<link href="slide/bootstrap-switch.css" rel="stylesheet">
 		<script src="slide/highlight.js"></script>
 		<script>
+			function final(){
+				
+				if($("#dash").is(':checked') && $("#vent").is(':checked') && $("#his").is(':checked') && $("#prod").is(':checked') && $("#clou").is(':checked') && $("#conf").is(':checked')) {  
+					//alert("Está activado");  
+					$('#myDash').fadeOut('slow');
+					setTimeout(function() {
+						envia('listaproductos')
+					}, 1500);
+				} else {  
+					alert('debes leer todas las instrucciones y marcar su check correspondiente');
+				}  
+			}
 			google.load("visualization", "1", {packages:["corechart"]});
 			startAnimation();
 			var timerFade;
@@ -145,6 +328,20 @@
 			document.addEventListener("deviceready", function(){
 				var uuid = device.uuid;
 				id_barra=uuid;
+			});
+			$( document ).ready(function() {
+				var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+				db.transaction(function(tx){
+					tx.executeSql('SELECT * FROM PRODUCTOS WHERE id_local !=-1;',[],function(tx,resulta){
+						if(resulta.rows.length==0){
+							setTimeout(function() {
+								$('#myDash').fadeIn('slow');
+							}, 3300);
+						}else{
+							$('#myDash').css('display','none');
+						}
+					},errorCB,successCB);
+				});
 			});
 		</script>
 	</html>

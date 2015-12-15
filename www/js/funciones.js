@@ -902,7 +902,7 @@ function cambiarCantidad(){
 						$('.totales').each(function(){
 							sumTotal += parseFloat($.trim($(this).val()));
 						});
-						
+						console.log('tu factura es de : ' + sumTotal);
 						var sumcantidadComandada = 0;
 						$('.cantidadproductoscomandados').each(function(){
 							sumcantidadComandada += parseFloat($.trim($(this).val()));
@@ -911,14 +911,14 @@ function cambiarCantidad(){
 						$('#itemsVendidos').html(sumcantidadComandada);
 						$('#itemsVendidos').css('display','block');
 						$('#itemsVendidos').css('background-color','red');
-						$('#total').html('$'+sumTotal).toFixed(2);
+						$('#total').html('$'+sumTotal.toFixed(2));
 						$('#justo').html(sumTotal.toFixed(2));
 						$('#payButton').html('PAGAR $'+sumTotal.toFixed(2));
 						$('#changeFromPurchase').html(sumTotal.toFixed(2));
 						$('#totalmiFactura').val(sumTotal);
 						$('#justo').attr('data-value',-1*sumTotal.toFixed(2));
-						$('#redondeado').html(Math.ceil(sumTotal).toFixed(2));
-						$('#redondeado').attr('data-value',-1*Math.ceil(sumTotal).toFixed(2));$('#redondeado').html(Math.ceil(sumTotal).toFixed(2));
+						$('#redondeado').html(Math.ceil(sumTotal.toFixed(2)));
+						$('#redondeado').attr('data-value',-1*Math.ceil(sumTotal.toFixed(2)));
 					}
 				},errorCB,successCB);
 				
